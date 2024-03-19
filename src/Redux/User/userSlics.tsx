@@ -1,11 +1,10 @@
 import {createSlice}from "@reduxjs/toolkit"
-import { toast } from "sonner";
 
 type UserState = {
     username: string;
     email :string;
-    isVerified:boolean
-    _id:string
+    id:string;
+    role:string
 
 
 
@@ -37,7 +36,7 @@ const userSlice = createSlice ({
       state.loading = false;
     },
     signUpSuccess: (state, action) => {
-      state.currentUser = action.payload; 
+      state.currentUser = action.payload.user
       state.loading = false;
       
       

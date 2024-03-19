@@ -9,9 +9,9 @@ import {
   signUpStart,
   signUpSuccess,
   signUpFailure,
-} from "../Redux/User/userSlics";
+} from "../../Redux/User/userSlics";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../Redux/Store";
+import { RootState } from "../../Redux/Store";
 
 import { useFormik } from "formik";
 import { SignInSchema } from "@/validation/validation";
@@ -22,8 +22,6 @@ import { toast } from "sonner";
 
 const Login = () => {
   
-  
-  const URL = 'http://localhost:3000'
   const dispatch = useDispatch();
   const { loading } = useSelector((state: RootState) => state.user);
   const navigate =useNavigate()
@@ -53,24 +51,32 @@ const Login = () => {
     },
   });
   return (
-    <div className="bg-slate-200 flex justify-center items-center w-screen h-screen">
+    <div className="flex justify-center items-center w-screen h-screen">
     <Card className="w-[400px] p-5 shadow-xl  ">
       <h1 className="text-3xl  font-semibold  mb-2">
         Sign in your account
       </h1>
       <p className="mb-2 font-medium">Enter your email and password below </p>
       <form onSubmit={formik.handleSubmit} className="space-y-3">
-        <div className="flex  justify-between mt-5 ">
-          <Button className="w-40" >
-            <img className="w-5 mr-2 " src= "icons8-google-30 (1).png" alt="" />
-            {/* <img className="w-5 mr-2 hidden dark:block" src= "icons8-google-30 (3).png" alt="" /> */}
-            Google
-          </Button>
-          <Button className="w-40 hover:opacity-85">
-            <img className="w-5 mr-2 " src="icons8-facebook-f-24.png" alt="" />
-            facebook
-          </Button>
-        </div>
+      <div className="mt-7 flex flex-col gap-2">
+              <button className="inline-flex h-10 w-full items-center justify-center gap-2 rounded border border-slate-300 bg-white p-2 text-sm font-medium text-black outline-none focus:ring-2 focus:ring-[#333] focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-60">
+                <img
+                  src="https://www.svgrepo.com/show/512317/github-142.svg"
+                  alt="GitHub"
+                  className="h-[18px] w-[18px] "
+                />
+                Continue with GitHub
+              </button>
+
+              <button className="inline-flex h-10 w-full items-center justify-center gap-2 rounded border border-slate-300 bg-white p-2 text-sm font-medium text-black outline-none focus:ring-2 focus:ring-[#333] focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-60">
+                <img
+                  src="https://www.svgrepo.com/show/475656/google-color.svg"
+                  alt="Google"
+                  className="h-[18px] w-[18px] "
+                />
+                Continue with Google
+              </button>
+            </div>
 
         <div className="flex  items-center gap-2 pt-3 text-slate-700">
           <div className="h-px w-full bg-slate-300"></div>

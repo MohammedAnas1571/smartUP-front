@@ -29,7 +29,7 @@ import { useNavigate } from "react-router-dom";
 
 export function Otp() {
   const navigate = useNavigate();
-  const URL = "http://localhost:3000";
+
   const dispatch = useDispatch();
   const { currentUser, loading } = useSelector(
     (state: RootState) => state.user
@@ -42,15 +42,25 @@ export function Otp() {
     },
   });
 
+
   async function onSubmit(data: z.infer<typeof FormSchema>) {
+  
     try {
       dispatch(signUpStart());
-      const response = await axios.post(`${URL}/otp`, {
+      const response = await axios.post(`/auth/otp`, {
         otp: data.otp,
-        id: currentUser?._id,
+        id: currentUser?.id,
+        role: currentUser?.role,
       });
       dispatch(signUpSuccess(response.data));
-      navigate("/");
+     
+      console.log(response.data.user.role);
+       if(response.data.user.role === "User"){
+
+      navigate("/");}
+      else{
+        navigate("/dashboard")
+      }
     } catch (err: any) {
       if (err) {
         toast(err.response.data.message);

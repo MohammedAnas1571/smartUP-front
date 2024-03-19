@@ -5,18 +5,28 @@ import {
   signUpStart,
   signUpFailure,
   signUpSuccess,
-} from "../Redux/User/userSlics";
+} from "../../Redux/User/userSlics";
 import { signUpSchema } from "@/validation/validation";
 import { useFormik } from "formik";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../Redux/Store";
-import "../App.css";
+import { RootState } from "../../Redux/Store";
+import "../../App.css";
 import { toast } from "sonner";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+ 
 
 const SignUp = () => {
-  const URL = "http://localhost:3000";
+
   const dispatch = useDispatch();
   const { loading } = useSelector((state: RootState) => state.user);
   const navigate = useNavigate();
@@ -26,13 +36,14 @@ const SignUp = () => {
       email: "",
       password: "",
       confirmPassword: "",
+
     },
     validationSchema: signUpSchema,
     onSubmit: async (values) => {
       console.log(values)
       try {
         dispatch(signUpStart());
-        const{data} = await axios.post(`${URL}/signUp`, values);
+        const{data} = await axios.post(`/auth/signUp`, values);
         dispatch(signUpSuccess(data));
 
         navigate("/otp");
@@ -45,31 +56,32 @@ const SignUp = () => {
     },
   });
   return (
-    <div className=" bg-slate-200 h-screen flex justify-center items-center ">
+    <div className="h-screen flex justify-center items-center ">
       <Card className="w-[400px] p-5 shadow-xl">
         <h1 className="text-3xl  font-semibold  mb-2">Create an account</h1>
         <p className="mb-2 font-medium ">
           Enter your details to create your account
         </p>
         <form onSubmit={formik.handleSubmit} className="space-y-3">
-          <div className="flex  justify-between mt-5 ">
-            <Button className="w-40 ">
-              <img
-                className="w-5 mr-2 "
-                src="icons8-google-30 (1).png"
-                alt=""
-              />
-              Google
-            </Button>
-            <Button className="w-40">
-              <img
-                className="w-5 mr-2 "
-                src="icons8-facebook-f-24.png"
-                alt=""
-              />
-              facebook
-            </Button>
-          </div>
+        <div className="mt-7 flex flex-col gap-2">
+              <button className="inline-flex h-10 w-full items-center justify-center gap-2 rounded border border-slate-300 bg-white p-2 text-sm font-medium text-black outline-none focus:ring-2 focus:ring-[#333] focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-60">
+                <img
+                  src="https://www.svgrepo.com/show/512317/github-142.svg"
+                  alt="GitHub"
+                  className="h-[18px] w-[18px] "
+                />
+                Continue with GitHub
+              </button>
+
+              <button className="inline-flex h-10 w-full items-center justify-center gap-2 rounded border border-slate-300 bg-white p-2 text-sm font-medium text-black outline-none focus:ring-2 focus:ring-[#333] focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-60">
+                <img
+                  src="https://www.svgrepo.com/show/475656/google-color.svg"
+                  alt="Google"
+                  className="h-[18px] w-[18px] "
+                />
+                Continue with Google
+              </button>
+            </div>
 
           <div className="flex  items-center gap-2 pt-3 text-slate-700">
             <div className="h-px w-full bg-slate-300"></div>
@@ -137,6 +149,7 @@ const SignUp = () => {
                 </div>
               )}
           </div>
+         
 
           <Button type="submit" className="w-full">
             {loading ? <span className="loader "></span> : "Create account"}

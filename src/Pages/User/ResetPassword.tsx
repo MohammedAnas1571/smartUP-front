@@ -2,7 +2,7 @@
 
 import { useFormik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../Redux/Store";
+import { RootState } from "../../Redux/Store";
 import axios from "axios";
 import {
   signUpFailure,

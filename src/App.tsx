@@ -1,18 +1,24 @@
 
-
-import { BrowserRouter,Routes,Route } from "react-router-dom"
+import { BrowserRouter,Routes,Route, } from "react-router-dom"
 import Home from "./components/Home"
-import Login from "./Pages/Login"
-import SignUp from "./Pages/SignUp"
+import Login from "./Pages/User/Login"
+import SignUp from "./Pages/User/SignUp"
 import Career from "./Pages/Career"
-
 import { ThemeProvider } from "./components/ui/theme-provider"
-import {Otp} from "./Pages/Otp"
-import ForgotPassword from "./Pages/ForgotPassword"
-import  ResetPassword from './Pages/ResetPassword'
-
+import {Otp} from "./Pages/User/Otp"
+import {ForgotPassword} from "./Pages/User/ForgotPassword"
+import  ResetPassword from './Pages/User/ResetPassword'
+import "./App.css"
 import { Toaster } from "@/components/ui/sonner"
-import Profile from "./Pages/Profile"
+import Course from "./Pages/Courses"
+import SignIn from "./Pages/Instructor/SignIn"
+
+import Register from "./Pages/Instructor/Register"
+import { EmailConfirm } from "./Pages/Instructor/EmailConfirm"
+import Reset from "./Pages/Instructor/Reset"
+import UserList from "./Pages/Admin/UserList"
+import SideBar from "./components/Navbar/SideBar"
+import { ProtectedRoute } from "./route/ProtectedRoute"
 
 
 
@@ -28,8 +34,8 @@ function App() {
      
       
       <Toaster  />
-     
-     
+{/*      
+     <NavBar/> */}
     
       <Routes>
         <Route path="/" element={<Home/>}/>
@@ -39,7 +45,19 @@ function App() {
         <Route path="/otp" element={<Otp/>}/>
         <Route path="/forgotPassword" element={<ForgotPassword/>}/>
         <Route path="/verify-email/:id/:token" element={<ResetPassword/>}/>
-        <Route path="/profile" element ={<Profile/>} />
+        <Route path="/instructor/register" element={<Register/>} />
+        <Route path="/instructor/signIn" element={<SignIn/>} />
+        <Route element={<ProtectedRoute />}>
+
+        <Route path="/instructor/forgotPassword" element={<EmailConfirm/>}/>
+        <Route path="/instructor/verify-email/:id/:token" element={<Reset/>}/>
+        </Route>
+    
+        
+        <Route path="/admin" element={<SideBar/>}>
+        <Route index element={<p>foisfhs</p>}/>
+             <Route path="dashboard" element={<UserList/>}/>
+        </Route>
       </Routes>
      
      

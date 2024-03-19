@@ -1,6 +1,6 @@
 import { useFormik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../Redux/Store";
+import { RootState } from "../../Redux/Store";
 import axios from "axios";
 import {
   signUpFailure,
@@ -17,8 +17,8 @@ import { toast } from "sonner";
 import { useState } from "react";
 import Alert from "@/components/Alert";
 
-const ForgotPassword = () => {
-  const URL = "http://localhost:3000";
+ export const EmailConfirm = () => {
+
   const [submit, setSubmit] = useState<boolean>(false);
 
   const dispatch = useDispatch();
@@ -34,7 +34,7 @@ const ForgotPassword = () => {
       try {
         dispatch(signUpStart());
 
-        await axios.post(`${URL}/verification`, values);
+        await axios.post(`/auth/tutor/verification`, values);
         dispatch(signInSuccessLoading());
         setSubmit(true);
       } catch (err: any) {
@@ -52,7 +52,7 @@ const ForgotPassword = () => {
       <div className="border-2 rounded-2xl p-12">
         <form onSubmit={formik.handleSubmit} className="text-center space-y-6">
           <div className="flex justify-center ">
-            <img src="icons8-verification-100.png" alt="email icon" />
+            <img src="/icons8-verification-100.png" alt="email icon" />
           </div>
           <h1 className="text-4xl flex justify-center font-mono font-semibold mb-3">
             Verification
@@ -81,4 +81,3 @@ const ForgotPassword = () => {
     </div>
   );
 };
-export default ForgotPassword;
