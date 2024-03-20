@@ -36,7 +36,7 @@ const Reset = () => {
   
           await axios.post(`/auth/tutor/change_Password/${id}/${token}`, values);
           dispatch(signInSuccessLoading());
-          navigate("/instructor/signIn")
+          navigate("/instructor/sign-in")
         
         } catch (err: any) {
           if (err) {

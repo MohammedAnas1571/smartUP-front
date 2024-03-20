@@ -123,7 +123,7 @@ const Login = () => {
       <div className="grid pt-2 gap-2">
         <span>
         <Link
-            to="/forgotPassword"
+            to="/forgot-password"
             className="text-violet-800 font-normal "
           >
             Forgot Password
@@ -133,7 +133,7 @@ const Login = () => {
           
       <div className="flex gap-2 ">
         <p>Don't have an account? </p>
-        <Link to="/signUp">
+        <Link to="/sign-up">
           <span className="text-violet-800 font-medium">Register </span>
         </Link>
       </div>

@@ -157,7 +157,7 @@ const Register = () => {
 
           <div className="mt-6 text-center text-sm text-slate-600">
           Already Have an Account ? {" "}
-            <Link to="/instructor/signIn" className="font-medium text-[#4285f4]">
+            <Link to="/instructor/sign-in" className="font-medium text-[#4285f4]">
              Sign in
             </Link>
           </div>

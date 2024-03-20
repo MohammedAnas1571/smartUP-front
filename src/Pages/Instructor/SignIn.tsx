@@ -115,7 +115,7 @@ const SignIn = () => {
               )}
               <p className="mb-3 mt-2 text-sm text-gray-500">
                 <Link
-                  to="/instructor/forgotPassword"
+                  to="/instructor/forgot-password"
                   className="text-blue-800 hover:text-blue-600"
                 >
                   Reset your password?
@@ -131,7 +131,7 @@ const SignIn = () => {
 
             <div className="mt-6 text-center text-sm text-slate-600">
               Don't have an account?{" "}
-              <Link to="/instructor/register" className="font-medium text-[#4285f4]">
+              <Link to="/instructor/sign-in" className="font-medium text-[#4285f4]">
                 Sign up
               </Link>
             </div>

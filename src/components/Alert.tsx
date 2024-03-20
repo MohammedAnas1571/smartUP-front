@@ -1,10 +1,9 @@
 import {
     AlertDialog,
-    AlertDialogAction,
-    AlertDialogCancel,
+  
     AlertDialogContent,
     AlertDialogDescription,
-    AlertDialogFooter,
+  
     AlertDialogHeader,
     AlertDialogTitle,
     AlertDialogTrigger,
@@ -15,7 +14,7 @@ const Alert = () => {
     <AlertDialog defaultOpen={true}> 
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+          <AlertDialogTitle>Check Your Registed Email</AlertDialogTitle>
           <AlertDialogDescription className="text-green-700 font-semibold">
              Link is shared to  your email please open you mail 
           </AlertDialogDescription>

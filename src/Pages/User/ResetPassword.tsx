@@ -41,7 +41,7 @@ const ConfirmPassword = () => {
   
           await axios.post(`${URL}/change_Password/${id}/${token}`, values);
           dispatch(signInSuccessLoading());
-          navigate("/login")
+          navigate("/sign-in")
         
         } catch (err: any) {
           if (err) {

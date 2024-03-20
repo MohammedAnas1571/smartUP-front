@@ -4,7 +4,8 @@ type UserState = {
     username: string;
     email :string;
     id:string;
-    role:string
+    role:string;
+    profilePhoto:string;
 
 
 
