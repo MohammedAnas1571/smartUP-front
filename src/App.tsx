@@ -20,7 +20,7 @@ import SideBar from "./components/Navbar/SideBar"
 import { ProtectedRoute } from "./route/ProtectedRoute"
 import { Page404 } from "./Pages/404"
 import DashboardPage from "./Pages/Instructor/DashBoard"
-import { AddItem } from "./components/dashboard/addItems"
+
 
 
 
@@ -57,7 +57,7 @@ function App() {
     
         <Route path="/instructor/dashboard" element={<DashboardPage />}/>
         <Route path="/*" element={<Page404 />}/>
-        <Route path="/value" element={<AddItem/>}/>
+       
         
 
         <Route path="/admin" element={<SideBar/>}>

@@ -41,3 +41,33 @@ export const verificationPassword = Yup.object({
 )
 .required("Password is required"),
 });
+export const addingSchema = Yup.object().shape({
+  title: Yup.string().min(6, "Minimum 6 characters are required.").required("Title is required"),
+  subtitle: Yup.string().min(6, "Minimum 10 characters are required.").required("Subtitle is required"),
+  catagory: Yup.string().required("Category is required"),
+  tags: Yup.string().required("Tags is required"),
+
+  price: Yup.number().typeError("Price should be a number").required("Price is required"),
+
+  description: Yup.string().min(20, "Minimum 20 letters are required").required("Description is required"),
+  image: Yup.mixed().required("File is required").test(
+    "fileType",
+    "Unsupported File Format",
+    (value:any) => {
+      if (!value) {
+        return true;
+      }
+
+      const supportedFormats = ["image/jpeg", "image/png"];
+      return supportedFormats.includes(value.type);
+    }
+  ),
+});
+  
+
+
+ 
+
+
+
+
