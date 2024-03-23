@@ -59,7 +59,7 @@ export function Otp() {
 
       navigate("/");}
       else{
-        navigate("/dashboard")
+        navigate("/instructor/dashboard")
       }
     } catch (err: any) {
       if (err) {

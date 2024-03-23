@@ -10,7 +10,7 @@ import {ForgotPassword} from "./Pages/User/ForgotPassword"
 import  ResetPassword from './Pages/User/ResetPassword'
 import "./App.css"
 import { Toaster } from "@/components/ui/sonner"
-
+import {NavBar} from  "./components/Navbar/NavBar"
 import SignIn from "./Pages/Instructor/SignIn"
 import Register from "./Pages/Instructor/Register"
 import { EmailConfirm } from "./Pages/Instructor/EmailConfirm"
@@ -35,11 +35,12 @@ function App() {
        <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
       <BrowserRouter>
      
-      
+     
       <Toaster  />
-
-    
+    <NavBar/>
+  
       <Routes>
+        
         <Route path="/" element={<Home/>}/>
         <Route path="/sign-in" element={<Login/>}/>
         <Route path="/sign-up" element={<SignUp/>}/>

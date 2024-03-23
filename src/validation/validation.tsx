@@ -43,7 +43,7 @@ export const verificationPassword = Yup.object({
 });
 export const addingSchema = Yup.object().shape({
   title: Yup.string().min(6, "Minimum 6 characters are required.").required("Title is required"),
-  subtitle: Yup.string().min(6, "Minimum 10 characters are required.").required("Subtitle is required"),
+  subTitle: Yup.string().min(6, "Minimum 10 characters are required.").required("Subtitle is required"),
   catagory: Yup.string().required("Category is required"),
   tags: Yup.string().required("Tags is required"),
 

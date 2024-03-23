@@ -19,33 +19,39 @@ export function AddItem({
   const formik = useFormik({
     initialValues: {
       title: "",
-      subtitle: "",
+      subTitle: "",
       catagory: "",
       tags: "",
-      price: null, 
+      price: "",
       level: "Beginners",
       description: "",
-      image:'',
+      image: "",
     },
     validationSchema: addingSchema,
     onSubmit: async (values) => {
-      console.log(values);
-  //      try {
-  //       const formData = new FormData
-  //       formData.append("image", values.image[0])
-      
-  //    const { data } = await axios.post("/auth/signIn", {values,formData});
-     
-     
-  //       } catch (err: any) {
-  //         if ( err) {
-  //           toast(err.response.data.message);
-     
-  //   }
-  // }
-  }
-})
-
+      try {
+        const formData = new FormData();
+        formData.append("title", values.title);
+        formData.append("subTitle", values.subTitle);
+        formData.append("catagory", values.catagory);
+        formData.append("tags", values.tags);
+        formData.append("price", values.price);
+        formData.append("level", values.level);
+        formData.append("description", values.description);
+        formData.append("image", values.image);
+        
+        const { data } = await axios.post("/auth/tutor/course", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+      } catch (err: any) {
+        if (err) {
+          toast(err.response.data.message);
+        }
+      }
+    },
+  });
 
   return (
     <Dialog open={submit} onOpenChange={setSubmit}>
@@ -77,15 +83,15 @@ export function AddItem({
               </label>
               <input
                 type="text"
-                name="subtitle"
+                name="subTitle"
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="Enter subtitle"
-                value={formik.values.subtitle}
+                value={formik.values.subTitle}
                 onChange={formik.handleChange}
               />
-              {formik.touched.subtitle && formik.errors.subtitle && (
+              {formik.touched.subTitle && formik.errors.subTitle && (
                 <p className="text-red-600 text-sm  ">
-                  {formik.errors.subtitle}
+                  {formik.errors.subTitle}
                 </p>
               )}
             </div>
@@ -113,7 +119,7 @@ export function AddItem({
               </label>
               <select
                 name="level"
-                value={formik.values.level }
+                value={formik.values.level}
                 onChange={formik.handleChange}
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               >
@@ -147,7 +153,7 @@ export function AddItem({
                 name="price"
                 className="bg-gray-50 border  border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="Enter amount"
-                value={formik.values.price === null ? '' : formik.values.price}
+                value={formik.values.price === null ? "" : formik.values.price}
                 onChange={formik.handleChange}
               />
               {formik.touched.price && formik.errors.price && (
@@ -173,12 +179,11 @@ export function AddItem({
             )}
           </div>
           <input
-            name="image" 
+            name="image"
             className="block mt-5 p-2.5  text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
             type="file"
-           
-            onChange={(e:React.ChangeEvent<HTMLInputElement>) => {
-              formik.setFieldValue('image', e.currentTarget.files?.[0])
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+              formik.setFieldValue("image", e.currentTarget.files?.[0]);
             }}
           />
           {formik.touched.image && formik.errors.image && (

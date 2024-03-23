@@ -24,18 +24,18 @@ const SignIn = () => {
     },
     validationSchema: SignInSchema,
     onSubmit: async (values) => {
-      console.log(values);
       try {
         dispatch(signUpStart());
         const { data } = await axios.post("/auth/tutor/signIn", values);
         dispatch(signUpSuccess(data));
-        navigate("/dashbord");
+        navigate("/instructor/dashbord");
       } catch (err: any) {
         toast(err.response.data.message);
         dispatch(signUpFailure());
       }
     },
   });
+  
 
   return (
     <div className="shadow-lg overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 h-full items-center justify-center flex">
@@ -96,7 +96,7 @@ const SignIn = () => {
                 placeholder="Email Address"
               />
               {formik.errors.email && formik.touched.email && (
-                <div className="text-red-500">{formik.errors.email}</div>
+                <p className="text-red-500">{formik.errors.email}</p>
               )}
               <label htmlFor="password" className="sr-only">
                 Password
@@ -111,7 +111,7 @@ const SignIn = () => {
                 placeholder="Password"
               />
               {formik.errors.password && formik.touched.password && (
-                <div className="text-red-500">{formik.errors.password}</div>
+                <p className="text-red-500">{formik.errors.password}</p>
               )}
               <p className="mb-3 mt-2 text-sm text-gray-500">
                 <Link
@@ -131,7 +131,7 @@ const SignIn = () => {
 
             <div className="mt-6 text-center text-sm text-slate-600">
               Don't have an account?{" "}
-              <Link to="/instructor/sign-in" className="font-medium text-[#4285f4]">
+              <Link to="/instructor/sign-up" className="font-medium text-[#4285f4]">
                 Sign up
               </Link>
             </div>

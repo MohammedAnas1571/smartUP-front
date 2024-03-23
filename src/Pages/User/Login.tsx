@@ -35,14 +35,14 @@ const Login = () => {
     },
     validationSchema: SignInSchema,
     onSubmit: async (values) => {
-      console.log(values)
+  
       try {
         dispatch(signUpStart());
         
         const { data } = await axios.post("/auth/signIn", values);
         dispatch(signUpSuccess(data));
         navigate("/")
-      } catch (err: any) {
+      } catch (err:any) {
         if ( err) {
           toast(err.response.data.message);
         dispatch( signUpFailure())
