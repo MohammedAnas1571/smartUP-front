@@ -44,7 +44,10 @@ export function AddItem({
           headers: {
             "Content-Type": "multipart/form-data",
           },
-        });
+        })
+        setSubmit(false)
+        toast.success("Course Created Successfully")
+
       } catch (err: any) {
         if (err) {
           toast(err.response.data.message);

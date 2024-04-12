@@ -6,9 +6,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { Link, useNavigate } from "react-router-dom";
 import {
-  signUpStart,
-  signUpSuccess,
-  signUpFailure,
+ isLoading,loginFailed,loginSuccessData,isUserLogin
 } from "../../Redux/User/userSlics";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../Redux/Store";
@@ -37,16 +35,23 @@ const Login = () => {
     onSubmit: async (values) => {
   
       try {
-        dispatch(signUpStart());
+        dispatch(isLoading());
         
         const { data } = await axios.post("/auth/signIn", values);
-        dispatch(signUpSuccess(data));
+        dispatch(loginSuccessData(data))
+        console.log(data)
+        if(data.user.isVerified === true){
+        dispatch(isUserLogin())
         navigate("/")
-      } catch (err:any) {
-        if ( err) {
-          toast(err.response.data.message);
-        dispatch( signUpFailure())
-      }
+        }else{
+          navigate("/otp")
+          toast.warning("Please Verify Your Email Address");
+        }
+      } catch (err) {
+        if (axios.isAxiosError(err) && err.response) {
+          toast.error(err.response.data.message||" Sorry Something  Went Wrong!");
+          dispatch(loginFailed())
+        }
     }
     },
   });
@@ -133,7 +138,7 @@ const Login = () => {
           
       <div className="flex gap-2 ">
         <p>Don't have an account? </p>
-        <Link to="/sign-up">
+        <Link to="/signup">
           <span className="text-violet-800 font-medium">Register </span>
         </Link>
       </div>

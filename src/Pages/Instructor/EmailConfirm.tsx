@@ -3,9 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../Redux/Store";
 import axios from "axios";
 import {
-  signUpFailure,
-  signUpStart,
-  signInSuccessLoading,
+isLoading,loginFailed,loginSuccess
 } from "@/Redux/User/userSlics";
 
 import { Button } from "@/components/ui/button";
@@ -32,16 +30,16 @@ import Alert from "@/components/Alert";
     onSubmit: async (values) => {
       console.log(values);
       try {
-        dispatch(signUpStart());
+        dispatch(isLoading());
 
         await axios.post(`/auth/tutor/verification`, values);
-        dispatch(signInSuccessLoading());
+        dispatch(loginSuccess());
         setSubmit(true);
       } catch (err: any) {
-        if (err) {
-          toast(err.response.data.message);
-          dispatch(signUpFailure());
-        }
+        if (axios.isAxiosError(err)&&err.response) {
+          toast.error(err.response.data.message||"Something Went To Wrong");
+        dispatch(loginFailed())
+       }
       }
     },
   });
@@ -72,7 +70,7 @@ import Alert from "@/components/Alert";
               {formik.errors.email}
             </div>
           )}
-          {submit?  <Alert />:<Button type="submit" className="p-6 w-80 text-lg">
+          {submit?  <Alert email={formik.values.email} />:<Button type="submit" className="p-6 w-80 text-lg">
             {loading ? <span className="loader "></span> : "Submit"}
           </Button>}
           

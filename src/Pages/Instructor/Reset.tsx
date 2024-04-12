@@ -5,9 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../Redux/Store";
 import axios from "axios";
 import {
-  signUpFailure,
-  signUpStart,
-  signInSuccessLoading,
+ isLoading,loginFailed,loginSuccess
 } from "@/Redux/User/userSlics";
 
 import { Button } from "@/components/ui/button";
@@ -32,16 +30,16 @@ const Reset = () => {
       validationSchema: verificationPassword,
       onSubmit: async (values) => {
         try {
-          dispatch(signUpStart());
+          dispatch(isLoading());
   
           await axios.post(`/auth/tutor/change_Password/${id}/${token}`, values);
-          dispatch(signInSuccessLoading());
-          navigate("/instructor/sign-in")
+          dispatch(loginSuccess());
+          navigate("/instructor/signin")
         
         } catch (err: any) {
           if (err) {
             toast(err.response.data.message);
-            dispatch(signUpFailure());
+            dispatch(loginFailed());
           }
         }
       },

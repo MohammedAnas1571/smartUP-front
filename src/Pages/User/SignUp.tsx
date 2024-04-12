@@ -2,9 +2,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import {
-  signUpStart,
-  signUpFailure,
-  signUpSuccess,
+isLoading,loginSuccessData,loginFailed
 } from "../../Redux/User/userSlics";
 import { signUpSchema } from "@/validation/validation";
 import { useFormik } from "formik";
@@ -13,23 +11,13 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../Redux/Store";
 import "../../App.css";
-import { toast } from "sonner";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
- 
+import { toast } from "sonner"
 
 const SignUp = () => {
 
   const dispatch = useDispatch();
-  const { loading } = useSelector((state: RootState) => state.user);
-  const navigate = useNavigate();
+  const { loading } = useSelector((state: RootState) => state.user)
+  const navigate = useNavigate()
   const formik = useFormik({
     initialValues: {
       username: "",
@@ -40,17 +28,15 @@ const SignUp = () => {
     },
     validationSchema: signUpSchema,
     onSubmit: async (values) => {
-      console.log(values)
       try {
-        dispatch(signUpStart());
+        dispatch(isLoading());
         const{data} = await axios.post(`/auth/signUp`, values);
-        dispatch(signUpSuccess(data));
-
+        dispatch(loginSuccessData(data));
         navigate("/otp");
-      } catch (err: any) {
-        if (err) {
-          toast(err.response.data.message);
-        dispatch(signUpFailure())
+      } catch (err) {
+        if (axios.isAxiosError(err)&&err.response) {
+          toast.error(err.response.data.message||"Something Went To Wrong");
+        dispatch(loginFailed())
        }
       }
     },
@@ -158,7 +144,7 @@ const SignUp = () => {
 
         <div className="flex gap-2 mt-2 ">
           <p>Already have an account ? </p>
-          <Link to="/sign-in">
+          <Link to="/signin">
             <span className="text-violet-800 font-medium">Sign in </span>
           </Link>
         </div>

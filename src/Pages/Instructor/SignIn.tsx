@@ -4,9 +4,7 @@ import { useFormik } from "formik";
 
 import { toast } from "sonner";
 import {
-  signUpStart,
-  signUpFailure,
-  signUpSuccess,
+ isLoading,loginFailed,loginSuccessData,isTutorLogin
 } from "../../Redux/User/userSlics";
 import { RootState } from "../../Redux/Store";
 import axios from "axios";
@@ -25,13 +23,18 @@ const SignIn = () => {
     validationSchema: SignInSchema,
     onSubmit: async (values) => {
       try {
-        dispatch(signUpStart());
+        dispatch(isLoading());
         const { data } = await axios.post("/auth/tutor/signIn", values);
-        dispatch(signUpSuccess(data));
-        navigate("/instructor/dashbord");
-      } catch (err: any) {
-        toast(err.response.data.message);
-        dispatch(signUpFailure());
+          console.log(data)
+        dispatch(loginSuccessData(data));
+        if(data.user.isVerified === true)
+        dispatch(isTutorLogin())
+        navigate("/instructor/dashboard");
+      } catch (err) {
+        if (axios.isAxiosError(err)&&err.response) {
+          toast.error(err.response.data.message||"Something Went To Wrong");
+        dispatch(loginFailed())
+       }
       }
     },
   });
@@ -131,7 +134,7 @@ const SignIn = () => {
 
             <div className="mt-6 text-center text-sm text-slate-600">
               Don't have an account?{" "}
-              <Link to="/instructor/sign-up" className="font-medium text-[#4285f4]">
+              <Link to="/instructor/signup" className="font-medium text-[#4285f4]">
                 Sign up
               </Link>
             </div>

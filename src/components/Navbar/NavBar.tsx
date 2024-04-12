@@ -1,54 +1,74 @@
+import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { RootState } from "@/Redux/Store";
+import { UserNav } from "../dashboard/user-nav";
 
-
+import { Button } from "../ui/button";
+import { CiSearch,  } from "react-icons/ci";
+import { FcBusinessman, FcHome,FcShop  } from "react-icons/fc";
+import { FaAlignJustify } from "react-icons/fa";
 
 export const NavBar = () => {
+
+  const {currentUser,isUserSign} = useSelector((state:RootState)=>state.user)
+ 
   return (
-    <header className="h-16 ">
-      <div className=" flex max-w-screen-xl flex-col overflow-hidden px-4 py-4 md:mx-auto md:flex-row md:items-center">
-        <div className=" whitespace-nowrap text-2xl font-black">
-         
-          <span className="text-black ml-10  font-serif">Smart up</span>
-        </div>
-        <input type="checkbox" className="peer hidden" id="navbar-open" />
-        <label
-          className="absolute top-5 right-7 cursor-pointer md:hidden"
-          htmlFor="navbar-open"
-        >
-          <span className="sr-only">Toggle Navigation</span>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-6 w-6"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            stroke-width="2"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M4 6h16M4 12h16M4 18h16"
-            />
-          </svg>
-        </label>
-        <nav
-          className="peer-checked:mt-8 peer-checked:max-h-56 flex max-h-0 w-full flex-col items-center justify-between overflow-hidden transition-all md:ml-24 md:max-h-full md:flex-row md:items-start"
-        >
-          <ul className="flex flex-col items-center space-y-2 md:ml-auto md:flex-row md:space-y-0">
-            <li className=" md:mr-12 hover:text-blue-600 cursor-pointer">
-                 Home
-            </li>
-            <li className=" md:mr-12 hover:text-blue-600 cursor-pointer">
-               Course
-            </li>
-            
-            <li className=" md:mr-12 hover:text-blue-600">
-              <button className="rounded-md border-2 border-blue-600 px-6 py-1 font-medium text-blue-600 transition-colors hover:bg-blue-600 hover:text-white">
-                Login
-              </button>
-            </li>
-          </ul>
-        </nav>
+    <header className="shadow-xl" >
+  <div className="max-w-[1640px] p-4 mx-auto">
+    <div className="flex justify-between">
+    <div className="flex items-center gap-4">
+      <h1 className="text-3xl font-semibold font-serif whitespace-nowrap">Smart Up</h1>
+      <div className=" items-center ml-6 border-2 focus-within:ring focus-within:ring-blue-800 rounded-lg hidden sm:flex flex-wrap">
+        <input
+          className="px-4 py-2 border-none focus:outline-none w-64"
+          type="text"
+          placeholder="Search Courses"
+        />
+        <button className="p-2 focus:outline-none focus:ring focus:ring-blue-800">
+          <CiSearch className="h-6 w-6 " />
+        </button>
+  
       </div>
-    </header>
-  );
-};
+      {/* <div>
+      <FaAlignJustify/>
+      </div> */}
+    </div>
+    <ul className="items-center gap-4  hidden sm:flex flex-wrap">
+  <li className=" p-2 cursor-pointer flex items-center  hover:bg-slate-200 rounded-lg">
+    <span ><FcHome/></span>
+    <span >Home</span>
+  </li>
+  <li className=" p-2 cursor-pointer flex items-center  hover:bg-slate-200 rounded-lg">
+    <span  ><FcShop/></span>
+    <span >Courses</span>
+  </li>
+  {isUserSign ? <li className="  p-2 cursor-pointer flex items-center  hover:bg-slate-200 rounded-lg"> <span><img className="w-4 h-4" src="/wave.png"/></span>{currentUser?.username} </li>:
+      
+      <Link to="/instructor/signin">
+       <li className=" p-2 cursor-pointer flex items-center  hover:bg-slate-200 rounded-lg">
+    <span ><FcBusinessman /></span>
+    <span >Teach On with Us</span>
+  </li>
+    </Link>
+  }
+  
+  {currentUser&& currentUser.role==="User"? <UserNav/> :
+      <Link to="/signin">
+        <Button className="px-5" >
+          Login
+          </Button>
+        </Link> }
+     
+</ul>
+    </div>
+   
+  </div>
+</header>
+
+  )
+}
+
+
+
+
+

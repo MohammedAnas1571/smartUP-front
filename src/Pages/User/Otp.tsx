@@ -1,5 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { useForm } from 'react-hook-form';
+
 import { z } from "zod";
 
 import {
@@ -13,9 +14,11 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/Redux/Store";
 import {
-  signUpFailure,
-  signUpStart,
-  signUpSuccess,
+  isLoading,
+  loginFailed,
+  isUserLogin,
+  loginSuccessData,
+  isTutorLogin
 } from "@/Redux/User/userSlics";
 import { toast } from "sonner";
 import {
@@ -42,32 +45,37 @@ export function Otp() {
     },
   });
 
-
   async function onSubmit(data: z.infer<typeof FormSchema>) {
-  
     try {
-      dispatch(signUpStart());
+      dispatch(isLoading());
       const response = await axios.post(`/auth/otp`, {
         otp: data.otp,
         id: currentUser?.id,
         role: currentUser?.role,
       });
-      dispatch(signUpSuccess(response.data));
-     
-      console.log(response.data.user.role);
-       if(response.data.user.role === "User"){
+      dispatch(loginSuccessData(response.data));
 
-      navigate("/");}
-      else{
-        navigate("/instructor/dashboard")
+      if (
+        response.data.user.role === "User" &&
+        response.data.user.isVerified === true
+      ) {
+        dispatch(isUserLogin());
+        navigate("/");
       }
-    } catch (err: any) {
-      if (err) {
-        toast(err.response.data.message);
-        dispatch(signUpFailure());
+      if (
+        response.data.user.role === "Tutor" &&
+        response.data.user.isVerified === true
+      ) {
+        dispatch(isTutorLogin())
+        navigate("/instructor/dashboard");
       }
-    }
+    } catch (err) {
+      if (axios.isAxiosError(err) && err.response) {
+        toast(err.response.data.message||"Something Went To Wrong");
+        dispatch(loginFailed());
+      }
   }
+}
   return (
     <div className="flex justify-center items-center h-screen">
       <div className="border-2 rounded-2xl p-12">
@@ -95,6 +103,7 @@ export function Otp() {
                       maxLength={4}
                       render={({ slots }) => (
                         <InputOTPGroup className="flex justify-center gap-5">
+
                           {slots.map((slot, index) => (
                             <InputOTPSlot
                               key={index}
@@ -113,9 +122,8 @@ export function Otp() {
               )}
             />
             <Button type="submit" className="p-6 w-80 text-lg">
-  {loading ? <span className="loader "></span> : "Submit"}
-</Button>
-
+              {loading ? <span className="loader "></span> : "Submit"}
+            </Button>
           </form>
         </Form>
       </div>

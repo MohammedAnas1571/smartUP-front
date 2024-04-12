@@ -1,6 +1,7 @@
 import { RootState } from "@/Redux/Store";
+import { usersignOut } from "@/Redux/User/userSlics";
 
-  import { Button } from "@/components/ui/button"
+
   import {
     DropdownMenu,
     DropdownMenuContent,
@@ -9,16 +10,31 @@ import { RootState } from "@/Redux/Store";
     DropdownMenuSeparator,
     DropdownMenuTrigger,
   } from "@/components/ui/dropdown-menu"
-import { useSelector } from "react-redux"
+import axios from "axios";
+import { useSelector,useDispatch} from "react-redux"
+import { toast } from "sonner";
   
   export function UserNav() {
-    const {currentUser} = useSelector((state: RootState) => state.user);
+   const{currentUser} = useSelector((state: RootState) => state.user);
+  const dispatch =useDispatch();
+
+    const handleSignOut = async()=>{
+      try{
+      const{data} = await axios.get("/auth/logout")
+      console.log(data)
+      dispatch(usersignOut()) 
+      toast.success("Logout Successfully")
+      }catch(err){
+      if (axios.isAxiosError(err) && err.response) {
+        toast(err.response.data.message||"Something Went To Wrong");
+      
+      }
+    }
+    }
     return (
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="ghost" className="relative h-8 w-8 rounded-full">
-          <img className="rounded "src={currentUser?.profilePhoto}/>
-          </Button>
+          <img className="rounded-full h-10 w-10 cursor-pointer "src={currentUser?.profilePhoto}/>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-56" align="end" forceMount>
           <DropdownMenuLabel className="font-normal">
@@ -36,7 +52,7 @@ import { useSelector } from "react-redux"
             </DropdownMenuItem>
          
           <DropdownMenuSeparator />
-          <DropdownMenuItem>
+          <DropdownMenuItem onClick={handleSignOut}>
             Log out
           </DropdownMenuItem>
         </DropdownMenuContent>

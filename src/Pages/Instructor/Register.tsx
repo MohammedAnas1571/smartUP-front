@@ -1,8 +1,6 @@
 
 import {
-  signUpStart,
-  signUpFailure,
-  signUpSuccess,
+isLoading,loginFailed,loginSuccessData
 } from "../../Redux/User/userSlics";
 import { signUpSchema } from "@/validation/validation";
 import { useFormik } from "formik";
@@ -28,15 +26,15 @@ const Register = () => {
     onSubmit: async (values) => {
       console.log(values);
       try {
-        dispatch(signUpStart());
+        dispatch(isLoading());
         const { data } = await axios.post(`/auth/tutor/signUp`, values);
-        dispatch(signUpSuccess(data))
+        dispatch(loginSuccessData(data))
         navigate("/otp")
-      } catch (err: any) {
-        if (err) {
-          toast(err.response.data.message);
-          dispatch(signUpFailure());
-        }
+      } catch (err) {
+        if (axios.isAxiosError(err)&&err.response) {
+          toast.error(err.response.data.message||"Something Went To Wrong");
+        dispatch(loginFailed())
+       }
       }
     },
   });
@@ -157,7 +155,7 @@ const Register = () => {
 
           <div className="mt-6 text-center text-sm text-slate-600">
           Already Have an Account ? {" "}
-            <Link to="/instructor/sign-in" className="font-medium text-[#4285f4]">
+            <Link to="/instructor/signin" className="font-medium text-[#4285f4]">
              Sign in
             </Link>
           </div>

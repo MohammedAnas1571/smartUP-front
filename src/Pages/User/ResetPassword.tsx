@@ -5,9 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../Redux/Store";
 import axios from "axios";
 import {
-  signUpFailure,
-  signUpStart,
-  signInSuccessLoading,
+ isLoading,loginFailed,loginSuccess
 } from "@/Redux/User/userSlics";
 
 import { Button } from "@/components/ui/button";
@@ -37,17 +35,17 @@ const ConfirmPassword = () => {
       onSubmit: async (values) => {
         
         try {
-          dispatch(signUpStart());
+          dispatch(isLoading());
   
           await axios.post(`${URL}/change_Password/${id}/${token}`, values);
-          dispatch(signInSuccessLoading());
+          dispatch(loginSuccess());
           navigate("/sign-in")
         
         } catch (err: any) {
-          if (err) {
-            toast(err.response.data.message);
-            dispatch(signUpFailure());
-          }
+          if (axios.isAxiosError(err)&&err.response) {
+            toast.error(err.response.data.message||"Something Went To Wrong");
+          dispatch(loginFailed())
+         }
         }
       },
     });

@@ -9,8 +9,7 @@ import {
 import {
   Tabs,
   TabsContent,
-  TabsList,
-  TabsTrigger,
+
 } from "@/components/ui/tabs"
 
 import { MainNav } from "../../components/dashboard/main-nav"
