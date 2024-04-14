@@ -7,12 +7,12 @@ import Advertisment from "@/components/Home/Advertisment";
  export type Course = {
   _id: string;
   title: string;
-  tutorId: { _id: string; username: string; profilePhoto: string };
+  tutorId: { _id: string; username: string; };
   image: string;
   level:string;
   price: number;
 
-};
+}
 
 const Home = () => {
 
@@ -20,7 +20,7 @@ const Home = () => {
   const [courses, setCourses] = useState<Course[]>([]);
   const fetchCourses = async () => {
     try {
-      const { data } = await axios.get("/auth/tutor/course");
+      const { data } = await axios.get("/auth/course");
       setCourses(data.courses);
     } catch (err) {
       if (axios.isAxiosError(err) && err.response) {
@@ -45,10 +45,11 @@ const Home = () => {
     <img className="w-full max-h-[500px] object-cover"  src="/pexels-julia-m-cameron-4145353 (1).jpg"/>
    </div>
    </div>
+   <div className=" max-w-[1250px] mx-auto px-2 ">
     <Advertisment/>
-    <CourseDetails course = {courses}/>
+   {courses && <CourseDetails course = {courses}/> }
 
-
+     </div>
     </div>
     
   )

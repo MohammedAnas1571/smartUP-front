@@ -13,7 +13,7 @@ export const NavBar = () => {
   const {currentUser,isUserSign} = useSelector((state:RootState)=>state.user)
  
   return (
-    <header className="shadow-xl" >
+    <header className="shadow-md" >
   <div className="max-w-[1640px] p-4 mx-auto">
     <div className="flex justify-between">
     <div className="flex items-center gap-4">

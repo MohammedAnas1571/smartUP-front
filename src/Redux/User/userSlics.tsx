@@ -45,14 +45,16 @@ const userSlice = createSlice({
     isTutorLogin:(state)=>{
       state.isTutorSign = true
       state.isUserSign =false
-    },usersignOut:(state)=>{
+    },userSignOut:(state)=>{
       state.currentUser=null
-      state.isUserSign=false
-    }
+      state.isUserSign=false 
+      state.isTutorSign = false
+    },
+
   },
 });
 export const {
-  isUserLogin,loginFailed,loginSuccessData,loginSuccess,isLoading,isTutorLogin,usersignOut
+  isUserLogin,loginFailed,loginSuccessData,loginSuccess,isLoading,isTutorLogin,userSignOut
 } = userSlice.actions;
 
 export default userSlice.reducer;

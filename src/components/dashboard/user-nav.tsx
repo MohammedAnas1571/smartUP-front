@@ -1,5 +1,5 @@
 import { RootState } from "@/Redux/Store";
-import { usersignOut } from "@/Redux/User/userSlics";
+import { userSignOut } from "@/Redux/User/userSlics";
 
 
   import {
@@ -22,7 +22,7 @@ import { toast } from "sonner";
       try{
       const{data} = await axios.get("/auth/logout")
       console.log(data)
-      dispatch(usersignOut()) 
+      dispatch(userSignOut()) 
       toast.success("Logout Successfully")
       }catch(err){
       if (axios.isAxiosError(err) && err.response) {

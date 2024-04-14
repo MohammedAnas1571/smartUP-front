@@ -25,6 +25,8 @@ import UserVerifiedLayout from "./layout/UserVerifiedLayout"
 import InstructorAuthLayout from "./layout/InstructorAuthLayout"
 import InstructorVerifiedLayout from "./layout/InstructorVerifiedLayout"
 import AboutCourse from "./Pages/User/AboutCourse"
+import MyCourses from "./Pages/Instructor/MyCourses"
+import InstructorNavBar from "./layout/InstructorNavBar"
  
 
 
@@ -46,8 +48,9 @@ function App() {
       <Routes>
         <Route path="/" Component={NavBarLayout}>
         <Route index element={<Home/>}/>
+        <Route path="course-Details/:id" element={<AboutCourse/>}/>
         <Route Component={UserAuthLayout}>
-        <Route path="/course-Details/:id" element={<AboutCourse/>}/>
+       
         </Route>
         </Route>
         <Route Component={UserVerifiedLayout}>
@@ -64,8 +67,10 @@ function App() {
         <Route path="/instructor/verify-email/:id/:token" element={<Reset/>}/>
         </Route>
         <Route Component={InstructorAuthLayout}>
-        <Route path="/instructor/dashboard" element={<DashboardPage />}/>
-       
+          <Route  Component={InstructorNavBar}>
+        <Route path="/instructor/dashboard"  element={<DashboardPage />}/>
+        <Route path="/instructor/courses" element={<MyCourses/>} />
+        </Route>
         </Route>
 
         <Route path="/*" element={<Page404 />}/>
