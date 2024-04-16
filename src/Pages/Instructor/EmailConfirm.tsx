@@ -35,7 +35,7 @@ import Alert from "@/components/Alert";
         await axios.post(`/auth/tutor/verification`, values);
         dispatch(loginSuccess());
         setSubmit(true);
-      } catch (err: any) {
+      } catch (err) {
         if (axios.isAxiosError(err)&&err.response) {
           toast.error(err.response.data.message||"Something Went To Wrong");
         dispatch(loginFailed())

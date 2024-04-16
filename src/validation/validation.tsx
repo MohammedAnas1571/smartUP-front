@@ -48,7 +48,7 @@ export const addingSchema = Yup.object().shape({
   tags: Yup.string().required("Tags is required"),
 
   price: Yup.number().typeError("Price should be a number").required("Price is required"),
-
+  content:Yup.string().min(20, "Minimum 20 letters are required").required("Description is required"),
   description: Yup.string().min(20, "Minimum 20 letters are required").required("Description is required"),
   image: Yup.mixed().required("File is required").test(
     "fileType",
@@ -62,6 +62,29 @@ export const addingSchema = Yup.object().shape({
       return supportedFormats.includes(value.type);
     }
   ),
+  preview: Yup.mixed().test(
+    "fileType",
+    "Unsupported File Format",
+    (value: any) => {
+        if (!value) {
+            return true; 
+        }
+
+        const supportedFormats = ["video/mp4"]; 
+        return supportedFormats.includes(value.type);
+    }
+).test(
+    "fileSize",
+    "File size exceeds the limit",
+    (value:any) => {
+        if (!value) {
+            return true;
+        }
+
+        const maxSize = 150 * 1024 * 1024; 
+        return value.size <= maxSize;
+    }
+).required("File is required"),
 });
   
 

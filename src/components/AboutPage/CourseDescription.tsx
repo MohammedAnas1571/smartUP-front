@@ -9,9 +9,9 @@ const CourseDescription  = ( {course }:Details) => {
   return (
 
     <div className="mt-8">
-        <div className="flex justify-between max-w-screen-lg   mx-auto">
+        <div className="flex justify-between container ">
       
-          <div className=" break-words space-y-3">
+          <div className=" break-words max-w-[700px] space-y-3">
               <BreadCrumps catagory = {course.catagory} tags = {course.tags} />
             <h1 className="text-3xl font-serif font-bold mb-2">{course.title}</h1>
             <p className="  text-xl font-light">{course.subTitle}</p>
@@ -19,9 +19,11 @@ const CourseDescription  = ( {course }:Details) => {
             <p className="">{course.description}</p>
             <p>Last Updated <span>{course.updatedAt}</span></p>
           </div>
-          <article className="mx-auto w-[450px]  flex flex-col  overflow-hidden rounded-xl border border-gray-300 bg-white text-gray-900 transition hover:-translate-y-2 hover:shadow-lg">
+          <article className="mx-auto min-w-[300px]  flex flex-col  overflow-hidden rounded-xl border border-gray-300 bg-white text-gray-900 transition hover:-translate-y-2 hover:shadow-lg">
      <div>
-        <img src={course.image} className="h-56 w-full object-cover" alt="something wrong" />
+     <video controls  >  
+        <source src={course.preview} type="video/mp4"/>  
+      </video> 
         <div className="flex-auto p-5">
           <span className="mb-2 bg-slate-200 p-1 text-sm font-semibold">{course.level}</span>
           

@@ -1,12 +1,11 @@
-import { useState } from "react";
-import { AddItem } from "./addItems";
+
+
+import { Link } from "react-router-dom";
 
 const Courses = () => {
-  const [submit, setSubmit] = useState<boolean>(false);
+ 
 
-  const handleChange = ()=>{
-    setSubmit(true)
-  }
+
   return (
     <div className="mr-5 ">
       <div className="group mx-2 grid max-w-screen-lg grid-cols-1 space-x-8 overflow-hidden    sm:grid-cols-5">
@@ -27,10 +26,11 @@ const Courses = () => {
             Create an Engaging Course Whether you've been teaching for years or
             are teaching for the first time, you can make an engaging course.
           </p>
-          <AddItem submit={submit} setSubmit={setSubmit} />
-          <button  onClick={handleChange} className="my-5 rounded-sm  px-5 py-3 text-center font-bold transition text-lg  bg-violet-700  text-white sm:me-auto">
+        
+         <Link to= "/instructor/addcourse"> <button  className="my-5 rounded-sm  px-5 py-3 text-center font-bold transition text-lg  bg-violet-700  text-white sm:me-auto">
             Create Your Course
           </button>
+          </Link>
 
         </div>
       </div>

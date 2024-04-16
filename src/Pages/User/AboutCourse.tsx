@@ -11,6 +11,7 @@ export type courseAbout = Course & {
   catagory: string;
   tags: string;
   updatedAt: string;
+  preview:string
 };
 
 const AboutCourse = () => {

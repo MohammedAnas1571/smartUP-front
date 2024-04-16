@@ -16,7 +16,7 @@ import Register from "./Pages/Instructor/Register"
 import { EmailConfirm } from "./Pages/Instructor/EmailConfirm"
 import Reset from "./Pages/Instructor/Reset"
 import UserList from "./Pages/Admin/UserList"
-import SideBar from "./components/Navbar/SideBar"
+import SideBar from "./components/Admin/Layout"
 import { Page404 } from "./Pages/404"
 import DashboardPage from "./Pages/Instructor/DashBoard"
 import NavBarLayout from "./layout/NavBarLayout"
@@ -27,19 +27,15 @@ import InstructorVerifiedLayout from "./layout/InstructorVerifiedLayout"
 import AboutCourse from "./Pages/User/AboutCourse"
 import MyCourses from "./Pages/Instructor/MyCourses"
 import InstructorNavBar from "./layout/InstructorNavBar"
+
+import AddCourse from "./Pages/Instructor/AddCourse"
+import Layout from "./components/Admin/Layout"
+import DashBoard from "./components/Admin/DashBoard"
  
 
 
-
-
-
-
-
-  
-
 function App() {
   
-
   return (
        
        <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
@@ -70,12 +66,13 @@ function App() {
           <Route  Component={InstructorNavBar}>
         <Route path="/instructor/dashboard"  element={<DashboardPage />}/>
         <Route path="/instructor/courses" element={<MyCourses/>} />
+        <Route path="/instructor/addcourse" element={<AddCourse/>} />
         </Route>
         </Route>
 
         <Route path="/*" element={<Page404 />}/>
-        <Route path="/admin" element={<SideBar/>}>
-             <Route path="dashboard" element={<UserList/>}/>
+        <Route path="/admin" element={<Layout/>}>
+             <Route index element={<DashBoard/>}/>
         </Route> 
       </Routes>
      

@@ -12,9 +12,11 @@ import { userSignOut } from "@/Redux/User/userSlics";
   } from "@/components/ui/dropdown-menu"
 import axios from "axios";
 import { useSelector,useDispatch} from "react-redux"
+import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
   
   export function UserNav() {
+  const navigate = useNavigate()
    const{currentUser} = useSelector((state: RootState) => state.user);
   const dispatch =useDispatch();
 
@@ -23,7 +25,9 @@ import { toast } from "sonner";
       const{data} = await axios.get("/auth/logout")
       console.log(data)
       dispatch(userSignOut()) 
+      
       toast.success("Logout Successfully")
+      
       }catch(err){
       if (axios.isAxiosError(err) && err.response) {
         toast(err.response.data.message||"Something Went To Wrong");
