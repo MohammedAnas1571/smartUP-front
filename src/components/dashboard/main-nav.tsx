@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 import { cn } from "@/lib/utils";
 import { Input } from "../ui/input";
-import { UserNav } from "./user-nav";
+import { UserNav } from "./UserNav";
 
 export function MainNav({ className }: React.HTMLAttributes<HTMLElement>) {
   return (

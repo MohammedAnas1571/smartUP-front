@@ -2,7 +2,7 @@ import React from 'react'
 
 const DashBoard = () => {
   return (
-    <div>DashBoard</div>
+    <div className='bg-yellow-300'>dlfkjsdfjsl,mvdflkb,d.v,mfsdvlksdf</div>
   )
 }
 

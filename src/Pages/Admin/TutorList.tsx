@@ -1,29 +1,28 @@
-
+import TableContent from '@/components/Admin/TableContent'
 import axios, { AxiosResponse } from 'axios';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 
-import TableContent from '../../components/Admin/TableContent';
 
-export type User = {
-    username: string;
-    email: string;
-    _id: string;
-    role: string;
-    profilePhoto: string; 
-}
+import { User } from './UserList';
 
-const UserList = () => {
+
+
+
+const TutorList = () => {
   const [users, setUsers] = useState<User[]>([])
   const [change,setChange] = useState<boolean> (true)
 
     const fetchUsers = async () => {
         try {
-            const { data }: AxiosResponse<{ user: User[] }> = await axios.get("/auth/admin/users");
+            const { data }: AxiosResponse<{ user: User[] }> = await axios.get("/auth/admin/tutor");
             setUsers(data.user);
-        } catch (err: any) {
-            toast(err.response.message);
-        }
+        }catch (err) {
+          if (axios.isAxiosError(err)&&err.response) {
+            toast.error(err.response.data.message||"Something Went To Wrong");
+         
+         }
+    }
     }
 
     useEffect(() => {
@@ -33,7 +32,7 @@ const UserList = () => {
     const handleBlock = async (id: string) => { 
       console.log(id)     
         try {  
-            await axios.put("/auth/admin/block",  {id,change}  );
+            await axios.put("/auth/admin//block-instructor",  {id,change}  );
            setChange(!change)
         } catch (err) {
           if (axios.isAxiosError(err)&&err.response) {
@@ -42,11 +41,11 @@ const UserList = () => {
          }
     }
   }    
-   
   return (
-   <TableContent handleBlock={handleBlock} users={users} change={change}/>
-   
+    <div>
+      <TableContent handleBlock={handleBlock} users={users} change={change}/>
+    </div>
   )
 }
 
-export default UserList
+export default TutorList

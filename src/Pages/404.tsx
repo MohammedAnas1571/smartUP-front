@@ -2,6 +2,8 @@
 
 export  function Page404() {
   return (
-    <div>404</div>
+    <div>
+    this is the page for 404
+    </div>
   )
 }

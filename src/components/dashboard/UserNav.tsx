@@ -38,7 +38,7 @@ import { toast } from "sonner";
     return (
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <img className="rounded-full h-10 w-10 cursor-pointer "src={currentUser?.profilePhoto}/>
+          <img className="rounded-full h-12 w-12 cursor-pointer "src={currentUser?.profilePhoto}/>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-56" align="end" forceMount>
           <DropdownMenuLabel className="font-normal">

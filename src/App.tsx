@@ -15,8 +15,8 @@ import SignIn from "./Pages/Instructor/SignIn"
 import Register from "./Pages/Instructor/Register"
 import { EmailConfirm } from "./Pages/Instructor/EmailConfirm"
 import Reset from "./Pages/Instructor/Reset"
-import UserList from "./Pages/Admin/UserList"
-import SideBar from "./components/Admin/Layout"
+
+
 import { Page404 } from "./Pages/404"
 import DashboardPage from "./Pages/Instructor/DashBoard"
 import NavBarLayout from "./layout/NavBarLayout"
@@ -30,7 +30,10 @@ import InstructorNavBar from "./layout/InstructorNavBar"
 
 import AddCourse from "./Pages/Instructor/AddCourse"
 import Layout from "./components/Admin/Layout"
-import DashBoard from "./components/Admin/DashBoard"
+import DashBoard from "./components/Admin/Main"
+import UserList from "./Pages/Admin/UserList"
+import TutorList from "./Pages/Admin/TutorList"
+import Catagory from "./Pages/Admin/Catagory"
  
 
 
@@ -71,8 +74,13 @@ function App() {
         </Route>
 
         <Route path="/*" element={<Page404 />}/>
-        <Route path="/admin" element={<Layout/>}>
-             <Route index element={<DashBoard/>}/>
+
+
+        <Route path="/admin/*" element={<Layout/>}>
+             <Route path="dashboard" element={<DashBoard/>}/>
+             <Route path="client" element={<UserList/>}/>
+             <Route path="tutor" element={<TutorList/>}/>
+             <Route path="catagory" element={<Catagory/>}/>
         </Route> 
       </Routes>
      
