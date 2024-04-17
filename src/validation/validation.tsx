@@ -86,7 +86,36 @@ export const addingSchema = Yup.object().shape({
     }
 ).required("File is required"),
 });
-  
+
+export const moduleSchema =Yup.object().shape({
+
+  modules: Yup.string().min(6, "Minimum 6 characters are required.").required("Title is required"),
+  order: Yup.number().typeError("Order must be number").required("Order is required"),
+  video:Yup.mixed().test(
+    "fileType",
+    "Unsupported File Format",
+    (value: any) => {
+        if (!value) {
+            return true; 
+        }
+
+        const supportedFormats = ["video/mp4"]; 
+        return supportedFormats.includes(value.type);
+    }
+).test(
+    "fileSize",
+    "File size exceeds the limit",
+    (value:any) => {
+        if (!value) {
+            return true;
+        }
+
+        const maxSize = 150 * 1024 * 1024; 
+        return value.size <= maxSize;
+    }
+).required("File is required"),
+}
+)
 
 
  
