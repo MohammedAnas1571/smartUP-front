@@ -1,5 +1,5 @@
 
-import { MainNav } from '@/components/dashboard/main-nav'
+import { MainNav } from '@/components/Instructor/main-nav'
 import { Outlet } from 'react-router-dom'
 
 const InstructorNavBar = () => {

@@ -1,4 +1,4 @@
-import { UserNav } from "../dashboard/UserNav"
+import { UserNav } from "../Instructor/UserNav"
 
 const Header = () => {
   return (

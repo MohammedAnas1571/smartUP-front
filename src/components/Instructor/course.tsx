@@ -4,8 +4,6 @@ import { Link } from "react-router-dom";
 
 const Courses = () => {
  
-
-
   return (
     <div className="mr-5 ">
       <div className="group mx-2 grid max-w-screen-lg grid-cols-1 space-x-8 overflow-hidden    sm:grid-cols-5">
@@ -20,14 +18,14 @@ const Courses = () => {
         </div>
         <div className="col-span-3 flex flex-col space-y-5  text-left">
           <div className="mt-3 overflow-hidden text-3xl font-semibold">
-            Create an Engaging Course{" "}
+            Create an Engaging Course 
           </div>
           <p className="overflow-hidden ">
             Create an Engaging Course Whether you've been teaching for years or
             are teaching for the first time, you can make an engaging course.
           </p>
         
-         <Link to= "/instructor/addcourse"> <button  className="my-5 rounded-sm  px-5 py-3 text-center font-bold transition text-lg  bg-violet-700  text-white sm:me-auto">
+         <Link to= "/instructor/addcourse"> <button  className="my-5 rounded-sm  px-5 py-3 text-center font-bold transition text-lg  bg-primary  text-white sm:me-auto">
             Create Your Course
           </button>
           </Link>

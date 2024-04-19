@@ -1,9 +1,9 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
+
 import { useParams } from "react-router-dom";
-import { toast } from "sonner";
+
 import { Course } from "./Home";
 import CourseDescription from "@/components/AboutPage/CourseDescription";
+import { useCourseDetails } from "@/CustomHook/useCourseDetails";
 
 export type courseAbout = Course & {
   description: string;
@@ -16,29 +16,7 @@ export type courseAbout = Course & {
 
 const AboutCourse = () => {
   const { id } = useParams();
-  const [data, setData] = useState<courseAbout>();
-  
-
-  const fetchData = async () => {
-    try {
-      const response = await axios.get(`/auth/getDetails/${id}`);
-     
-      const formattedUpdatedAt = new Date(response.data.course.updatedAt).toLocaleDateString('en-GB', {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric'
-      });
-      setData({...response.data.course, updatedAt: formattedUpdatedAt});
-    ;
-    } catch (err) {
-      if (axios.isAxiosError(err) && err.response) {
-        toast(err.response.data.message || "Sorry, something went wrong!");
-      }
-    }
-  };
-  useEffect(() => {
-    fetchData(); 
-  }, []);
+  const { data } = useCourseDetails(id!);
 
   return (
     <>
@@ -48,6 +26,8 @@ const AboutCourse = () => {
 };
 
 export default AboutCourse;
+
+
 
 
 

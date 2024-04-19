@@ -118,6 +118,16 @@ export const moduleSchema =Yup.object().shape({
 )
 
 
+export const ProfileSchema =Yup.object().shape({
+  username: Yup.string().min(4, "Username must be at least 4 characters").required(),
+  email: Yup.string().email().matches(/^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i, "Invalid email address").required(),
+  image: Yup.mixed().required("File is required"),
+
+  about:Yup.string().min(20, "Minimum 20 letters are required"),
+  profession:Yup.string(),
+
+})
+
  
 
 

@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "@/Redux/Store";
-import { UserNav } from "../dashboard/UserNav";
+import { UserNav } from "../Instructor/UserNav";
 
 import { Button } from "../ui/button";
 import { CiSearch,  } from "react-icons/ci";

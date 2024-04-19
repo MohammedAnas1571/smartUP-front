@@ -1,18 +1,51 @@
 import {
   Card,
   CardContent,
-  CardDescription,
+ 
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
 import { Tabs, TabsContent } from "@/components/ui/tabs";
 
-import Courses from "@/components/dashboard/course";
-// import { RecentSales } from "@/components/dashboard/recent-sales"
+import Courses from "@/components/Instructor/course";
+import TutorProfile from "@/components/Instructor/TutorProfile";
+import { useEffect, useState } from "react";
+
+import axios from "axios";
+import { toast } from "sonner";
 
 
+export type TutorDetails ={
+        _id:string
+       username:string;
+       email:string;
+       profilePhoto:string;
+       about?:string;
+       profession?:string
+
+}
 
 export default function DashboardPage() {
+  const[tutor,setTutor] = useState<TutorDetails | undefined>()
+  
+      const fetchUsers = async () => {
+        try {
+             const {data} =await axios.get("/auth/tutor/profile")
+            
+             setTutor({...data,profilePhoto:"/auth/"+data.profilePhoto});
+        }catch (err) {
+          if (axios.isAxiosError(err)&&err.response) {
+            toast.error(err.response.data.message||"Something Went To Wrong");
+         
+         }
+    }
+    }
+    
+    useEffect(() => {
+        fetchUsers();
+    }, []);
+    
+  
   return (
     <>
       <div>
@@ -119,12 +152,10 @@ export default function DashboardPage() {
                 </Card>
                 <Card className="col-span-3">
                   <CardHeader>
-                    <CardTitle>Recent Sales</CardTitle>
-                    <CardDescription>
-                      You made 265 sales this month.
-                    </CardDescription>
+                    <CardTitle>About Me</CardTitle>
+                    
                   </CardHeader>
-                  <CardContent>{/* <RecentSales /> */}</CardContent>
+                  <CardContent><TutorProfile tutor={tutor!} /></CardContent>
                 </Card>
               </div>
             </TabsContent>

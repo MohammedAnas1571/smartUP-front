@@ -2,9 +2,11 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { FcPlanner } from "react-icons/fc";
+import { useNavigate } from "react-router-dom";
+
 
 type MyCourse = {
-  id: string;
+  _id: string;
   status: string;
   image: string;
   updatedAt: string;
@@ -13,6 +15,7 @@ type MyCourse = {
 
 const MyCourses = () => {
   const [courses, setCourses] = useState<MyCourse[]>([]);
+  const navigator = useNavigate()
 
   const fetchItems = async () => {
     try {
@@ -26,6 +29,7 @@ const MyCourses = () => {
         }),
       }));
       setCourses(formattedCourses);
+      console.log(courses)
     } catch (err) {
       if (axios.isAxiosError(err) && err.response) {
         toast(err.response.data.message || "Sorry, something went wrong!");
@@ -36,6 +40,11 @@ const MyCourses = () => {
   useEffect(() => {
     fetchItems();
   }, []);
+ 
+    const handleClick = (id:string)=>{
+      navigator(`/instructor/mycourse/${id}`)
+    }
+
 
   return (
     <div className="container grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-10">
@@ -44,10 +53,10 @@ const MyCourses = () => {
           key={id}
           className="flex flex-col overflow-hidden rounded-xl border border-gray-300 bg-white text-gray-900 transition hover:-translate-y-2 hover:shadow-lg"
         >
-          <div>
-            <img
+          <div >
+            <img onClick={() => handleClick(course._id)} 
               src={course.image}
-              className="h-56 w-full object-cover"
+              className="h-56 w-full object-cover cursor-pointer"
               alt="Course cover"
             />
             <div className="space-y-5 p-5">

@@ -1,6 +1,6 @@
 
 
-import { AddModules } from "@/components/AddModules"
+
 import CatagoryAdding from "@/components/Admin/CatagoryAdding"
 import { Button } from "@/components/ui/button"
 import {
@@ -44,7 +44,7 @@ useEffect(() => {
     <>
     
     <div className="my-5 mx-5 flex justify-end ">
-      {/* {change &&( <CatagoryAdding change={change} setChange={setChange}/>)} */}
+      {change &&( <CatagoryAdding change={change} setChange={setChange}/>)}
        <button onClick={()=>setChange(true)} className="bg-teal-700 rounded-lg p-3 text-white font-medium ">+ Create Catagory</button>
     </div>
     <div className="grid grid-cols-1  md:grid-cols-2 gap-8 mt-7 px-4">
@@ -57,14 +57,11 @@ useEffect(() => {
         <div key={catagory._id}  className=" w-full items-center ">
               <h1 className="text-lg font-medium">{catagory.name}</h1>
                  </div>
-        
-
-         
     
       </CardContent>
       <CardFooter className="flex justify-end space-x-3">
         <Button variant="outline">Edit</Button>
-        {change &&(<AddModules change={change} setChange={setChange}/>)}
+       
         <Button>Delete</Button>
       </CardFooter>
     </Card>

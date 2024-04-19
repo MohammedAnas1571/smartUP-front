@@ -31,6 +31,7 @@ const CourseDescription  = ( {course }:Details) => {
           <div className="bg-slate-200 "></div>
           <h2 className=""> {course.tutorId.username}</h2>
           <p className="mb-6 mt-1 text-xl font-semibold">₹{course.price}</p>
+          <button className="bg-violet-400 p-2">check</button>
          
         </div>
         </div>

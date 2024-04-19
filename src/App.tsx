@@ -34,6 +34,8 @@ import DashBoard from "./components/Admin/Main"
 import UserList from "./Pages/Admin/UserList"
 import TutorList from "./Pages/Admin/TutorList"
 import Catagory from "./Pages/Admin/Catagory"
+import DetailsAbout from "./Pages/Instructor/DetailsAbout"
+
  
 
 
@@ -68,8 +70,10 @@ function App() {
         <Route Component={InstructorAuthLayout}>
           <Route  Component={InstructorNavBar}>
         <Route path="/instructor/dashboard"  element={<DashboardPage />}/>
+        
         <Route path="/instructor/courses" element={<MyCourses/>} />
         <Route path="/instructor/addcourse" element={<AddCourse/>} />
+        <Route path="/instructor/mycourse/:id"element={<DetailsAbout/>} />
         </Route>
         </Route>
 
