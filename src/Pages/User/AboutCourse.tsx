@@ -16,11 +16,11 @@ export type courseAbout = Course & {
 
 const AboutCourse = () => {
   const { id } = useParams();
-  const { data } = useCourseDetails(id!);
+  const { course } = useCourseDetails(id!);
 
   return (
     <>
-      {data && <CourseDescription course={data} />}
+      {course && <CourseDescription course={course} />}
     </>
   );
 };

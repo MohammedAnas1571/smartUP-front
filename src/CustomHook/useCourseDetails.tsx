@@ -16,7 +16,7 @@ export type courseAbout = Course & {
   }; 
 
 export const useCourseDetails = (id:string) => {
-    const [data, setData] = useState<courseAbout >();
+    const [course, setData] = useState<courseAbout >();
   ;
   
     const fetchData = async () => {
@@ -40,5 +40,5 @@ export const useCourseDetails = (id:string) => {
       fetchData();
     }, []);
   
-    return { data };
+    return { course };
   };

@@ -35,6 +35,8 @@ import UserList from "./Pages/Admin/UserList"
 import TutorList from "./Pages/Admin/TutorList"
 import Catagory from "./Pages/Admin/Catagory"
 import DetailsAbout from "./Pages/Instructor/DetailsAbout"
+import ViewCourse from "./Pages/User/ViewCourse"
+import Payment from "./Pages/User/Payment"
 
  
 
@@ -51,7 +53,8 @@ function App() {
         <Route index element={<Home/>}/>
         <Route path="course-Details/:id" element={<AboutCourse/>}/>
         <Route Component={UserAuthLayout}>
-       
+        <Route path="/payment/:id" element={<Payment/>}/>
+       <Route  path="/success/:id" element={<ViewCourse/>}/>
         </Route>
         </Route>
         <Route Component={UserVerifiedLayout}>

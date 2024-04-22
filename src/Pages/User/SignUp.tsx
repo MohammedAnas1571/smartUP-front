@@ -30,7 +30,7 @@ const SignUp = () => {
     onSubmit: async (values) => {
       try {
         dispatch(isLoading());
-        const{data} = await axios.post(`/auth/signUp`, values);
+        const{data} = await axios.post('/auth/signUp', values);
         dispatch(loginSuccessData(data));
         navigate("/otp");
       } catch (err) {

@@ -34,10 +34,13 @@ export const NavBar = () => {
       </div> */}
     </div>
     <ul className="items-center gap-4  hidden sm:flex flex-wrap">
+    <Link to ="/">
   <li className=" p-2 cursor-pointer flex items-center  hover:bg-slate-200 rounded-lg">
+
     <span ><FcHome/></span>
     <span >Home</span>
   </li>
+    </Link>
   <li className=" p-2 cursor-pointer flex items-center  hover:bg-slate-200 rounded-lg">
     <span  ><FcShop/></span>
     <span >Courses</span>

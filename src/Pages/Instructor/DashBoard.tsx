@@ -26,13 +26,15 @@ export type TutorDetails ={
 }
 
 export default function DashboardPage() {
-  const[tutor,setTutor] = useState<TutorDetails | undefined>()
-  
+  const[tutor,setTutor] = useState<TutorDetails>()
+
       const fetchUsers = async () => {
         try {
              const {data} =await axios.get("/auth/tutor/profile")
+             console.log(data)
             
-             setTutor({...data,profilePhoto:"/auth/"+data.profilePhoto});
+             setTutor({...data,profilePhoto :`/auth/${data.profilePhoto}`});
+             console.log(data.profilePhoto)
         }catch (err) {
           if (axios.isAxiosError(err)&&err.response) {
             toast.error(err.response.data.message||"Something Went To Wrong");
@@ -45,7 +47,7 @@ export default function DashboardPage() {
         fetchUsers();
     }, []);
     
-  
+  console.log(tutor)
   return (
     <>
       <div>
@@ -155,7 +157,12 @@ export default function DashboardPage() {
                     <CardTitle>About Me</CardTitle>
                     
                   </CardHeader>
-                  <CardContent><TutorProfile tutor={tutor!} /></CardContent>
+                  <CardContent>
+                    {tutor  &&  ( 
+                    <TutorProfile setTutor={setTutor} tutor={tutor!} />
+              
+                  )}
+                      </CardContent>
                 </Card>
               </div>
             </TabsContent>

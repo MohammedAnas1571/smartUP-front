@@ -1,11 +1,18 @@
 import { courseAbout } from "@/Pages/User/AboutCourse";
 import BreadCrumps from "./BreadCrumps";
 
+import { useNavigate } from "react-router-dom";
+
 
 interface Details {
   course:courseAbout
 }
 const CourseDescription  = ( {course }:Details) => {
+  const navigate = useNavigate()
+  const handleClick = ()=>{
+    navigate (`/payment/${course._id}`)
+  }
+ 
   return (
 
     <div className="mt-8">
@@ -31,7 +38,7 @@ const CourseDescription  = ( {course }:Details) => {
           <div className="bg-slate-200 "></div>
           <h2 className=""> {course.tutorId.username}</h2>
           <p className="mb-6 mt-1 text-xl font-semibold">₹{course.price}</p>
-          <button className="bg-violet-400 p-2">check</button>
+          <button onClick={handleClick} className="bg-violet-700 p-2">Purcahse </button>
          
         </div>
         </div>

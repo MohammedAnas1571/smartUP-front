@@ -1,4 +1,6 @@
 
+
+
 .loader {
     width: 30px;
     aspect-ratio: 1;
@@ -26,3 +28,4 @@
   @keyframes l23 {
     100% {transform: rotate(1turn)}
   }
+  

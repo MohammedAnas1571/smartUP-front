@@ -17,7 +17,7 @@ import { useFormik } from "formik"
 import { ProfileSchema } from "@/validation/validation"
 import axios from "axios"
 import { toast } from "sonner"
-const EditProfile = ({change,setChange,tutor}:{change:boolean,setChange:React.Dispatch<React.SetStateAction<boolean>>,tutor:TutorDetails}) => {
+const EditProfile = ({change,setChange,tutor,setTutor}:{change:boolean,setChange:React.Dispatch<React.SetStateAction<boolean>>,tutor:TutorDetails,setTutor:React.Dispatch<React.SetStateAction<TutorDetails|undefined>>}) => {
     const inputRef = useRef<HTMLInputElement>(null)
     const [imagePreview, setImagePreview] = useState<string | undefined>(tutor.profilePhoto)
     const formik = useFormik({
@@ -39,12 +39,15 @@ const EditProfile = ({change,setChange,tutor}:{change:boolean,setChange:React.Di
           formData.append('image', values.image);
           formData.append('about', values.about);
           formData.append('profession', values.profession)
-              await  axios.put("/auth/tutor/profile",formData, {
+          const {data} =   await axios.put("/auth/tutor/profile",formData, {
               headers: {
                 'Content-Type': 'multipart/form-data'
               },
             })
             toast.success("Profile Updated Successfully")
+            console.log(data)
+            setChange(false)
+            setTutor(data)
           
         }  catch (err) {
           if (axios.isAxiosError(err)&&err.response) {
