@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from 'react-hook-form';
+import { useForm } from "react-hook-form";
 
 import { z } from "zod";
 
@@ -18,8 +18,8 @@ import {
   loginFailed,
   isUserLogin,
   loginSuccessData,
-  isTutorLogin
-} from "@/Redux/User/userSlics";
+  isTutorLogin,
+} from "@/Redux/User/userSlice";
 import { toast } from "sonner";
 import {
   InputOTP,
@@ -66,16 +66,16 @@ export function Otp() {
         response.data.user.role === "Tutor" &&
         response.data.user.isVerified === true
       ) {
-        dispatch(isTutorLogin())
+        dispatch(isTutorLogin());
         navigate("/instructor/dashboard");
       }
     } catch (err) {
       if (axios.isAxiosError(err) && err.response) {
-        toast(err.response.data.message||"Something Went To Wrong");
+        toast(err.response.data.message || "Something Went To Wrong");
         dispatch(loginFailed());
       }
+    }
   }
-}
   return (
     <div className="flex justify-center items-center h-screen">
       <div className="border-2 rounded-2xl p-12">
@@ -103,7 +103,6 @@ export function Otp() {
                       maxLength={4}
                       render={({ slots }) => (
                         <InputOTPGroup className="flex justify-center gap-5">
-
                           {slots.map((slot, index) => (
                             <InputOTPSlot
                               key={index}

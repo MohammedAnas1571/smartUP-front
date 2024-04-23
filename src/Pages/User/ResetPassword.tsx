@@ -1,12 +1,8 @@
-
-
 import { useFormik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../Redux/Store";
 import axios from "axios";
-import {
- isLoading,loginFailed,loginSuccess
-} from "@/Redux/User/userSlics";
+import { isLoading, loginFailed, loginSuccess } from "@/Redux/User/userSlice";
 
 import { Button } from "@/components/ui/button";
 
@@ -16,78 +12,72 @@ import { verificationPassword } from "@/validation/validation";
 import { toast } from "sonner";
 import { useNavigate, useParams } from "react-router-dom";
 
-
 const ConfirmPassword = () => {
-  const URL = 'http://localhost:3000'
-    
-    const dispatch = useDispatch();
-  const { loading } = useSelector((state: RootState) => state.user);
-    const  {id,token} = useParams()
-    const navigate = useNavigate()
-   
+  const URL = "http://localhost:3000";
 
-  
-    const formik = useFormik({
-      initialValues: {
-        password: "",
-      },
-      validationSchema: verificationPassword,
-      onSubmit: async (values) => {
-        
-        try {
-          dispatch(isLoading());
-  
-          await axios.post(`${URL}/change_Password/${id}/${token}`, values);
-          dispatch(loginSuccess());
-          navigate("/sign-in")
-        
-        } catch (err: any) {
-          if (axios.isAxiosError(err)&&err.response) {
-            toast.error(err.response.data.message||"Something Went To Wrong");
-          dispatch(loginFailed())
-         }
+  const dispatch = useDispatch();
+  const { loading } = useSelector((state: RootState) => state.user);
+  const { id, token } = useParams();
+  const navigate = useNavigate();
+
+  const formik = useFormik({
+    initialValues: {
+      password: "",
+    },
+    validationSchema: verificationPassword,
+    onSubmit: async (values) => {
+      try {
+        dispatch(isLoading());
+
+        await axios.post(`${URL}/change_Password/${id}/${token}`, values);
+        dispatch(loginSuccess());
+        navigate("/sign-in");
+      } catch (err: any) {
+        if (axios.isAxiosError(err) && err.response) {
+          toast.error(err.response.data.message || "Something Went To Wrong");
+          dispatch(loginFailed());
         }
-      },
-    });
+      }
+    },
+  });
   return (
     <div className="flex justify-center items-center h-screen">
-    <div className="border-2 rounded-2xl p-12">
-      <form onSubmit={formik.handleSubmit} className="text-center space-y-6">
-        <div className="flex justify-center  ">
-          <img className="w-16"src="/icons8-confirm-50.png" alt="email icon" />
-        </div>
-        <h1 className="text-4xl flex justify-center font-mono font-semibold mb-3">
-         Confirm Password
-        </h1>
-        <p className="mb-5 font-medium font-serif">Please enter your new password</p>
-        <Input
-          className="bg-slate-100"
-          type="password"
-          placeholder=" Enter your password"
-          name="password"
-          onBlur={formik.handleBlur}
-          value={formik.values.password}
-          onChange={formik.handleChange}
-        />
-        {formik.errors.password && formik.touched.password && (
-          <div className="text-red-600 text-sm  ">
-            {formik.errors.password}
+      <div className="border-2 rounded-2xl p-12">
+        <form onSubmit={formik.handleSubmit} className="text-center space-y-6">
+          <div className="flex justify-center  ">
+            <img
+              className="w-16"
+              src="/icons8-confirm-50.png"
+              alt="email icon"
+            />
           </div>
-        )}
-        <Button type="submit" className="p-6 w-80 text-lg">
-          {loading ? <span className="loader "></span> : "Submit"}
-        </Button>
-        
-      </form>
+          <h1 className="text-4xl flex justify-center font-mono font-semibold mb-3">
+            Confirm Password
+          </h1>
+          <p className="mb-5 font-medium font-serif">
+            Please enter your new password
+          </p>
+          <Input
+            className="bg-slate-100"
+            type="password"
+            placeholder=" Enter your password"
+            name="password"
+            onBlur={formik.handleBlur}
+            value={formik.values.password}
+            onChange={formik.handleChange}
+          />
+          {formik.errors.password && formik.touched.password && (
+            <div className="text-red-600 text-sm  ">
+              {formik.errors.password}
+            </div>
+          )}
+          <Button type="submit" className="p-6 w-80 text-lg">
+            {loading ? <span className="loader "></span> : "Submit"}
+          </Button>
+        </form>
+      </div>
     </div>
-  </div>
-);
-}
+  );
+};
 
-export default ConfirmPassword
-
-
-
-
-
-
+export default ConfirmPassword;

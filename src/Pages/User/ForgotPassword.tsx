@@ -2,9 +2,7 @@ import { useFormik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../Redux/Store";
 import axios from "axios";
-import {
- isLoading,loginFailed,loginSuccess
-} from "@/Redux/User/userSlics";
+import { isLoading, loginFailed, loginSuccess } from "@/Redux/User/userSlice";
 
 import { Button } from "@/components/ui/button";
 
@@ -15,12 +13,14 @@ import { toast } from "sonner";
 import { useState } from "react";
 import Alert from "@/components/Alert";
 
- export const ForgotPassword = () => {
+export const ForgotPassword = () => {
   const URL = "http://localhost:3000";
   const [submit, setSubmit] = useState<boolean>(false);
 
   const dispatch = useDispatch();
-  const { loading,currentUser } = useSelector((state: RootState) => state.user);
+  const { loading, currentUser } = useSelector(
+    (state: RootState) => state.user
+  );
 
   const formik = useFormik({
     initialValues: {
@@ -36,19 +36,18 @@ import Alert from "@/components/Alert";
         dispatch(loginSuccess());
         setSubmit(true);
       } catch (err) {
-        if (axios.isAxiosError(err)&&err.response) {
+        if (axios.isAxiosError(err) && err.response) {
           toast(err.response.data.message);
-          dispatch(loginFailed())
-        }else{
-          toast("Something Went To Wrong")
-          dispatch(loginFailed())
+          dispatch(loginFailed());
+        } else {
+          toast("Something Went To Wrong");
+          dispatch(loginFailed());
         }
       }
     },
   });
 
   return (
-    
     <div className="flex justify-center items-center h-screen">
       <div className="border-2 rounded-2xl p-12">
         <form onSubmit={formik.handleSubmit} className="text-center space-y-6">
@@ -69,17 +68,17 @@ import Alert from "@/components/Alert";
             onChange={formik.handleChange}
           />
           {formik.errors.email && formik.touched.email && (
-            <div className="text-red-600 text-sm  ">
-              {formik.errors.email}
-            </div>
+            <div className="text-red-600 text-sm  ">{formik.errors.email}</div>
           )}
-          {submit && currentUser?.email ? <Alert email={currentUser.email} />:<Button type="submit" className="p-6 w-80 text-lg">
-            {loading ? <span className="loader "></span> : "Submit"}
-          </Button>}
-          
+          {submit && currentUser?.email ? (
+            <Alert email={currentUser.email} />
+          ) : (
+            <Button type="submit" className="p-6 w-80 text-lg">
+              {loading ? <span className="loader "></span> : "Submit"}
+            </Button>
+          )}
         </form>
       </div>
     </div>
   );
 };
-

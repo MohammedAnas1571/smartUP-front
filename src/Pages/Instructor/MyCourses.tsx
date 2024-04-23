@@ -19,7 +19,7 @@ type MyCourse = {
 
 const MyCourses = () => {
   const [courses, setCourses] = useState<MyCourse[]>([]);
-  const [publish,setPublish] = useState<boolean>(false)
+  
   
   const navigator = useNavigate()
 
@@ -53,8 +53,11 @@ const MyCourses = () => {
   const publishClick = async (id:string)=>{
    
     try{
-      await axios.put("/auth/tutor/publishCourse/",{id})
-     
+      const {data} = await axios.put("/auth/tutor/publishCourse/",{id})
+       const updatedCourses =   courses.map((course)=> course._id=== id  ? ({...course, isPublish: true}) : course )
+       setCourses(updatedCourses)
+        toast.success(data.message)
+
 
     }catch(err){
       if (axios.isAxiosError(err)&&err.response) {

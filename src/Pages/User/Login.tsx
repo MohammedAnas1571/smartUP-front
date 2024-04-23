@@ -2,14 +2,13 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 
-
 import { Link, useNavigate } from "react-router-dom";
 import {
   isLoading,
   loginFailed,
   loginSuccessData,
   isUserLogin,
-} from "../../Redux/User/userSlics";
+} from "../../Redux/User/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../Redux/Store";
 
@@ -31,7 +30,7 @@ const Login = () => {
     initialValues: {
       email: "",
       password: "",
-      token:""
+      token: "",
     },
     validationSchema: SignInSchema,
     onSubmit: async (values) => {
@@ -104,7 +103,6 @@ const Login = () => {
           <Input
             type="password"
             placeholder=" Enter password"
-            
             name="password"
             onBlur={formik.handleBlur}
             value={formik.values.password}

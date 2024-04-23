@@ -2,8 +2,10 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import {
-isLoading,loginSuccessData,loginFailed
-} from "../../Redux/User/userSlics";
+  isLoading,
+  loginSuccessData,
+  loginFailed,
+} from "../../Redux/User/userSlice";
 import { signUpSchema } from "@/validation/validation";
 import { useFormik } from "formik";
 import { Link, useNavigate } from "react-router-dom";
@@ -11,33 +13,31 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../Redux/Store";
 import "../../App.css";
-import { toast } from "sonner"
+import { toast } from "sonner";
 
 const SignUp = () => {
-
   const dispatch = useDispatch();
-  const { loading } = useSelector((state: RootState) => state.user)
-  const navigate = useNavigate()
+  const { loading } = useSelector((state: RootState) => state.user);
+  const navigate = useNavigate();
   const formik = useFormik({
     initialValues: {
       username: "",
       email: "",
       password: "",
       confirmPassword: "",
-
     },
     validationSchema: signUpSchema,
     onSubmit: async (values) => {
       try {
         dispatch(isLoading());
-        const{data} = await axios.post('/auth/signUp', values);
+        const { data } = await axios.post("/auth/signUp", values);
         dispatch(loginSuccessData(data));
         navigate("/otp");
       } catch (err) {
-        if (axios.isAxiosError(err)&&err.response) {
-          toast.error(err.response.data.message||"Something Went To Wrong");
-        dispatch(loginFailed())
-       }
+        if (axios.isAxiosError(err) && err.response) {
+          toast.error(err.response.data.message || "Something Went To Wrong");
+          dispatch(loginFailed());
+        }
       }
     },
   });
@@ -49,25 +49,25 @@ const SignUp = () => {
           Enter your details to create your account
         </p>
         <form onSubmit={formik.handleSubmit} className="space-y-3">
-        <div className="mt-7 flex flex-col gap-2">
-              <button className="inline-flex h-10 w-full items-center justify-center gap-2 rounded border border-slate-300 bg-white p-2 text-sm font-medium text-black outline-none focus:ring-2 focus:ring-[#333] focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-60">
-                <img
-                  src="https://www.svgrepo.com/show/512317/github-142.svg"
-                  alt="GitHub"
-                  className="h-[18px] w-[18px] "
-                />
-                Continue with GitHub
-              </button>
+          <div className="mt-7 flex flex-col gap-2">
+            <button className="inline-flex h-10 w-full items-center justify-center gap-2 rounded border border-slate-300 bg-white p-2 text-sm font-medium text-black outline-none focus:ring-2 focus:ring-[#333] focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-60">
+              <img
+                src="https://www.svgrepo.com/show/512317/github-142.svg"
+                alt="GitHub"
+                className="h-[18px] w-[18px] "
+              />
+              Continue with GitHub
+            </button>
 
-              <button className="inline-flex h-10 w-full items-center justify-center gap-2 rounded border border-slate-300 bg-white p-2 text-sm font-medium text-black outline-none focus:ring-2 focus:ring-[#333] focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-60">
-                <img
-                  src="https://www.svgrepo.com/show/475656/google-color.svg"
-                  alt="Google"
-                  className="h-[18px] w-[18px] "
-                />
-                Continue with Google
-              </button>
-            </div>
+            <button className="inline-flex h-10 w-full items-center justify-center gap-2 rounded border border-slate-300 bg-white p-2 text-sm font-medium text-black outline-none focus:ring-2 focus:ring-[#333] focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-60">
+              <img
+                src="https://www.svgrepo.com/show/475656/google-color.svg"
+                alt="Google"
+                className="h-[18px] w-[18px] "
+              />
+              Continue with Google
+            </button>
+          </div>
 
           <div className="flex  items-center gap-2 pt-3 text-slate-700">
             <div className="h-px w-full bg-slate-300"></div>
@@ -135,7 +135,6 @@ const SignUp = () => {
                 </div>
               )}
           </div>
-         
 
           <Button type="submit" className="w-full">
             {loading ? <span className="loader "></span> : "Create account"}

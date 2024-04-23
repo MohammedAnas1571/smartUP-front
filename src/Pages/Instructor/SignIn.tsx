@@ -4,8 +4,11 @@ import { useFormik } from "formik";
 
 import { toast } from "sonner";
 import {
- isLoading,loginFailed,loginSuccessData,isTutorLogin
-} from "../../Redux/User/userSlics";
+  isLoading,
+  loginFailed,
+  loginSuccessData,
+  isTutorLogin,
+} from "../../Redux/User/userSlice";
 import { RootState } from "../../Redux/Store";
 import axios from "axios";
 import { SignInSchema } from "@/validation/validation";
@@ -25,27 +28,23 @@ const SignIn = () => {
       try {
         dispatch(isLoading());
         const { data } = await axios.post("/auth/tutor/signIn", values);
-          console.log(data)
+        console.log(data);
         dispatch(loginSuccessData(data));
-        if(data.user.isVerified === true)
-        dispatch(isTutorLogin())
+        if (data.user.isVerified === true) dispatch(isTutorLogin());
         navigate("/instructor/dashboard");
       } catch (err) {
-        if (axios.isAxiosError(err)&&err.response) {
-          toast.error(err.response.data.message||"Something Went To Wrong");
-        dispatch(loginFailed())
-       }
+        if (axios.isAxiosError(err) && err.response) {
+          toast.error(err.response.data.message || "Something Went To Wrong");
+          dispatch(loginFailed());
+        }
       }
     },
   });
-  
 
   return (
     <div className="shadow-lg overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 h-full items-center justify-center flex">
       <div className="relative p-4 w-full max-w-md h-full md:h-auto">
         <div className="relative bg-white rounded-lg shadow">
-         
-
           <div className="p-5">
             <h3 className="text-2xl mb-0.5 font-medium"></h3>
             <p className="mb-4 text-sm font-normal text-gray-800"></p>
@@ -134,7 +133,10 @@ const SignIn = () => {
 
             <div className="mt-6 text-center text-sm text-slate-600">
               Don't have an account?{" "}
-              <Link to="/instructor/signup" className="font-medium text-[#4285f4]">
+              <Link
+                to="/instructor/signup"
+                className="font-medium text-[#4285f4]"
+              >
                 Sign up
               </Link>
             </div>

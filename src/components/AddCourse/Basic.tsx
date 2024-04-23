@@ -101,20 +101,21 @@ const Basic = ({ formik, setChange }: FormikDetails) => {
                   Catagory
                 </label>
                 <select
-  name="catagory"
-  value={formik.values.catagory} 
-  onChange={(e) => {
-    const catagoryId = e.target.value;
-    formik.setFieldValue('catagory', catagoryId);
-  }}
-  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
->
-  {catagories.map((catagory) => (
-    <option key={catagory._id} value={catagory._id}>
-      {catagory.name}
-    </option>
-  ))}
-</select>
+                  name="catagory"
+                  value={formik.values.catagory}
+                  onChange={(e) => {
+                    const catagoryId = e.target.value;
+                    formik.setFieldValue("catagory", catagoryId);
+                  }}
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                >
+                  <option>Select catagory</option>
+                  {catagories.map((catagory) => (
+                    <option key={catagory._id} value={catagory._id}>
+                      {catagory.name}
+                    </option>
+                  ))}
+                </select>
 
                 {formik.touched.catagory && formik.errors.catagory && (
                   <p className="text-red-600 text-sm  ">
@@ -173,7 +174,7 @@ const Basic = ({ formik, setChange }: FormikDetails) => {
             </div>
           </CardContent>
           <CardFooter className="flex justify-end ">
-            <Button onClick={() => setChange("password")}>Next</Button>
+            <Button  onClick={() => setChange("password")}>Next</Button>
           </CardFooter>
         </Card>
       </TabsContent>

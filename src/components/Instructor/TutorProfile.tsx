@@ -14,18 +14,23 @@ const TutorProfile = ({
 
   return (
     <div className="mx-auto flex max-w-xs flex-col items-center rounded-xl border px-4 py-4 text-center md:max-w-lg md:flex-row md:items-start md:text-left">
-  <div className="mb-4 md:mr-6 md:mb-0">
-    <img className="h-56 rounded-lg object-cover md:w-56"  src={tutor.profilePhoto}alt="" />
-  </div>
-  <div className="">
-    <p className="text-xl font-medium text-gray-700">{tutor.username}</p>
-   
+      <div className="mb-4 md:mr-6 md:mb-0 flex-shrink-0">
+        <img
+          className="h-56 rounded-lg object-cover md:w-56"
+          src={tutor.profilePhoto}
+          alt=""
+        />
+      </div>
+      <div className="">
+        <p className="text-xl font-medium text-gray-700">{tutor.username}</p>
 
-    <p className="mb-4 text-sm font-medium text-gray-500">{tutor.profession}</p>
-   
-    
-    <div className="flex space-x-2">
-         {change && (
+        <p className="mb-4 text-sm font-medium text-gray-500">
+          {tutor.profession}
+        </p>
+        <p className="mb-4 text-sm font-medium text-gray-500">{tutor.about}</p>
+
+        <div className="flex space-x-2">
+          {change && (
             <EditProfile
               change={change}
               tutor={tutor}
@@ -33,7 +38,7 @@ const TutorProfile = ({
               setChange={setChange}
             />
           )}
-     <button
+          <button
             onClick={() => {
               setChange(true);
             }}
@@ -41,19 +46,13 @@ const TutorProfile = ({
           >
             Edit Profile
           </button>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
-
-     
   );
 };
 
 export default TutorProfile;
-
-
-
-
 
 //  <div className="flex w-full flex-col items-center rounded-xl border px-4 py-4 text-center justify-center">
 //         <div className="mb-4 md:mr-6 md:mb-0">
