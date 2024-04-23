@@ -8,38 +8,19 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
-import { useState } from "react";
-import { AddModules } from "../AddModules";
-import { FaTrash } from "react-icons/fa";
+
 import { useSelector } from "react-redux";
 import { RootState } from "@/Redux/Store";
 
 
-interface EndProps {
-    formik: any;
-     setChange:React.Dispatch<React.SetStateAction<string>>;
-    fileSubmit: (formData: FormData) => void;
-    formDataArray: FormData[];
-    setFormDataArray: React.Dispatch<React.SetStateAction<FormData[]>>;
-}
+import {FormikDetails} from'./Basic'
 
 const End = ({
     formik,
-    setChange,
-    fileSubmit,
-    formDataArray,
-    setFormDataArray,
-}: EndProps) => {
-    const { loading } = useSelector((state: RootState) => state.user);
-    const [submit, setSubmit] = useState<boolean>(false);
-    
-    const handleClick = () => {
-        setSubmit(true);
-    };
-    const handleDelete = (index: number) => {
-        formDataArray.splice(index, 1);
-        setFormDataArray([...formDataArray]);
-    };
+    setChange
+  
+}: FormikDetails) => {
+
 
     return (
         <TabsContent value="full">
@@ -100,36 +81,7 @@ const End = ({
                             )}
                         </div>
                     </div>
-                    {/* <button
-                        onClick={handleClick}
-                        type="button"
-                        className="text-white hover:opacity-90 bg-violet-700 mt-2 border border-gray-300 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                    >
-                        Add Modules
-                    </button>
-                    {submit && (
-                        <AddModules
-                            submit={submit}
-                            setSubmit={setSubmit}
-                            onSubmit={fileSubmit}
-                        />
-                    )}
-                    <div className="mt-6">
-                        {formDataArray.map((item, index) => (
-                            <Card
-                                key={index}
-                                className="p-2 mb-2 flex items-center justify-between"
-                            >
-                                <div className="text-lg font-medium">
-                                    {index + 1}. {item.get("modules")}
-                                </div>
-                                <FaTrash
-                                    onClick={() => handleDelete(index)}
-                                    className="cursor-pointer text-red-600"
-                                />
-                            </Card>
-                        ))} */}
-                    {/* </div> */}
+                
                 </CardContent>
                         
                 <CardFooter className="flex justify-end gap-3">

@@ -3,18 +3,24 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { FcPlanner } from "react-icons/fc";
 import { useNavigate } from "react-router-dom";
+import {  MdOutlineAddHomeWork } from "react-icons/md";
 
 
 type MyCourse = {
   _id: string;
-  status: string;
   image: string;
   updatedAt: string;
   title: string;
+  price:string;
+  isPublish:boolean;
+  
+ 
 };
 
 const MyCourses = () => {
   const [courses, setCourses] = useState<MyCourse[]>([]);
+  const [publish,setPublish] = useState<boolean>(false)
+  
   const navigator = useNavigate()
 
   const fetchItems = async () => {
@@ -29,10 +35,10 @@ const MyCourses = () => {
         }),
       }));
       setCourses(formattedCourses);
-      console.log(courses)
+      
     } catch (err) {
       if (axios.isAxiosError(err) && err.response) {
-        toast(err.response.data.message || "Sorry, something went wrong!");
+        toast.error(err.response.data.message || "Sorry, something went wrong!");
       }
     }
   };
@@ -44,40 +50,57 @@ const MyCourses = () => {
     const handleClick = (id:string)=>{
       navigator(`/instructor/mycourse/${id}`)
     }
+  const publishClick = async (id:string)=>{
+   
+    try{
+      await axios.put("/auth/tutor/publishCourse/",{id})
+     
 
-
+    }catch(err){
+      if (axios.isAxiosError(err)&&err.response) {
+        toast.error(err.response.data.message||"Something Went To Wrong");
+    }
+    }
+  }
   return (
-    <div className="container grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-10">
-      {courses.map((course, id) => (
-        <article
-          key={id}
-          className="flex flex-col overflow-hidden rounded-xl border border-gray-300 bg-white text-gray-900 transition hover:-translate-y-2 hover:shadow-lg"
-        >
-          <div >
-            <img onClick={() => handleClick(course._id)} 
-              src={course.image}
-              className="h-56 w-full object-cover cursor-pointer"
-              alt="Course cover"
-            />
-            <div className="space-y-5 p-5">
-              <h3 className="mt-3 mb-2 text-xl text-black font-bold xl:text-lg">
-                {course.title}
-              </h3>
-              <div className="border-b border-gray-200 "></div>
-              <div className="flex justify-between items-center">
-                <div className="flex items-center">
-                  <FcPlanner className="mr-1" />
-                  <p className="text-sm">{course.updatedAt}</p>
-                </div>
-                <span className="bg-red-300 rounded-md p-1">{course.status}</span>
-              </div>
-           
-            </div>
+
+ <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+  {courses.map((course, id) => (
+    <div key={id} className="m-10 flex w-full max-w-xs flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md">
+      <div className="mx-3 mt-3 flex h-60 overflow-hidden rounded-xl" >
+        <img className="object-cover  cursor-pointer w-full" src={course.image} onClick={() => handleClick(course._id)}  alt={course.title} />
+      </div>
+      <div className="mt-4 px-5 pb-5">
+        <div >
+          <h5 className="text-xl tracking-tight font-semibold text-slate-900">{course.title}</h5>
+        </div>
+        <div className="mt-2 mb-5 flex items-center justify-between">
+          <p>
+            <span className="text-3xl font-bold text-slate-900"> ₹{course.price}</span>
+          </p>
+          <div className="flex font-medium ">
+          <FcPlanner className="mr-1 mt-1" />
+          <p className=""> {course.updatedAt}</p>
           </div>
-        </article>
-      ))}
+        </div>
+     { course.isPublish ?   <div className="flex items-c enter justify-center rounded-md bg-slate-900 px-5 py-3
+         text-center text-xl font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-blue-300" >
+        <MdOutlineAddHomeWork className="mr-1 mt-1"/>
+          Listed
+        </div>
+        :
+        <div className="flex items-c enter justify-center rounded-md bg-slate-900 px-5 py-3 cursor-pointer
+         text-center text-xl font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-blue-300" onClick={()=>publishClick(course._id)}>
+        <MdOutlineAddHomeWork className="mr-1 mt-1"/>
+          Publish
+        </div>
+  }
+      </div>
     </div>
-  );
-};
+  ))}
+</div>
+
+)
+}
 
 export default MyCourses;

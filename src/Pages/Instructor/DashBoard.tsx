@@ -32,8 +32,8 @@ export default function DashboardPage() {
         try {
              const {data} =await axios.get("/auth/tutor/profile")
              console.log(data)
-            
-             setTutor({...data,profilePhoto :`/auth/${data.profilePhoto}`});
+             const profile = data.profilePhoto.includes("https")
+             setTutor({...data,profilePhoto : ( profile ? data.profilePhoto : '/auth/'+data.profilePhoto)});
              console.log(data.profilePhoto)
         }catch (err) {
           if (axios.isAxiosError(err)&&err.response) {

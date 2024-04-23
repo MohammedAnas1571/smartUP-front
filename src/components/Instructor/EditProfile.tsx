@@ -47,7 +47,7 @@ const EditProfile = ({change,setChange,tutor,setTutor}:{change:boolean,setChange
             toast.success("Profile Updated Successfully")
             console.log(data)
             setChange(false)
-            setTutor(data)
+            setTutor({...data,profilePhoto : '/auth/'+data.profilePhoto})
           
         }  catch (err) {
           if (axios.isAxiosError(err)&&err.response) {

@@ -1,5 +1,4 @@
-
-import { TabsContent, } from "@/components/ui/tabs";
+import { TabsContent } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -9,13 +8,48 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { useFormikContext } from "formik";
-export interface FormikDetails {
-    formik:any;
-    setChange: React.Dispatch<React.SetStateAction<string>>;
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { toast } from "sonner";
+
+import { FormikProps } from "formik";
+
+export interface FormValues {
+  title: string;
+  subTitle: string;
+  catagory: string;
+  tags: string;
+  price: string;
+  level: string;
+  content: string;
+  description: string;
+  image: string;
+  preview: string;
 }
-const Basic = ({formik,setChange}:FormikDetails) => {
-    
+
+export interface FormikDetails {
+  formik: FormikProps<FormValues>;
+  setChange: React.Dispatch<React.SetStateAction<string>>;
+}
+type Catagory = {
+  _id: string;
+  name: string;
+};
+const Basic = ({ formik, setChange }: FormikDetails) => {
+  const [catagories, setCatagories] = useState<Catagory[]>([]);
+  const fetchCatagory = async () => {
+    try {
+      let { data } = await axios.get("/auth/admin/catagory");
+      setCatagories(data.catagories);
+    } catch (err) {
+      if (axios.isAxiosError(err) && err.response) {
+        toast.error(err.response.data.message || "Something Went To Wrong");
+      }
+    }
+  };
+  useEffect(() => {
+    fetchCatagory();
+  }, []);
   return (
     <>
       <TabsContent value="account">
@@ -37,7 +71,7 @@ const Basic = ({formik,setChange}:FormikDetails) => {
                   name="title"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   placeholder="Enter Title"
-                  value = {formik.values.title}
+                  value={formik.values.title}
                   onChange={formik.handleChange}
                 />
                 {formik.touched.title && formik.errors.title && (
@@ -66,14 +100,22 @@ const Basic = ({formik,setChange}:FormikDetails) => {
                 <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                   Catagory
                 </label>
-                <input
-                  type="text"
-                  name="catagory"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  placeholder="Enter Placeholder"
-                  value={formik.values.catagory}
-                  onChange={formik.handleChange}
-                />
+                <select
+  name="catagory"
+  value={formik.values.catagory} 
+  onChange={(e) => {
+    const catagoryId = e.target.value;
+    formik.setFieldValue('catagory', catagoryId);
+  }}
+  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+>
+  {catagories.map((catagory) => (
+    <option key={catagory._id} value={catagory._id}>
+      {catagory.name}
+    </option>
+  ))}
+</select>
+
                 {formik.touched.catagory && formik.errors.catagory && (
                   <p className="text-red-600 text-sm  ">
                     {formik.errors.catagory}
@@ -103,7 +145,7 @@ const Basic = ({formik,setChange}:FormikDetails) => {
                   name="tags"
                   className="bg-gray-50 border  border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   placeholder="Enter the tags"
-                  value = {formik.values.tags}
+                  value={formik.values.tags}
                   onChange={formik.handleChange}
                 />
                 {formik.touched.tags && formik.errors.tags && (
@@ -119,7 +161,7 @@ const Basic = ({formik,setChange}:FormikDetails) => {
                   name="price"
                   className="bg-gray-50 border  border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   placeholder="Enter amount"
-                  value = {formik.values.price}
+                  value={formik.values.price}
                   onChange={formik.handleChange}
                 />
                 {formik.touched.price && formik.errors.price && (
@@ -128,18 +170,13 @@ const Basic = ({formik,setChange}:FormikDetails) => {
                   </p>
                 )}
               </div>
-             
             </div>
           </CardContent>
           <CardFooter className="flex justify-end ">
-          <Button onClick={() => setChange("password")} >
-          Next
-        </Button>
+            <Button onClick={() => setChange("password")}>Next</Button>
           </CardFooter>
         </Card>
       </TabsContent>
-
-      
     </>
   );
 };

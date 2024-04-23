@@ -9,7 +9,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { FormikDetails } from "./Basic";
+
+
+import {FormikDetails} from'./Basic'
+
+  
+
 
 const Intermediate = ({formik,setChange}:FormikDetails) => {
   return (
