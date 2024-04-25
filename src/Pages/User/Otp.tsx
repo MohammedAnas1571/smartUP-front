@@ -18,8 +18,9 @@ import {
   loginFailed,
   isUserLogin,
   loginSuccessData,
-  isTutorLogin,
+  loginSuccess,
 } from "@/Redux/User/userSlice";
+import { isTutorLogin, SuccessData } from "@/Redux/Tutor/tutorSlice";
 import { toast } from "sonner";
 import {
   InputOTP,
@@ -37,6 +38,7 @@ export function Otp() {
   const { currentUser, loading } = useSelector(
     (state: RootState) => state.user
   );
+  const { currentTutor } = useSelector((state: RootState) => state.tutor);
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -50,15 +52,15 @@ export function Otp() {
       dispatch(isLoading());
       const response = await axios.post(`/auth/otp`, {
         otp: data.otp,
-        id: currentUser?.id,
+        id: currentUser?.id || currentTutor?.id,
         role: currentUser?.role,
       });
-      dispatch(loginSuccessData(response.data));
 
       if (
         response.data.user.role === "User" &&
         response.data.user.isVerified === true
       ) {
+        dispatch(loginSuccessData(response.data.user));
         dispatch(isUserLogin());
         navigate("/");
       }
@@ -66,7 +68,10 @@ export function Otp() {
         response.data.user.role === "Tutor" &&
         response.data.user.isVerified === true
       ) {
+        dispatch(SuccessData(response.data.user));
         dispatch(isTutorLogin());
+        dispatch(loginSuccess());
+
         navigate("/instructor/dashboard");
       }
     } catch (err) {

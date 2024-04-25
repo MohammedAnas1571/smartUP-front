@@ -31,7 +31,7 @@ const SignUp = () => {
       try {
         dispatch(isLoading());
         const { data } = await axios.post("/auth/signUp", values);
-        dispatch(loginSuccessData(data));
+        dispatch(loginSuccessData(data.user));
         navigate("/otp");
       } catch (err) {
         if (axios.isAxiosError(err) && err.response) {

@@ -1,8 +1,4 @@
-import {
-  isLoading,
-  loginFailed,
-  loginSuccessData,
-} from "../../Redux/User/userSlice";
+import { isLoading, isFailed, SuccessData } from "../../Redux/Tutor/tutorSlice";
 import { signUpSchema } from "@/validation/validation";
 import { useFormik } from "formik";
 import { Link, useNavigate } from "react-router-dom";
@@ -29,12 +25,12 @@ const Register = () => {
       try {
         dispatch(isLoading());
         const { data } = await axios.post(`/auth/tutor/signUp`, values);
-        dispatch(loginSuccessData(data));
+        dispatch(SuccessData(data.user));
         navigate("/otp");
       } catch (err) {
         if (axios.isAxiosError(err) && err.response) {
           toast.error(err.response.data.message || "Something Went To Wrong");
-          dispatch(loginFailed());
+          dispatch(isFailed());
         }
       }
     },

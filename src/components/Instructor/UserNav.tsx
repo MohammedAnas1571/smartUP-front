@@ -1,5 +1,6 @@
 import { RootState } from "@/Redux/Store";
 import { userSignOut } from "@/Redux/User/userSlice";
+import { SignOut } from "@/Redux/Tutor/tutorSlice";
 
 import {
   DropdownMenu,
@@ -11,12 +12,12 @@ import {
 } from "@/components/ui/dropdown-menu";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+
 import { toast } from "sonner";
 
 export function UserNav() {
-  const navigate = useNavigate();
-  const { currentUser } = useSelector((state: RootState) => state.user);
+  const { currentTutor } = useSelector((state: RootState) => state.tutor);
+  console.log(currentTutor);
   const dispatch = useDispatch();
 
   const handleSignOut = async () => {
@@ -24,6 +25,7 @@ export function UserNav() {
       const { data } = await axios.get("/auth/logout");
       console.log(data);
       dispatch(userSignOut());
+      dispatch(SignOut());
 
       toast.success("Logout Successfully");
     } catch (err) {
@@ -37,17 +39,17 @@ export function UserNav() {
       <DropdownMenuTrigger asChild>
         <img
           className="rounded-full h-12 w-12 cursor-pointer "
-          src={currentUser?.profilePhoto}
+          src={`/auth/${currentTutor?.profilePhoto}`}
         />
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56" align="end" forceMount>
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
             <p className="text-sm font-medium leading-none">
-              {currentUser?.username}
+              {currentTutor?.username}
             </p>
             <p className="text-xs leading-none text-muted-foreground">
-              {currentUser?.email}
+              {currentTutor?.email}
             </p>
           </div>
         </DropdownMenuLabel>

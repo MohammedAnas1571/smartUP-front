@@ -5,10 +5,10 @@ import { useFormik } from "formik";
 import { toast } from "sonner";
 import {
   isLoading,
-  loginFailed,
-  loginSuccessData,
+  isFailed,
+  SuccessData,
   isTutorLogin,
-} from "../../Redux/User/userSlice";
+} from "../../Redux/Tutor/tutorSlice";
 import { RootState } from "../../Redux/Store";
 import axios from "axios";
 import { SignInSchema } from "@/validation/validation";
@@ -29,13 +29,13 @@ const SignIn = () => {
         dispatch(isLoading());
         const { data } = await axios.post("/auth/tutor/signIn", values);
         console.log(data);
-        dispatch(loginSuccessData(data));
+        dispatch(SuccessData(data.user));
         if (data.user.isVerified === true) dispatch(isTutorLogin());
         navigate("/instructor/dashboard");
       } catch (err) {
         if (axios.isAxiosError(err) && err.response) {
           toast.error(err.response.data.message || "Something Went To Wrong");
-          dispatch(loginFailed());
+          dispatch(isFailed());
         }
       }
     },

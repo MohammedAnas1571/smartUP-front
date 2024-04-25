@@ -10,15 +10,13 @@ type UserState = {
 type InitialState = {
   currentUser: UserState | null;
   loading: boolean;
-  isUserSign:boolean;
-  isTutorSign:boolean;
+  isUserSign: boolean;
 };
 
 const initialState: InitialState = {
   currentUser: null,
   loading: false,
-  isUserSign:false,
-  isTutorSign:false
+  isUserSign: false,
 };
 
 const userSlice = createSlice({
@@ -32,29 +30,28 @@ const userSlice = createSlice({
       state.loading = false;
     },
     loginSuccessData: (state, action) => {
-      state.currentUser = action.payload.user;
+      state.currentUser = action.payload;
       state.loading = false;
     },
     loginFailed: (state) => {
       state.loading = false;
     },
-    isUserLogin:(state)=>{
-      state.isUserSign =true
-      state.isTutorSign =false
+    isUserLogin: (state) => {
+      state.isUserSign = true;
     },
-    isTutorLogin:(state)=>{
-      state.isTutorSign = true
-      state.isUserSign =false
-    },userSignOut:(state)=>{
-      state.currentUser=null
-      state.isUserSign=false 
-      state.isTutorSign = false
+    userSignOut: (state) => {
+      state.currentUser = null;
+      state.isUserSign = false;
     },
-
   },
 });
 export const {
-  isUserLogin,loginFailed,loginSuccessData,loginSuccess,isLoading,isTutorLogin,userSignOut
+  isUserLogin,
+  loginFailed,
+  loginSuccessData,
+  loginSuccess,
+  isLoading,
+  userSignOut,
 } = userSlice.actions;
 
 export default userSlice.reducer;

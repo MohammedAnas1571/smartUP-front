@@ -1,53 +1,10 @@
-import {
-  Card,
-  CardContent,
- 
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent } from "@/components/ui/tabs";
 
 import Courses from "@/components/Instructor/course";
 import TutorProfile from "@/components/Instructor/TutorProfile";
-import { useEffect, useState } from "react";
-
-import axios from "axios";
-import { toast } from "sonner";
-
-
-export type TutorDetails ={
-        _id:string
-       username:string;
-       email:string;
-       profilePhoto:string;
-       about?:string;
-       profession?:string
-
-}
 
 export default function DashboardPage() {
-  const[tutor,setTutor] = useState<TutorDetails>()
-
-      const fetchUsers = async () => {
-        try {
-             const {data} =await axios.get("/auth/tutor/profile")
-             console.log(data)
-             const profile = data.profilePhoto.includes("https")
-             setTutor({...data,profilePhoto : ( profile ? data.profilePhoto : '/auth/'+data.profilePhoto)});
-             console.log(data.profilePhoto)
-        }catch (err) {
-          if (axios.isAxiosError(err)&&err.response) {
-            toast.error(err.response.data.message||"Something Went To Wrong");
-         
-         }
-    }
-    }
-    
-    useEffect(() => {
-        fetchUsers();
-    }, []);
-    
-  console.log(tutor)
   return (
     <>
       <div>
@@ -155,14 +112,8 @@ export default function DashboardPage() {
                 <Card className="col-span-3">
                   <CardHeader>
                     <CardTitle>About Me</CardTitle>
-                    
                   </CardHeader>
-                  <CardContent>
-                    {tutor  &&  ( 
-                    <TutorProfile setTutor={setTutor} tutor={tutor!} />
-              
-                  )}
-                      </CardContent>
+                  <CardContent>{<TutorProfile />}</CardContent>
                 </Card>
               </div>
             </TabsContent>

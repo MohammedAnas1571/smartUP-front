@@ -39,7 +39,7 @@ const Login = () => {
         values.token = cloudFire;
         const { data } = await axios.post("/auth/signIn", values);
         dispatch(loginSuccessData(data));
-        console.log(data);
+        console.log(data.user);
         if (data.user.isVerified === true) {
           dispatch(isUserLogin());
           navigate("/");

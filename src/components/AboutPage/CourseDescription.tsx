@@ -1,4 +1,4 @@
-import { courseAbout } from "@/Pages/User/AboutCourse";
+import { courseAbout } from "@/CustomHook/useCourseDetails";
 import BreadCrumps from "./BreadCrumps";
 
 import { useNavigate } from "react-router-dom";

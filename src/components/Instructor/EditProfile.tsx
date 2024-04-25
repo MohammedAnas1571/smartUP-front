@@ -9,33 +9,34 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "../ui/textarea";
 import { useRef, useState } from "react";
-import { TutorDetails } from "@/Pages/Instructor/DashBoard";
-import { useFormik } from "formik";
+
 import { ProfileSchema } from "@/validation/validation";
 import axios from "axios";
 import { toast } from "sonner";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/Redux/Store";
+import { useFormik } from "formik";
+import { SuccessData } from "@/Redux/Tutor/tutorSlice";
 const EditProfile = ({
   change,
   setChange,
-  tutor,
-  setTutor,
 }: {
   change: boolean;
   setChange: React.Dispatch<React.SetStateAction<boolean>>;
-  tutor: TutorDetails;
-  setTutor: React.Dispatch<React.SetStateAction<TutorDetails | undefined>>;
 }) => {
+  const { currentTutor } = useSelector((state: RootState) => state.tutor);
+  const dispatch = useDispatch();
   const inputRef = useRef<HTMLInputElement>(null);
   const [imagePreview, setImagePreview] = useState<string | undefined>(
-    tutor.profilePhoto
+    `/auth/${currentTutor?.profilePhoto}`
   );
   const formik = useFormik({
     initialValues: {
-      username: tutor.username || "",
-      email: tutor.email || "",
-      about: tutor.about || "",
-      profession: tutor.profession || "",
-      image: tutor.profilePhoto || "",
+      username: currentTutor?.username || "",
+      email: currentTutor?.email || "",
+      about: currentTutor?.about || "",
+      profession: currentTutor?.profession || "",
+      image: `/auth/${currentTutor?.profilePhoto}` || "",
     },
     validationSchema: ProfileSchema,
 
@@ -54,8 +55,8 @@ const EditProfile = ({
         });
         toast.success("Profile Updated Successfully");
         console.log(data);
+        dispatch(SuccessData(data));
         setChange(false);
-        setTutor({ ...data, profilePhoto: "/auth/" + data.profilePhoto });
       } catch (err) {
         if (axios.isAxiosError(err) && err.response) {
           toast.error(err.response.data.message || "Something Went To Wrong");
