@@ -143,3 +143,13 @@ export const ProfileSchema = Yup.object().shape({
   about: Yup.string().min(20, "Minimum 20 letters are required"),
   profession: Yup.string(),
 });
+
+export const userProfile = Yup.object().shape({
+  username: Yup.string()
+    .min(4, "Username must be at least 4 characters")
+    .required(),
+
+  image: Yup.mixed().required("File is required"),
+
+  about: Yup.string().min(20, "Minimum 20 letters are required"),
+});

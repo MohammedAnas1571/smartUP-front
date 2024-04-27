@@ -6,6 +6,7 @@ type UserState = {
   id: string;
   role: string;
   profilePhoto: string;
+  about: string;
 };
 type InitialState = {
   currentUser: UserState | null;

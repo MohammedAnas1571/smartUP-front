@@ -14,10 +14,12 @@ import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 
 import { toast } from "sonner";
+import { Link } from "react-router-dom";
 
 export function UserNav() {
   const { currentTutor } = useSelector((state: RootState) => state.tutor);
-  console.log(currentTutor);
+  const { currentUser } = useSelector((state: RootState) => state.user);
+  console.log(currentUser);
   const dispatch = useDispatch();
 
   const handleSignOut = async () => {
@@ -39,23 +41,28 @@ export function UserNav() {
       <DropdownMenuTrigger asChild>
         <img
           className="rounded-full h-12 w-12 cursor-pointer "
-          src={`/auth/${currentTutor?.profilePhoto}`}
+          src={`/auth/${
+            currentUser ? currentUser?.profilePhoto : currentTutor?.profilePhoto
+          }`}
         />
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56" align="end" forceMount>
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
             <p className="text-sm font-medium leading-none">
-              {currentTutor?.username}
+              {currentTutor?.username || currentUser?.username}
             </p>
             <p className="text-xs leading-none text-muted-foreground">
-              {currentTutor?.email}
+              {currentTutor?.email || currentUser?.email}
             </p>
           </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
-
-        <DropdownMenuItem>Profile</DropdownMenuItem>
+        {currentUser && (
+          <Link to="/profile">
+            <DropdownMenuItem>Profile</DropdownMenuItem>
+          </Link>
+        )}
 
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={handleSignOut}>Log out</DropdownMenuItem>
