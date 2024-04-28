@@ -3,7 +3,7 @@ import { addingSchema } from "@/validation/validation";
 import axios from "axios";
 import { toast } from "sonner";
 import { useState } from "react";
-import { isLoading } from "../../Redux/User/userSlice";
+import { isLoading, isSuccess, isFailed } from "../../Redux/Tutor/tutorSlice";
 
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Basic from "@/components/AddCourse/Basic";
@@ -13,10 +13,9 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 const AddCourse = () => {
-  const [change, setChange] = useState<string>("account");
+  const [change, setChange] = useState<string>("step-1");
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
   const formik = useFormik({
     initialValues: {
       title: "",
@@ -32,7 +31,7 @@ const AddCourse = () => {
     },
     validationSchema: addingSchema,
     onSubmit: async (values) => {
-      console.log("fjsdkhfskjdfmkds", values);
+      dispatch(isLoading());
       try {
         const formData = new FormData();
         formData.append("title", values.title);
@@ -46,7 +45,6 @@ const AddCourse = () => {
         formData.append("image", values.image);
         formData.append("preview", values.preview);
 
-        // dispatch(isLoading());
         const { data } = await axios.post(
           "/auth/tutor/course",
 
@@ -57,13 +55,15 @@ const AddCourse = () => {
             },
           }
         );
-        // dispatch(isLoading());
+
         toast.success(data);
+        dispatch(isSuccess());
         formik.resetForm();
         navigate("/instructor/courses");
       } catch (err) {
         if (axios.isAxiosError(err) && err.response) {
           toast.error(err.response.data.message || "Something Went To Wrong");
+          dispatch(isFailed());
         }
       }
     },
@@ -73,13 +73,13 @@ const AddCourse = () => {
     <div className="flex justify-center items-center h-screen">
       <Tabs defaultValue={change} value={change} className="w-[800px]  ">
         <TabsList className="grid w-full grid-cols-3">
-          <TabsTrigger onClick={() => setChange("account")} value="account">
+          <TabsTrigger onClick={() => setChange("step-1")} value="step-1">
             Basic info
           </TabsTrigger>
-          <TabsTrigger onClick={() => setChange("password")} value="password">
+          <TabsTrigger onClick={() => setChange("step-2")} value="step-2">
             Course Details
           </TabsTrigger>
-          <TabsTrigger onClick={() => setChange("full")} value="full">
+          <TabsTrigger onClick={() => setChange("step-3")} value="step-3">
             Adding files
           </TabsTrigger>
         </TabsList>

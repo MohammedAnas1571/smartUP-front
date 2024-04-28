@@ -19,7 +19,7 @@ import { Link } from "react-router-dom";
 export function UserNav() {
   const { currentTutor } = useSelector((state: RootState) => state.tutor);
   const { currentUser } = useSelector((state: RootState) => state.user);
-  console.log(currentUser);
+
   const dispatch = useDispatch();
 
   const handleSignOut = async () => {

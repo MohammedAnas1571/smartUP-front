@@ -33,7 +33,7 @@ const EditProfile = ({
   const formik = useFormik({
     initialValues: {
       username: currentTutor?.username || "",
-      email: currentTutor?.email || "",
+
       about: currentTutor?.about || "",
       profession: currentTutor?.profession || "",
       image: `/auth/${currentTutor?.profilePhoto}` || "",
@@ -44,7 +44,7 @@ const EditProfile = ({
       try {
         const formData = new FormData();
         formData.append("username", values.username);
-        formData.append("email", values.email);
+
         formData.append("image", values.image);
         formData.append("about", values.about);
         formData.append("profession", values.profession);
@@ -118,15 +118,7 @@ const EditProfile = ({
               </div>
               <div>
                 <Label className="text-right ">email</Label>
-                <Input
-                  name="email"
-                  defaultValue={formik.values.email}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                />
-                {formik.errors.email && formik.touched.email && (
-                  <p className="text-red-500">{formik.errors.email}</p>
-                )}
+                <p> {currentTutor?.email} </p>
               </div>
               <div>
                 <Label htmlFor="qualification" className="text-right">

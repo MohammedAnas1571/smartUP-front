@@ -83,7 +83,7 @@ function App() {
             <Route Component={InstructorNavBar}>
               <Route path="/instructor/dashboard" element={<DashboardPage />} />
 
-              <Route path="/instructor/courses" element={<MyCourses />} />
+              <Route path="/instructor/courses/" element={<MyCourses />} />
               <Route path="/instructor/addcourse" element={<AddCourse />} />
               <Route
                 path="/instructor/mycourse/:id"

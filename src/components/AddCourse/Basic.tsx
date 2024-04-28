@@ -50,14 +50,31 @@ const Basic = ({ formik, setChange }: FormikDetails) => {
   useEffect(() => {
     fetchCatagory();
   }, []);
+
+  const handleNext = () => {
+    const isValid =
+      formik.values.catagory &&
+      formik.values.title &&
+      formik.values.subTitle &&
+      formik.values.price &&
+      formik.values.tags;
+    if (isValid) {
+      setChange("step-2");
+    } else {
+      Object.keys(formik.values).forEach((field) => {
+        formik.setFieldTouched(field, true, false);
+      });
+    }
+  };
+
   return (
     <>
-      <TabsContent value="account">
+      <TabsContent value="step-1">
         <Card>
           <CardHeader>
-            <CardTitle>Account</CardTitle>
+            <CardTitle>Basic Informations</CardTitle>
             <CardDescription>
-              Make changes to your account here. Click save when you're done.
+              Please provide basic informations about courses
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -174,7 +191,9 @@ const Basic = ({ formik, setChange }: FormikDetails) => {
             </div>
           </CardContent>
           <CardFooter className="flex justify-end ">
-            <Button  onClick={() => setChange("password")}>Next</Button>
+            <Button type="button" onClick={handleNext}>
+              Next
+            </Button>
           </CardFooter>
         </Card>
       </TabsContent>

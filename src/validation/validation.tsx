@@ -63,13 +63,15 @@ export const addingSchema = Yup.object().shape({
 
   price: Yup.number()
     .typeError("Price should be a number")
+    .integer("Must be intiger")
+    .positive("Must be positive")
     .required("Price is required"),
-  content: Yup.string()
-    .min(20, "Minimum 20 letters are required")
-    .required("Description is required"),
   description: Yup.string()
     .min(20, "Minimum 20 letters are required")
     .required("Description is required"),
+  content: Yup.string()
+    .min(20, "Minimum 20 letters are required")
+    .required("Content  is required"),
   image: Yup.mixed()
     .required("File is required")
     .test("fileType", "Unsupported File Format", (value: any) => {
@@ -131,13 +133,7 @@ export const ProfileSchema = Yup.object().shape({
   username: Yup.string()
     .min(4, "Username must be at least 4 characters")
     .required(),
-  email: Yup.string()
-    .email()
-    .matches(
-      /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i,
-      "Invalid email address"
-    )
-    .required(),
+
   image: Yup.mixed().required("File is required"),
 
   about: Yup.string().min(20, "Minimum 20 letters are required"),
