@@ -15,12 +15,8 @@ const Profile = () => {
         <div className="md:flex no-wrap md:-mx-2 ">
           <div className="w-full md:w-3/12 md:mx-2">
             <div className="flex flex-col items-center gap-5">
-              <div className="w-52  image overflow-hidden">
-                <img
-                  className="  rounded-full mx-auto"
-                  src={`/auth/${currentUser?.profilePhoto}`}
-                  alt=""
-                />
+              <div className="w-52 h-52 rounded-full image overflow-hidden ">
+                <img className="object-cover" src={`/auth/${currentUser?.profilePhoto}`} alt="" />
               </div>
               <h1 className="text-gray-900 font-bold text-xl flex justify-center py-3 my-1">
                 {currentUser?.username}
@@ -36,7 +32,7 @@ const Profile = () => {
           </div>
 
           <div className="w-full md:w-9/12 mx-2 h-64 flex">
-            <div className="bg-white p-3 shadow-sm rounded-sm w-full">
+            <div className="bg-white p-3 shadow-md rounded-sm w-full">
               <div className="flex items-center space-x-2 font-semibold text-gray-900 leading-8">
                 <span className="text-green-500">
                   <svg
@@ -69,12 +65,13 @@ const Profile = () => {
                       <p className="text-blue-800">{currentUser?.email}</p>
                     </div>
                   </div>
-                  <div className="grid grid-cols-2">{currentUser?.about}</div>
+                  
+                </div>
+                <div className="px-4 py-2 text-sm font-semibold ">About me:
+                <div className="w-full mt-5 ">{currentUser?.about}</div>
                 </div>
               </div>
-              <button className="block w-full text-blue-800 text-sm font-semibold rounded-lg hover:bg-gray-100 focus:outline-none focus:shadow-outline focus:bg-gray-100 hover:shadow-xs p-3 my-4">
-                Show Full Information
-              </button>
+            
             </div>
           </div>
         </div>

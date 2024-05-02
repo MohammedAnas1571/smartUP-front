@@ -19,6 +19,8 @@ import axios from "axios";
 import { toast } from "sonner";
 import { TurnstileWidget } from "@/components/TurnstileWidget";
 import { useState } from "react";
+import { SignOut } from "@/Redux/Tutor/tutorSlice";
+import { adminSignOut } from "@/Redux/Admin/adminSlice";
 
 const Login = () => {
   const [cloudFire, setCloudFire] = useState("");
@@ -42,6 +44,8 @@ const Login = () => {
         console.log(data.user);
         if (data.user.isVerified === true) {
           dispatch(isUserLogin());
+          dispatch(SignOut())
+          dispatch(adminSignOut())
           navigate("/");
         } else {
           navigate("/otp");

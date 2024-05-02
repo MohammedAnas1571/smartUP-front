@@ -11,11 +11,11 @@ import { Course } from "../../Pages/User/Home"
 import { useNavigate } from "react-router-dom";
 
 
-interface AdvertismentProps {
+interface ShortDescription {
   course: Course[];
 }
 
-const CourseDetails = ({course}:AdvertismentProps) => {
+const CourseDetails = ({course}:ShortDescription) => {
   const navigate = useNavigate()
 
   const handleClick = (id:string)=>{

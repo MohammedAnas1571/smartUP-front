@@ -1,3 +1,7 @@
+import { Chapters } from "@/CustomHook/useCourseDetails";
+import { RootState } from "@/Redux/Store";
+import { isSuccess, isLoading } from "@/Redux/Tutor/tutorSlice";
+
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -8,34 +12,41 @@ import {
 import { moduleSchema } from "@/validation/validation";
 import axios, { AxiosProgressEvent } from "axios";
 import { useFormik } from "formik";
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "sonner";
 
 export function AddModules({
   setChange,
   change,
-  courseId
+  courseId,
+  setInvoke
+
 }: {
   setChange: React.Dispatch<React.SetStateAction<boolean>>;
-  change: boolean;courseId:string
+  setInvoke: React.Dispatch<React.SetStateAction<boolean>>;
+  change: boolean;
+  courseId: string;
+  
 }) {
-   
+  const { loading } = useSelector((state: RootState) => state.tutor);
+  const dispatch = useDispatch();
   const formik = useFormik({
     initialValues: {
       modules: "",
       order: "",
-      video: "", 
+      video: "",
     },
-    validationSchema: moduleSchema , 
+    validationSchema: moduleSchema,
 
     onSubmit: async (values) => {
-        
       try {
+        dispatch(isLoading());
         const formData = new FormData();
         formData.append("modules", values.modules);
         formData.append("order", values.order);
         formData.append("video", values.video);
-        formData.append("id",courseId) 
-      
+        formData.append("id", courseId);
+
         const options = {
           onUploadProgress: (progressEvent: AxiosProgressEvent) => {
             const { loaded, total } = progressEvent;
@@ -46,6 +57,8 @@ export function AddModules({
 
         await axios.post("/auth/tutor/addModule", formData, options);
         setChange(false);
+        setInvoke(true)
+        dispatch(isSuccess());
       } catch (err) {
         if (axios.isAxiosError(err) && err.response) {
           toast.error(err.response.data.message || "Something went wrong");
@@ -73,7 +86,6 @@ export function AddModules({
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="Enter Title"
               onChange={formik.handleChange}
-              
             />
             {formik.errors.modules && formik.touched.modules && (
               <p className="text-red-500">{formik.errors.modules}</p>
@@ -89,7 +101,6 @@ export function AddModules({
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="Enter Order"
               onChange={formik.handleChange}
-             
             />
             {formik.errors.order && formik.touched.order && (
               <p className="text-red-500">{formik.errors.order}</p>
@@ -110,8 +121,8 @@ export function AddModules({
           {formik.errors.video && formik.touched.video && (
             <p className="text-red-500">{formik.errors.video}</p>
           )}
-          <Button className="mt-2" type="submit">
-            + Create
+          <Button type="submit" className="mt-5">
+            {loading ? <span className="loader "></span> : "Submit"}
           </Button>
         </form>
       </DialogContent>

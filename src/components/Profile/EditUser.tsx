@@ -1,5 +1,5 @@
 import { RootState } from "@/Redux/Store";
-import { SuccessData } from "@/Redux/Tutor/tutorSlice";
+import { loginSuccessData } from "@/Redux/User/userSlice";
 import { Button } from "@/components/ui/button";
 
 import {
@@ -42,20 +42,21 @@ const EditUser = ({
     validationSchema: userProfile,
 
     onSubmit: async (values) => {
+     
       try {
         const formData = new FormData();
         formData.append("username", values.username);
         formData.append("image", values.image);
         formData.append("about", values.about);
 
-        const { data } = await axios.put("/profile", formData, {
+        const { data } = await axios.put("/auth/profile", formData, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
         });
         toast.success("Profile Updated Successfully");
         console.log(data);
-        dispatch(SuccessData(data));
+        dispatch(loginSuccessData(data));
         setSelect(false);
       } catch (err) {
         if (axios.isAxiosError(err) && err.response) {

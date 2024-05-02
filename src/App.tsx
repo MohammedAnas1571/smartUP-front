@@ -36,6 +36,12 @@ import DetailsAbout from "./Pages/Instructor/DetailsAbout";
 import ViewCourse from "./Pages/User/ViewCourse";
 import Payment from "./Pages/User/Payment";
 import Profile from "./Pages/User/Profile";
+import Value from "./components/value";
+import PaymentSuccess from "./Pages/User/PaymentSuccess";
+import AdminLogin from "./Pages/Admin/AdminLogin";
+import { AdminLayout } from "./layout/AdminLayout";
+import CoursesList from "./Pages/Admin/CoursesList";
+import CourseApprovals from "./Pages/Admin/CourseApprovals";
 
 function App() {
   return (
@@ -50,11 +56,13 @@ function App() {
         <Routes>
           <Route path="/" Component={NavBarLayout}>
             <Route index element={<Home />} />
+            <Route path="/valid" element={<Value />} />
             <Route path="course-Details/:id" element={<AboutCourse />} />
             <Route Component={UserAuthLayout}>
               <Route path="/payment/:id" element={<Payment />} />
               <Route path="/profile" element={<Profile />} />
-              <Route path="/success/:id" element={<ViewCourse />} />
+              <Route path="/success/:id" element={<PaymentSuccess />} />
+              <Route path="/viewcourse/:id" element={<ViewCourse />} />
             </Route>
           </Route>
           <Route Component={UserVerifiedLayout}>
@@ -83,7 +91,7 @@ function App() {
             <Route Component={InstructorNavBar}>
               <Route path="/instructor/dashboard" element={<DashboardPage />} />
 
-              <Route path="/instructor/courses/" element={<MyCourses />} />
+              <Route path="/instructor/courses" element={<MyCourses />} />
               <Route path="/instructor/addcourse" element={<AddCourse />} />
               <Route
                 path="/instructor/mycourse/:id"
@@ -94,11 +102,16 @@ function App() {
 
           <Route path="/*" element={<Page404 />} />
 
-          <Route path="/admin/*" element={<Layout />}>
-            <Route path="dashboard" element={<DashBoard />} />
-            <Route path="client" element={<UserList />} />
-            <Route path="tutor" element={<TutorList />} />
-            <Route path="catagory" element={<Catagory />} />
+          <Route path="admin/login" element={<AdminLogin />} />
+          <Route Component={AdminLayout}>
+            <Route path="/admin/*" element={<Layout />}>
+              <Route path="dashboard" element={<DashBoard />} />
+              <Route path="client" element={<UserList />} />
+              <Route path="tutor" element={<TutorList />} />
+              <Route path="catagory" element={<Catagory />} />
+              <Route path="courses" element={<CoursesList />} />
+              <Route path="course/:id" element={<CourseApprovals />} />
+            </Route>
           </Route>
         </Routes>
       </BrowserRouter>

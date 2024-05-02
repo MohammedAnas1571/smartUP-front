@@ -19,8 +19,9 @@ import {
   isUserLogin,
   loginSuccessData,
   loginSuccess,
+  userSignOut,
 } from "@/Redux/User/userSlice";
-import { isTutorLogin, SuccessData } from "@/Redux/Tutor/tutorSlice";
+import { isTutorLogin, SignOut, SuccessData } from "@/Redux/Tutor/tutorSlice";
 import { toast } from "sonner";
 import {
   InputOTP,
@@ -30,6 +31,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { FormSchema } from "@/validation/validation";
 import { useNavigate } from "react-router-dom";
+import { adminSignOut } from "@/Redux/Admin/adminSlice";
 
 export function Otp() {
   const navigate = useNavigate();
@@ -62,6 +64,8 @@ export function Otp() {
       ) {
         dispatch(loginSuccessData(response.data.user));
         dispatch(isUserLogin());
+        dispatch(SignOut())
+        dispatch(adminSignOut())
         navigate("/");
       }
       if (
@@ -69,8 +73,10 @@ export function Otp() {
         response.data.user.isVerified === true
       ) {
         dispatch(SuccessData(response.data.user));
+        dispatch(userSignOut())
+        dispatch(adminSignOut())
         dispatch(isTutorLogin());
-        dispatch(loginSuccess());
+    
 
         navigate("/instructor/dashboard");
       }

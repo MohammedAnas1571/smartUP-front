@@ -73,13 +73,13 @@ const AddCourse = () => {
     <div className="flex justify-center items-center h-screen">
       <Tabs defaultValue={change} value={change} className="w-[800px]  ">
         <TabsList className="grid w-full grid-cols-3">
-          <TabsTrigger onClick={() => setChange("step-1")} value="step-1">
+          <TabsTrigger  value="step-1">
             Basic info
           </TabsTrigger>
-          <TabsTrigger onClick={() => setChange("step-2")} value="step-2">
+          <TabsTrigger  value="step-2">
             Course Details
           </TabsTrigger>
-          <TabsTrigger onClick={() => setChange("step-3")} value="step-3">
+          <TabsTrigger  value="step-3">
             Adding files
           </TabsTrigger>
         </TabsList>

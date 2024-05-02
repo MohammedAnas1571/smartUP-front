@@ -3,7 +3,7 @@ import axios from "axios";
 import { Course } from "@/Pages/User/Home";
 import { toast } from "sonner";
 
-export type courseAbout = Course & {
+export type CourseAbout = Course & {
   description: string;
   subTitle: string;
   catagory: { name: string };
@@ -14,8 +14,14 @@ export type courseAbout = Course & {
   status: string;
 };
 
+export type Chapters = {
+  name: string;
+};
+
 export const useCourseDetails = (id: string) => {
-  const [course, setData] = useState<courseAbout | null>();
+  const [course, setData] = useState<CourseAbout | null>();
+  const [invoke, setInvoke] = useState<boolean>(false);
+  const [chapters, setChapters] = useState<Chapters[] | null>([]);
   const fetchData = async () => {
     try {
       const response = await axios.get(`/auth/getDetails/${id}`);
@@ -28,6 +34,7 @@ export const useCourseDetails = (id: string) => {
         year: "numeric",
       });
       setData({ ...response.data.course, updatedAt: formattedUpdatedAt });
+      setChapters(response.data.chapters);
     } catch (err) {
       if (axios.isAxiosError(err) && err.response) {
         toast(err.response.data.message || "Sorry, something went wrong!");
@@ -37,7 +44,7 @@ export const useCourseDetails = (id: string) => {
 
   useEffect(() => {
     fetchData();
-  }, []);
-  console.log(course);
-  return { course };
+  }, [invoke]);
+  
+  return { course, chapters,setInvoke };
 };

@@ -12,6 +12,8 @@ import {
 import { RootState } from "../../Redux/Store";
 import axios from "axios";
 import { SignInSchema } from "@/validation/validation";
+import { userSignOut } from "@/Redux/User/userSlice";
+import { adminSignOut } from "@/Redux/Admin/adminSlice";
 
 const SignIn = () => {
   const dispatch = useDispatch();
@@ -30,7 +32,10 @@ const SignIn = () => {
         const { data } = await axios.post("/auth/tutor/signIn", values);
         console.log(data);
         dispatch(SuccessData(data.user));
-        if (data.user.isVerified === true) dispatch(isTutorLogin());
+        dispatch(userSignOut())
+        dispatch(adminSignOut())
+        if (data.user.isVerified === true)
+           dispatch(isTutorLogin());
         navigate("/instructor/dashboard");
       } catch (err) {
         if (axios.isAxiosError(err) && err.response) {
