@@ -19,6 +19,7 @@ import { useFormik } from "formik";
   };
 
 const AddingSubscription = ({change,setChange,}:AddingSubscription) => {
+  console.log(change)
     const formik = useFormik({
         initialValues: {
           planname: "",

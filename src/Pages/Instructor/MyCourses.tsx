@@ -7,11 +7,9 @@ import { useNavigate } from "react-router-dom";
 import {
   Pagination,
   PaginationContent,
-  PaginationEllipsis,
   PaginationItem,
   PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
+  
 } from "@/components/ui/pagination";
 
 type MyCourse = {
@@ -29,9 +27,9 @@ const MyCourses = () => {
   const [totalPages, setTotalPages] = useState(1);
   const navigator = useNavigate();
 
-  const fetchItems = async (page: number) => {
+  const fetchItems = async () => {
     try {
-      const response = await axios.get(`/auth/tutor/myCourses/?page=${page}`);
+      const response = await axios.get(`/auth/tutor/myCourses/?page=${currentPage}`);
       const formattedCourses = response.data.courses.map(
         (course: MyCourse) => ({
           ...course,
@@ -54,13 +52,13 @@ const MyCourses = () => {
   };
 
   useEffect(() => {
-    fetchItems(currentPage);
+    fetchItems();
   }, [currentPage]);
 
   const handleClick = (id: string) => {
     navigator(`/instructor/mycourse/${id}`);
   };
-
+  
   const publishClick = async (id: string) => {
     try {
       const { data } = await axios.put("/auth/tutor/publishCourse/", { id });
@@ -77,11 +75,11 @@ const MyCourses = () => {
   };
 
   const handlePrevPage = () => {
-    setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
+    setCurrentPage((prevPage) => Math.max(prevPage - 1 ));
   };
-
+ 
   const handleNextPage = () => {
-    setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
+    setCurrentPage((prevPage) => Math.min(prevPage + 1));
   };
 
   return (
@@ -109,7 +107,7 @@ const MyCourses = () => {
               <div className="mt-2 mb-5 flex items-center justify-between">
                 <p>
                   <span className="text-2xl font-bold text-slate-900">
-                    {" "}
+                 
                     ₹{course.price}
                   </span>
                 </p>
@@ -136,30 +134,40 @@ const MyCourses = () => {
           </div>
         ))}
       </div>
-      <div className="flex justify-center my-10 ">
-        <button
-          className="px-4 py-2 mr-2 bg-gray-200 text-gray-700 rounded-md disabled:opacity-50"
-          onClick={handlePrevPage}
-          disabled={currentPage === 1}
-        >
-          Previous
-        </button>
-        <span className="text-gray-700 mr-2">
-          <PaginationLink>{currentPage}</PaginationLink>
-        </span>
-        <span className="text-gray-700 mr-2">
-          <PaginationLink>{totalPages}</PaginationLink>
-        </span>
-        <button
-          className="px-4 py-2 bg-gray-200 text-gray-700 rounded-md disabled:opacity-50"
-          onClick={handleNextPage}
-          disabled={currentPage === totalPages}
-        >
-          Next
-        </button>
-      </div>
-    </div>
+      <div className="flex justify-center mt-10">
+      <Pagination>
+<PaginationContent>
+  <PaginationItem>
+    <button className={`p-2 rounded-md ${currentPage === 1 ? 'bg-gray-50' : 'bg-gray-300'}`}
+     disabled={currentPage===1} onClick={handlePrevPage}
+       >Previous</button>
+  </PaginationItem>
+        
+
+  {[...Array(totalPages)].map((_, index) => (
+  <PaginationItem key={index}>
+    <PaginationLink className="cursor-pointer" onClick={() => setCurrentPage(index + 1)}>{index + 1}</PaginationLink>
+  </PaginationItem>
+))}
+
+<PaginationItem>
+    <button className={`p-2 rounded-md ${currentPage === totalPages ? 'bg-gray-50' : 'bg-gray-300'}`}
+    disabled = {currentPage===totalPages}
+    
+     onClick={handleNextPage}
+          >Next</button>
+  </PaginationItem>
+
+</PaginationContent>
+</Pagination>
+</div>
+</div>
   );
 };
 
 export default MyCourses;
+
+
+
+
+

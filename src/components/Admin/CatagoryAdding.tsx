@@ -8,7 +8,9 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import axios from "axios";
+import React from "react";
 import { useEffect, useState } from "react";
+import { MdChangeCircle } from "react-icons/md";
 import { toast } from "sonner";
 
 type CatagorySubmit = {
@@ -21,25 +23,30 @@ const CatagoryAdding = ({ change, setChange }: CatagorySubmit) => {
   const [validationError, setValidationError] = useState<string>("");
 
   useEffect(()=>{
+   console.log("------------")
     if(change.id){
-      setCatagory(change.name);
+      setCatagory(change.name.trim());
     }
-  },[])
+  },[change])
 
   const handleSubmit = async (e: React.FormEvent<Element>) => {
-    e.preventDefault();
-    if (!catagory) {
-      setValidationError("Please add fields ");
-      return;
-    }
+    e.preventDefault()
+    const trimmedCategory = catagory.trim();
+  
+  if (!trimmedCategory) {
+    setValidationError("Please add fields ");
+    return;
+  }else{
+    setValidationError("")
+  }
 
     try {
       if (!change.id) {
-        await axios.post("/auth/admin/catagory", { catagory });
+        await axios.post("/auth/admin/catagory", { catagory:trimmedCategory });
         toast.success("Catagory added");
         setChange({id: "", name: "", isOpen: false});
       }else{
-       await axios.put("/auth/admin/editCatagory",{id:change.id, catagory})
+       await axios.put("/auth/admin/editCatagory",{id:change.id, catagory:trimmedCategory})
        toast.success("Catagory Edited")
        setChange({id: "", name: "", isOpen: false});
       }

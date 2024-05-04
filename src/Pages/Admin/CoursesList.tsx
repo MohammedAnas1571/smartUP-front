@@ -46,7 +46,7 @@ const CoursesList = () => {
        
               <h1 className="text-2xl text-white font-bold"> {course.title}</h1>
           </CardContent>
-            <Button className={`absolute bottom-4 right-4 ${course.status==="Pending"? " text-red-500 bg-":"text-green-500"} `} variant="outline">{course.status}</Button>
+            <Button className={`absolute bottom-4 right-4 ${course.status==="Pending"? " text-red-500 ":"text-green-500"} `} variant="outline">{course.status}</Button>
         </Card>
         
            )}

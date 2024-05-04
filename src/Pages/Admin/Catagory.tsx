@@ -1,10 +1,12 @@
+import { usePagination } from "@/CustomHook/usePagination";
 import CatagoryAdding from "@/components/Admin/CatagoryAdding";
 import DeleteModal from "@/components/Admin/DeleteModal";
+import PaginationPage from "@/components/PaginationPage";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import axios from "axios";
-import { setDefaultAutoSelectFamily } from "net";
+
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
@@ -17,11 +19,14 @@ const Catagory = () => {
   const [change, setChange] = useState({ id: "", name: "", isOpen: false });
   const [catagories, setCatagories] = useState<CatagoriesDetails[]>([]);
   const [select, setSelect] = useState({ id: "",isOpen:false});
+  const{ currentPage, setCurrentPage,totalPages,setTotalPages } = usePagination()
+  
   
   const fetchCatagories = async () => {
     try {
-      const { data } = await axios.get("/auth/admin/catagory");
+      const { data } = await axios.get(`/auth/admin/catagory/?page=${currentPage}`);
       setCatagories(data.catagories);
+      setTotalPages(data.pageCount)
     } catch (err) {
       if (axios.isAxiosError(err) && err.response) {
         toast.error(err.response.data.message || "Something Went Wrong");
@@ -31,7 +36,7 @@ const Catagory = () => {
 
   useEffect(() => {
     fetchCatagories();
-  }, [change,select]);
+  }, [change,select,currentPage]);
 
   const handleEdit = (id: string, name: string) => {
     setChange({ id, name, isOpen: true });
@@ -84,6 +89,7 @@ const Catagory = () => {
           </Card>
         ))}
       </div>
+      <PaginationPage currentPage={currentPage} setCurrentPage={setCurrentPage} totalPages={totalPages}  />
     </>
   );
 };

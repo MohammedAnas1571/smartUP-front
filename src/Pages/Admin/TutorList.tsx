@@ -5,6 +5,8 @@ import { toast } from 'sonner';
 
 
 import { User } from './UserList';
+import { usePagination } from '@/CustomHook/usePagination';
+import PaginationPage from '@/components/PaginationPage';
 
 
 
@@ -12,11 +14,13 @@ import { User } from './UserList';
 const TutorList = () => {
   const [users, setUsers] = useState<User[]>([])
   const [change,setChange] = useState<boolean> (true)
+  const{ currentPage, setCurrentPage,totalPages,setTotalPages } = usePagination()
 
     const fetchUsers = async () => {
         try {
-            const { data }: AxiosResponse<{ user: User[] }> = await axios.get("/auth/admin/tutor");
+            const { data }: AxiosResponse<{ user: User[],pageCount:number }> = await axios.get(`/auth/admin/tutor/?page=${currentPage}`);
             setUsers(data.user);
+            setTotalPages(data.pageCount);
         }catch (err) {
           if (axios.isAxiosError(err)&&err.response) {
             toast.error(err.response.data.message||"Something Went To Wrong");
@@ -27,7 +31,7 @@ const TutorList = () => {
 
     useEffect(() => {
         fetchUsers();
-    }, []);
+    }, [currentPage]);
 
     const handleBlock = async (id: string) => { 
       console.log(id)     
@@ -44,6 +48,7 @@ const TutorList = () => {
   return (
     <div>
       <TableContent handleBlock={handleBlock} users={users} change={change}/>
+      <PaginationPage currentPage={currentPage} setCurrentPage={setCurrentPage} totalPages={totalPages}  />
     </div>
   )
 }

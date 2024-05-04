@@ -1,7 +1,7 @@
 import { useCourseDetails } from "@/CustomHook/useCourseDetails";
 import { Button } from "@/components/ui/button";
 import { useParams } from "react-router-dom";
-import { AddModules } from "@/components/AddModules";
+import { AddModules } from "@/components/Instructor/AddModules";
 
 import DetailDescription from "@/components/Instructor/DetailDescription";
 import { useState } from "react";

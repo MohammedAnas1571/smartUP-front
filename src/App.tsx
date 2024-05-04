@@ -36,7 +36,7 @@ import DetailsAbout from "./Pages/Instructor/DetailsAbout";
 import ViewCourse from "./Pages/User/ViewCourse";
 import Payment from "./Pages/User/Payment";
 import Profile from "./Pages/User/Profile";
-import Value from "./components/value";
+
 import PaymentSuccess from "./Pages/User/PaymentSuccess";
 import AdminLogin from "./Pages/Admin/AdminLogin";
 import { AdminLayout } from "./layout/AdminLayout";
@@ -57,7 +57,7 @@ function App() {
         <Routes>
           <Route path="/" Component={NavBarLayout}>
             <Route index element={<Home />} />
-            <Route path="/valid" element={<Value />} />
+    
             <Route path="course-Details/:id" element={<AboutCourse />} />
             <Route Component={UserAuthLayout}>
               <Route path="/payment/:id" element={<Payment />} />

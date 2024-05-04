@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 
 import TableContent from '../../components/Admin/TableContent';
+import { usePagination } from "@/CustomHook/usePagination";
+import PaginationPage from '@/components/PaginationPage';
 
 export type User = {
     username: string;
@@ -16,19 +18,27 @@ export type User = {
 const UserList = () => {
   const [users, setUsers] = useState<User[]>([])
   const [change,setChange] = useState<boolean> (true)
+ 
+  const{ currentPage, setCurrentPage,totalPages,setTotalPages } = usePagination()
 
     const fetchUsers = async () => {
         try {
-            const { data }: AxiosResponse<{ user: User[] }> = await axios.get("/auth/admin/users");
+            const { data }: AxiosResponse<{ user: User[],pageCount:number }> = await axios.get(`/auth/admin/users/?page=${currentPage}`);
             setUsers(data.user);
-        } catch (err: any) {
-            toast(err.response.message);
-        }
+            setTotalPages(data.pageCount);
+        } catch ( err) {
+          if (axios.isAxiosError(err) && err.response?.data.err) {
+            toast.error(
+              err.response.data.message || " Sorry Something  Went Wrong!"
+            )}
+          }
     }
 
     useEffect(() => {
         fetchUsers();
-    }, []);
+    }, [currentPage]);
+
+    
 
     const handleBlock = async (id: string) => { 
       console.log(id)     
@@ -44,9 +54,13 @@ const UserList = () => {
   }    
    
   return (
+   <>
    <TableContent handleBlock={handleBlock} users={users} change={change}/>
-   
+   <PaginationPage currentPage={currentPage} setCurrentPage={setCurrentPage} totalPages={totalPages}  />
+
+</>
   )
+
 }
 
 export default UserList
