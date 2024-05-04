@@ -6,10 +6,10 @@ import { TbCategory2 } from "react-icons/tb";
 import {  NavLink } from "react-router-dom";
 const SideBar = () => {
   return (
-    <div className="bg-black/80  w-60 h-[1200px]  p-3 text-white">
+    <div className="bg-slate-50  w-60 h-[1200px]  p-3 text-black">
       <div className="flex items-center gap-2 px-5 py-5">
         <FcBullish fontSize={24} />
-        <span className="text-neutral-100 text-xl">SmartUp</span>
+        <span className="text-neutral-100 ">SmartUp</span>
       </div>
       <NavLink  className={({isActive})=> isActive?"*:bg-slate-700":""} to="/admin/dashboard">
       <div className="text-white flex items-center gap-2 px-5 mt-5 hover:bg-slate-700 p-2 transition-colors rounded-xl">
@@ -41,6 +41,14 @@ const SideBar = () => {
       
       <FaBookOpen fontSize={24} />
         <span className="text-neutral-100 text-xl">Courses</span>
+      </div>
+      </NavLink>
+
+      <NavLink className={({isActive})=> isActive?"*:bg-slate-700":""} to="/admin/subscription" >
+      <div className="text-white flex items-center gap-2 px-5 mt-5 hover:bg-slate-700 p-2 transition-colors rounded-xl cursor-pointer">
+      
+      <FaBookOpen fontSize={24} />
+        <span className="text-neutral-100 text-xl">Subscription</span>
       </div>
       </NavLink>
     </div>

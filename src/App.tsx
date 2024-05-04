@@ -42,6 +42,7 @@ import AdminLogin from "./Pages/Admin/AdminLogin";
 import { AdminLayout } from "./layout/AdminLayout";
 import CoursesList from "./Pages/Admin/CoursesList";
 import CourseApprovals from "./Pages/Admin/CourseApprovals";
+import Subscription from "./Pages/Admin/Subscription";
 
 function App() {
   return (
@@ -111,6 +112,8 @@ function App() {
               <Route path="catagory" element={<Catagory />} />
               <Route path="courses" element={<CoursesList />} />
               <Route path="course/:id" element={<CourseApprovals />} />
+              <Route path="subscription" element={<Subscription />} />
+
             </Route>
           </Route>
         </Routes>

@@ -39,7 +39,7 @@ const CatagoryAdding = ({ change, setChange }: CatagorySubmit) => {
         toast.success("Catagory added");
         setChange({id: "", name: "", isOpen: false});
       }else{
-       await axios.put("/auth/admin/editCatagory/",{id:change.id, catagory})
+       await axios.put("/auth/admin/editCatagory",{id:change.id, catagory})
        toast.success("Catagory Edited")
        setChange({id: "", name: "", isOpen: false});
       }

@@ -26,7 +26,8 @@ const DetailsAbout = () => {
           +Add new modules
         </Button>
       </div>
-      <DetailDescription course={course!} chapters= {chapters!} />
+      {course&& chapters &&( <DetailDescription course={course} chapters= {chapters} />)}
+     
     </div>
   );
 };

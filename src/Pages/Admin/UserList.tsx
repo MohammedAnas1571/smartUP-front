@@ -33,7 +33,7 @@ const UserList = () => {
     const handleBlock = async (id: string) => { 
       console.log(id)     
         try {  
-            await axios.put("/auth/admin/block",  {id,change}  );
+            await axios.put("/auth/admin/block-user",  {id,change}  );
            setChange(!change)
         } catch (err) {
           if (axios.isAxiosError(err)&&err.response) {

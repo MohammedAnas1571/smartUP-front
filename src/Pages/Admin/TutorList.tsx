@@ -32,7 +32,7 @@ const TutorList = () => {
     const handleBlock = async (id: string) => { 
       console.log(id)     
         try {  
-            await axios.put("/auth/admin//block-instructor",  {id,change}  );
+            await axios.put("/auth/admin/block-instructor",  {id,change}  );
            setChange(!change)
         } catch (err) {
           if (axios.isAxiosError(err)&&err.response) {
