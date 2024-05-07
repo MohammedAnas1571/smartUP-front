@@ -39,8 +39,8 @@ const Basic = ({ formik, setChange }: FormikDetails) => {
   const [catagories, setCatagories] = useState<Catagory[]>([]);
   const fetchCatagory = async () => {
     try {
-      let { data } = await axios.get("/auth/admin/catagory");
-      setCatagories(data.catagories);
+      let { data } = await axios.get("/auth/tutor/catagory");
+      setCatagories(data.categories);
     } catch (err) {
       if (axios.isAxiosError(err) && err.response) {
         toast.error(err.response.data.message || "Something Went To Wrong");

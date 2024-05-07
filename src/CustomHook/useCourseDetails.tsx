@@ -16,11 +16,13 @@ export type CourseAbout = Course & {
 
 export type Chapters = {
   name: string;
+  _id:string
 };
 
 export const useCourseDetails = (id: string) => {
   const [course, setData] = useState<CourseAbout | null>();
-  const [invoke, setInvoke] = useState<boolean>(false);
+  const [purchased,setPurchased] = useState()
+
   const [chapters, setChapters] = useState<Chapters[] | null>([]);
   const fetchData = async () => {
     try {
@@ -35,16 +37,17 @@ export const useCourseDetails = (id: string) => {
       });
       setData({ ...response.data.course, updatedAt: formattedUpdatedAt });
       setChapters(response.data.chapters);
+      setPurchased(response.data.isPurchased)
     } catch (err) {
       if (axios.isAxiosError(err) && err.response) {
         toast(err.response.data.message || "Sorry, something went wrong!");
       }
     }
   };
-
+ console.log(purchased)
   useEffect(() => {
     fetchData();
-  }, [invoke]);
+  }, []);
   
-  return { course, chapters,setInvoke };
+  return { course, chapters,setChapters,purchased };
 };

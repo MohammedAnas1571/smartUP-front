@@ -30,10 +30,10 @@ export function MainNav({ className }: React.HTMLAttributes<HTMLElement>) {
             Products
           </Link>
           <Link
-            to="/instructor/dashboard"
+            to="/instructor/subscription"
             className="text-sm font-medium  transition-colors  focus:text-xl focus:font-bold focus:outline-none"
           >
-            Settings
+           Subscription
           </Link>
         </nav>
 

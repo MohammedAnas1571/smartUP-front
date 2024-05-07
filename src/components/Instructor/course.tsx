@@ -25,10 +25,10 @@ const Courses = () => {
             are teaching for the first time, you can make an engaging course.
           </p>
         
-         <Link to= "/instructor/addcourse"> <button  className="my-5 rounded-sm  px-5 py-3 text-center font-bold transition text-lg  bg-primary  text-white sm:me-auto">
-            Create Your Course
+         <button   className="my-5 rounded-sm  px-5 py-3 text-center font-bold transition text-lg  bg-primary  text-white sm:me-auto">
+         <Link to= "/instructor/addcourse"> Create Your Course  </Link>
           </button>
-          </Link>
+          
 
         </div>
       </div>

@@ -5,11 +5,9 @@ import { useCourseDetails } from "@/CustomHook/useCourseDetails";
 
 const AboutCourse = () => {
   const { id } = useParams();
-  const { course, chapters } = useCourseDetails(id!);
-  console.log(chapters);
-
+  const { course, chapters,purchased } = useCourseDetails(id!);
   return (
-    <>{course && <CourseDescription course={course} chapters={chapters!} />}</>
+    <>{course  && <CourseDescription purchased={purchased} course={course} chapters={chapters!} />}</>
   );
 };
 

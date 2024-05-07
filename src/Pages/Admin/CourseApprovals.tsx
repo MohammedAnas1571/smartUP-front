@@ -7,7 +7,7 @@ import { toast } from "sonner";
 
 const CourseApprovals = () => {
   const { id } = useParams();
-  const { course, chapters } = useCourseDetails(id!);
+  const { course, chapters,setChapters } = useCourseDetails(id!);
   const navigate = useNavigate()
 
   const handleApproval = ()=>{
@@ -46,13 +46,13 @@ const CourseApprovals = () => {
     onClick={handlePending}
     className="uppercase absolute right-5 top-52 "
   >
-    Pending </Button>
+    Approve </Button>
 ):(<Button
     onClick={handleApproval}
     className="uppercase absolute right-5 top-52 "
-  > Approved </Button>)}
+  > Pending </Button>)}
          
-     {course &&( <DetailDescription course={course} chapters={chapters} />)}
+     {course &&( <DetailDescription setChapters={setChapters} course={course} chapters={chapters} />)}
     </div>
   );
 };

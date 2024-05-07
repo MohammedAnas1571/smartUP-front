@@ -6,14 +6,36 @@ import {
   CardHeader,
   CardTitle,
 } from "../ui/card";
+import { FaTrash } from 'react-icons/fa';
+import axios from "axios";
+import { toast } from "sonner";
 
 const DetailDescription = ({
   course,
   chapters,
+  setChapters
+ 
 }: {
   course: CourseAbout;
   chapters: Chapters[]|null;
+  setChapters:React.Dispatch<React.SetStateAction<Chapters[] |null>>
+
 }) => {
+  const deleteChapter = async(chapterId: string) => {
+    try{
+    const {data} = await axios.delete(`/auth/tutor/deleteChapter/${chapterId}`)
+
+    setChapters (data.remainingChapters)
+    toast.success(data.message)
+
+     
+  }catch (err) {
+    if (axios.isAxiosError(err) && err.response) {
+      toast.error(err.response.data.message || "Something went wrong");
+    } 
+  }
+}
+
   return (
     <div>
       <div className="bg-black dark:bg-gray-800 pt-8">
@@ -49,9 +71,9 @@ const DetailDescription = ({
                 <span className="font-bold text-white dark:text-gray-300">
                   Catagory:
                 </span>
-                <span className="text-white-600 dark:text-gray-300">
+                <span className="text-white dark:text-gray-300">
                   {" "}
-                  {course?.catagory.name}
+                  {course.catagory.name}
                 </span>
               </div>
               <div>
@@ -112,8 +134,16 @@ const DetailDescription = ({
             <CardDescription>Course Includes:</CardDescription>
           </CardHeader>
           {chapters?.map((chapter, index) => (
-            <CardContent>
-              {index + 1}.{chapter.name}
+            <CardContent key={chapter._id}>
+              <div className="flex justify-between items-center">
+                <span>{index + 1}.{chapter.name}</span>
+                <button
+                  className="text-red-500 hover:text-red-700"
+                  onClick={() => deleteChapter(chapter._id)}
+                >
+                  <FaTrash />
+                </button>
+              </div>
             </CardContent>
           ))}
         </Card>

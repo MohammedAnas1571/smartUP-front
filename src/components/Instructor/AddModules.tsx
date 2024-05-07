@@ -19,11 +19,11 @@ export function AddModules({
   setChange,
   change,
   courseId,
-  setInvoke
+  setChapters
 
 }: {
   setChange: React.Dispatch<React.SetStateAction<boolean>>;
-  setInvoke: React.Dispatch<React.SetStateAction<boolean>>;
+  setChapters: React.Dispatch<React.SetStateAction<Chapters[]|null>>;
   change: boolean;
   courseId: string;
   
@@ -55,16 +55,14 @@ export function AddModules({
           },
         };
 
-        await axios.post("/auth/tutor/addModule", formData, options);
+      const {data} =   await axios.post("/auth/tutor/addModule", formData, options);
         setChange(false);
-        setInvoke(true)
+        setChapters(data.remainingChapters)
         dispatch(isSuccess());
       } catch (err) {
         if (axios.isAxiosError(err) && err.response) {
           toast.error(err.response.data.message || "Something went wrong");
-        } else {
-          toast.error("Something went wrong");
-        }
+        } 
       }
     },
   });

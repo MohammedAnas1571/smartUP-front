@@ -59,7 +59,7 @@ const Subscription = () => {
         
             <td className="px-6 py-4 whitespace-nowrap">{index+1}.</td>
             <td className="px-6 py-4 whitespace-nowrap">{subscription.planName}</td>
-            <td className="px-6 py-4 whitespace-nowrap">{subscription.description}</td>
+            <td className="px-6 py-4 break-before-auto">{subscription.description}</td>
             <td className="px-6 py-4 whitespace-nowrap">{subscription.billingPeriod}  </td>
             <td className="px-6 py-4 whitespace-nowrap"> {subscription.price}
             </td>

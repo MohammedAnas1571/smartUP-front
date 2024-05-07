@@ -10,12 +10,12 @@ const DetailsAbout = () => {
   const [change,setChange] = useState<boolean>(false)
   const { id } = useParams();
 
-  const { course,chapters,setInvoke } = useCourseDetails(id!);
+  const { course,chapters,setChapters } = useCourseDetails(id!);
   return (
     <div>
       <div className="relative">
         {change && (
-          <AddModules change={change} setChange={setChange} setInvoke= {setInvoke} courseId={id!}  />
+          <AddModules change={change} setChange={setChange} setChapters={setChapters} courseId={id!}  />
         )}
         <Button
           onClick={() => {
@@ -26,7 +26,7 @@ const DetailsAbout = () => {
           +Add new modules
         </Button>
       </div>
-      {course&& chapters &&( <DetailDescription course={course} chapters= {chapters} />)}
+      {course&& chapters &&( <DetailDescription setChapters={setChapters}  course={course} chapters= {chapters} />)}
      
     </div>
   );

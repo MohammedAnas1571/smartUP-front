@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { RootState } from "@/Redux/Store";
 import axios from "axios";
@@ -17,6 +17,7 @@ import { toast } from "sonner";
 import { useState } from "react";
 
 import EmailVerification from "./EmailVerification";
+import { SuccessData } from "@/Redux/Tutor/tutorSlice";
 
 const EditEmail = ({
   modal,
@@ -27,7 +28,7 @@ const EditEmail = ({
 }) => {
   const { currentTutor } = useSelector((state: RootState) => state.tutor);
   const [verification, setVerification] = useState(false);
-
+   const dispatch = useDispatch()
   const [email, setEmail] = useState<string>(currentTutor?.email || "");
   const [validationError, setValidationError] = useState<string>("");
 
@@ -41,9 +42,10 @@ const EditEmail = ({
     }
 
     try {
-      await axios.post("/auth/tutor/change-email");
+      const {data} = await axios.post("/auth/tutor/change-email");
       toast.success("Please check Otp in  Your Entered Email");
-
+      console.log(data)
+        dispatch(SuccessData(data.tutor))
       setVerification(true);
     } catch (err) {
       if (axios.isAxiosError(err) && err.response) {

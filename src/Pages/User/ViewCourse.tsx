@@ -38,10 +38,8 @@ const ViewCourse = () => {
   
       <div className='flex justify-around' >
        {selected && (
-        
-          <video key={selected._id} controls width="800" height="800">  
+          <video key={selected._id} controls width="700" height="600" className="object-">  
           <source src={selected.videoUrl} type="video/mp4"/> 
-       
         </video>
  )}
         <div className="w-96 border border-r-2 rounded-md shadow-md" >

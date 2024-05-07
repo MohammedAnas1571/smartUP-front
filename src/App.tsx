@@ -43,6 +43,8 @@ import { AdminLayout } from "./layout/AdminLayout";
 import CoursesList from "./Pages/Admin/CoursesList";
 import CourseApprovals from "./Pages/Admin/CourseApprovals";
 import Subscription from "./Pages/Admin/Subscription";
+import SubscriptionPlan from "./Pages/Instructor/SubscriptionPlan";
+import SubscriptionSuccess from "./Pages/Instructor/SubscriptionSuccess";
 
 function App() {
   return (
@@ -94,6 +96,8 @@ function App() {
 
               <Route path="/instructor/courses" element={<MyCourses />} />
               <Route path="/instructor/addcourse" element={<AddCourse />} />
+              <Route path="/instructor/subscription" element={<SubscriptionPlan/>}/>
+              <Route path = "/instructor/subscription-success/:subscriptionId" element = {<SubscriptionSuccess/>}/>
               <Route
                 path="/instructor/mycourse/:id"
                 element={<DetailsAbout />}
