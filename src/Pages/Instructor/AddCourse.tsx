@@ -2,7 +2,7 @@ import { useFormik } from "formik";
 import { addingSchema } from "@/validation/validation";
 import axios from "axios";
 import { toast } from "sonner";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { isLoading, isSuccess, isFailed } from "../../Redux/Tutor/tutorSlice";
 
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -11,8 +11,25 @@ import Intermediate from "@/components/AddCourse/Intermediate";
 import End from "@/components/AddCourse/End";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import SubscriptionAlert from "@/components/Instructor/SubscriptionAlert";
 
 const AddCourse = () => {
+  const [subscribed ,setSubscribed] = useState(false)
+const  isVerifiedSubscriber = async()=>{
+  try{
+      await axios.get("/auth/tutor/subscribed")
+  }  catch(err){
+    if (axios.isAxiosError(err) && err.response) {
+      setSubscribed(true);
+      // toast.error(err.response.data.message || "Something Went To Wrong");
+    }
+  }
+}
+  useEffect(()=>{
+    isVerifiedSubscriber();
+  },[])
+
+
   const [change, setChange] = useState<string>("step-1");
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -70,7 +87,12 @@ const AddCourse = () => {
   });
 
   return (
+       
+ 
+
+
     <div className="flex justify-center items-center h-screen">
+          {subscribed && <SubscriptionAlert subscribed = {subscribed} />}
       <Tabs defaultValue={change} value={change} className="w-[800px]  ">
         <TabsList className="grid w-full grid-cols-3">
           <TabsTrigger  value="step-1">

@@ -1,22 +1,6 @@
-import axios from "axios";
-import { toast } from "sonner";
 
+const DeleteModal = ({setSelect,handleDelete}:{handleDelete:() => void;setSelect:React.Dispatch<React.SetStateAction<{id:string;isOpen:boolean}>>}) => {
 
-const DeleteModal = ({select,setSelect}:{select:{id:string;isOpen:boolean};setSelect:React.Dispatch<React.SetStateAction<{id:string;isOpen:boolean}>>}) => {
-
-    const handleDelete = async ()=>{
-        try {
-        await axios.delete(`/auth/admin/deleteCatagory/${select.id}`);
-         setSelect({id:"",isOpen:false});
-        toast.success("Category deleted successfully.");
-      } catch (err) {
-        if (axios.isAxiosError(err) && err.response) {
-          toast.error(err.response.data.message || "Something Went Wrong");
-        }
-    
-    }
-}
-    
   return (
     <div>
     <div className="  bg-black/40 flex fixed top-4 right-48 left-48 z-50 justify-center items-center w-full md:inset-0 h-modal md:h-full">

@@ -1,26 +1,8 @@
-import axios from "axios"
-import { useEffect } from "react"
-import { Link, useParams } from "react-router-dom"
+
+import { Link,} from "react-router-dom"
 
 
 const SubscriptionSuccess = () => {
-    const {subscriptionId} = useParams()
-   
-  const addData =async()=>{
-   try{
-       await axios.post("/auth/tutor/subscriptionSuccess",{subscriptionId})
-   }catch{
-    console.log("err")
-   }
-
-  }
-  useEffect(()=>{
-    addData();
-},[])
-  
-
-
-
   return (
     <div>
          <div className="bg-white h-screen">
@@ -44,7 +26,7 @@ const SubscriptionSuccess = () => {
             <p className="text-md"> Have a great day! </p>
 
             <div className="py-10 text-center">
-              <Link to={""}>
+              <Link to="/instructor/addCourse">
                 <button className="px-12 bg-indigo-600 hover:bg-indigo-500 text-white  font-semibold py-3">
                   Add Courses
                 </button>

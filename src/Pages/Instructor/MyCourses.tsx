@@ -2,7 +2,8 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from "sonner";
 import { FcPlanner } from "react-icons/fc";
-import { MdOutlineAddHomeWork } from "react-icons/md";
+import { MdOutlinePublishedWithChanges } from "react-icons/md";
+import { ImCheckboxChecked } from "react-icons/im";
 import { useNavigate } from "react-router-dom";
 import {
   Pagination,
@@ -100,7 +101,7 @@ const MyCourses = () => {
             </div>
             <div className="mt-4 px-5 pb-5">
               <div>
-                <h5 className="text-lg tracking-tight  text-slate-900">
+                <h5 className="text-lg font-medium tracking-tight  text-slate-900">
                   {course.title}
                 </h5>
               </div>
@@ -118,7 +119,7 @@ const MyCourses = () => {
               </div>
               {course.isPublish ? (
                 <div className="flex items-center justify-center rounded-md bg-slate-900 px-5 py-3 text-center text-sm  text-white hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-blue-300">
-                  <MdOutlineAddHomeWork className="mr-1 mt-1" />
+                  <ImCheckboxChecked className="mr-1 mt-1" />
                   Listed
                 </div>
               ) : (
@@ -126,7 +127,7 @@ const MyCourses = () => {
                   className="flex items-center justify-center rounded-md bg-slate-900 px-5 py-3 cursor-pointer text-center text-sm  text-white hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-blue-300"
                   onClick={() => publishClick(course._id)}
                 >
-                  <MdOutlineAddHomeWork className="mr-1 mt-1" />
+                  <MdOutlinePublishedWithChanges className="mr-2 mt-1" />
                   Publish
                 </div>
               )}

@@ -33,7 +33,6 @@ const Catagory = () => {
       }
     }
   };
-
   useEffect(() => {
     fetchCatagories();
   }, [change,select,currentPage]);
@@ -44,8 +43,20 @@ const Catagory = () => {
 
   const handleDelete = async (id: string) => {
     setSelect({ id: id, isOpen: true });
+    
   };
-
+    const handleCatagoryDelete =  async ()=>{
+      try {
+      await axios.delete(`/auth/admin/deleteCatagory/${select.id}`);
+       setSelect({id:"",isOpen:false});
+      toast.success("Category deleted successfully.");
+    } catch (err) {
+      if (axios.isAxiosError(err) && err.response) {
+        toast.error(err.response.data.message || "Something Went Wrong");
+      }
+  
+  }
+}
   return (
     <>
       <div className="my-5 mx-5 flex justify-end ">
@@ -58,7 +69,7 @@ const Catagory = () => {
           + Create Category
         </button>
       </div>
-      {select.isOpen && ( <DeleteModal select={select} setSelect={setSelect} />)}
+      {select.isOpen && ( <DeleteModal handleDelete ={handleCatagoryDelete}  setSelect={setSelect} />)}
 
       <div className="grid grid-cols-1  md:grid-cols-3 gap-2  px-4">
         {catagories.map((category, index) => (

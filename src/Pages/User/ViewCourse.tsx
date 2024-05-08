@@ -36,19 +36,22 @@ const ViewCourse = () => {
   return (
     <div className="py-10 px-8">
   
-      <div className='flex justify-around' >
+      <div className='flex justify-around ' >
        {selected && (
-          <video key={selected._id} controls width="700" height="600" className="object-">  
+          <video key={selected._id} controls width="700" height="600" className=" h-[400px] border bg-black">  
           <source src={selected.videoUrl} type="video/mp4"/> 
         </video>
  )}
-        <div className="w-96 border border-r-2 rounded-md shadow-md" >
+        <div className="w-96 h-96 rounded-md shadow-md overflow-y-auto overflow-hidden" >
           <h1 className="flex justify-center items-center font-bold text-white bg-slate-900 h-16 text-2xl">Chapters</h1>
-        {chapters.map((chapter) => (
-          <div className="py-5 px-5 text-left bg-gray-100 whitespace-nowrap">
-            <p  onClick = {()=>setSelected(chapter)} className="text-xl font-bold cursor-pointer">{chapter.order}.{chapter.name}</p> 
+        {chapters.map((chapter,index) => (
+          <div className={`py-5 px-5 text-left transition-colors transform focus:bg-black cursor-pointer ${selected
+            === chapter?"bg-slate-200":" hover:bg-slate-100"}
+          }  whitespace-nowrap`} onClick = {()=>setSelected(chapter)}>
+            <p   className="text-lg capitalize font-serif ">{index+1}.{chapter.name}</p> 
           </div>
         ))}
+       
         </div>
       </div>
   </div>

@@ -34,7 +34,7 @@ const TutorList = () => {
     }, [currentPage]);
 
     const handleBlock = async (id: string) => { 
-      console.log(id)     
+
         try {  
             await axios.put("/auth/admin/block-instructor",  {id,change}  );
            setChange(!change)

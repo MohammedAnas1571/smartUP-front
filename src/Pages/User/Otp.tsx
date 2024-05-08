@@ -18,10 +18,11 @@ import {
   loginFailed,
   isUserLogin,
   loginSuccessData,
-  loginSuccess,
+ 
   userSignOut,
+  loginSuccess,
 } from "@/Redux/User/userSlice";
-import { isTutorLogin, SignOut, SuccessData } from "@/Redux/Tutor/tutorSlice";
+import { isTutorLogin, SignOut, SuccessData  } from "@/Redux/Tutor/tutorSlice";
 import { toast } from "sonner";
 import {
   InputOTP,
@@ -75,7 +76,9 @@ export function Otp() {
         dispatch(SuccessData(response.data.user));
         dispatch(userSignOut())
         dispatch(adminSignOut())
+        dispatch(loginSuccess())
         dispatch(isTutorLogin());
+        
     
 
         navigate("/instructor/dashboard");

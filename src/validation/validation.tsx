@@ -156,11 +156,7 @@ export const SubscriptionValidation = Yup.object().shape({
   .min(3, "Minimum 6 characters are required.")
   .required("Plan name is required"),
   
-courseLimit: Yup.number().required("Price is required")
-.typeError("Price should be a number")
-.integer("Must be intiger")
-.positive("Must be positive")
-,
+
 
 price: Yup.number()
   .typeError("Price should be a number")

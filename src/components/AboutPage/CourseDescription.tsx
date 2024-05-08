@@ -17,7 +17,7 @@ const CourseDescription = ({
 }: {
   course: CourseAbout;
   chapters: Chapters[];
-  purchased: boolean;
+  purchased: boolean |undefined;
 }) => {
   const navigate = useNavigate();
   const handleClick = () => {

@@ -61,11 +61,18 @@ const Basic = ({ formik, setChange }: FormikDetails) => {
     if (isValid) {
       setChange("step-2");
     } else {
-      Object.keys(formik.values).forEach((field) => {
-        formik.setFieldTouched(field, true, false);
-      });
+          formik.setTouched({
+            title: true,
+            subTitle: true,
+            catagory: true,
+            tags: true,
+            price: true,
+            level: true,
+          });
+        
+      };
     }
-  };
+ 
 
   return (
     <>
@@ -89,6 +96,7 @@ const Basic = ({ formik, setChange }: FormikDetails) => {
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   placeholder="Enter Title"
                   value={formik.values.title}
+                  onBlur={formik.handleBlur}
                   onChange={formik.handleChange}
                 />
                 {formik.touched.title && formik.errors.title && (
@@ -105,6 +113,7 @@ const Basic = ({ formik, setChange }: FormikDetails) => {
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   placeholder="Enter subtitle"
                   value={formik.values.subTitle}
+                  onBlur={formik.handleBlur}
                   onChange={formik.handleChange}
                 />
                 {formik.touched.subTitle && formik.errors.subTitle && (
@@ -119,6 +128,7 @@ const Basic = ({ formik, setChange }: FormikDetails) => {
                 </label>
                 <select
                   name="catagory"
+                  onBlur={formik.handleBlur}
                   value={formik.values.catagory}
                   onChange={(e) => {
                     const catagoryId = e.target.value;
@@ -147,6 +157,7 @@ const Basic = ({ formik, setChange }: FormikDetails) => {
                 <select
                   name="level"
                   onChange={formik.handleChange}
+                 
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 >
                   <option value="Beginners">Beginners</option>
@@ -164,6 +175,7 @@ const Basic = ({ formik, setChange }: FormikDetails) => {
                   className="bg-gray-50 border  border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   placeholder="Enter the tags"
                   value={formik.values.tags}
+                  onBlur={formik.handleBlur}
                   onChange={formik.handleChange}
                 />
                 {formik.touched.tags && formik.errors.tags && (
@@ -177,6 +189,7 @@ const Basic = ({ formik, setChange }: FormikDetails) => {
                 <input
                   type="text"
                   name="price"
+                  onBlur={formik.handleBlur}
                   className="bg-gray-50 border  border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   placeholder="Enter amount"
                   value={formik.values.price}

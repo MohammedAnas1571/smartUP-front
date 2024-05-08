@@ -97,7 +97,7 @@ function App() {
               <Route path="/instructor/courses" element={<MyCourses />} />
               <Route path="/instructor/addcourse" element={<AddCourse />} />
               <Route path="/instructor/subscription" element={<SubscriptionPlan/>}/>
-              <Route path = "/instructor/subscription-success/:subscriptionId" element = {<SubscriptionSuccess/>}/>
+              <Route path = "/instructor/subscription-success" element = {<SubscriptionSuccess/>}/>
               <Route
                 path="/instructor/mycourse/:id"
                 element={<DetailsAbout />}

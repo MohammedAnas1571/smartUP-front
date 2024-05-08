@@ -1,5 +1,5 @@
 
-import { SubscriptionDetails } from "@/Pages/Admin/Subscription";
+
 import {
     Dialog,
     DialogContent,
@@ -12,18 +12,19 @@ import { SubscriptionValidation } from "@/validation/validation";
   import axios from "axios";
 import { useFormik } from "formik";
   import { toast } from "sonner";
+  import { SubscriptionDetails } from "@/Pages/Admin/Subscription";
   type AddingSubscription = {
     setChange: React.Dispatch<React.SetStateAction<boolean>>;
     change:boolean;
+    setSubscription:React.Dispatch<SubscriptionDetails[]|null>
 
   };
 
-const AddingSubscription = ({change,setChange,}:AddingSubscription) => {
-  console.log(change)
+const AddingSubscription = ({change,setChange,setSubscription}:AddingSubscription) => {
+  
     const formik = useFormik({
         initialValues: {
           planname: "",
-          courseLimit: 0,
           billingPeriod: "week",
           price: 0,
           description: "",
@@ -35,8 +36,8 @@ const AddingSubscription = ({change,setChange,}:AddingSubscription) => {
             const { data } = await axios.post(
               "/auth/admin/subscription",values
             );
-    
             toast.success(data.status);
+            setSubscription(data.subscription)
             formik.resetForm();
             setChange(false)
           } catch (err) {
@@ -75,23 +76,7 @@ const AddingSubscription = ({change,setChange,}:AddingSubscription) => {
                         </p>
                    )}
                 </div>
-                <div className="mb-4">
-                  <label htmlFor="courseLimit" className="block text-sm font-medium text-gray-700">
-                    Course Limit
-                  </label>
-                  <input
-                    type="text"
-                    name="courseLimit"
-                    onBlur={formik.handleBlur}
-                    onChange={formik.handleChange}
-                    className="mt-1 p-2 block w-full border rounded-md"
-                  />
-                   {formik.touched.courseLimit && formik.errors.courseLimit && (
-                        <p className="text-red-600 text-sm  ">
-                          {formik.errors.courseLimit}
-                        </p>
-                   )}
-                </div>
+              
                 <div className="mb-4">
                 <label className="block text-sm font-medium text-gray-700">
                  Billing period
@@ -103,7 +88,7 @@ const AddingSubscription = ({change,setChange,}:AddingSubscription) => {
                 >
                   <option value="week">week</option>
                   <option value="month">month</option>
-                  <option value="year">year</option>
+               
                 </select>
               </div>
                 <div className="mb-4">
