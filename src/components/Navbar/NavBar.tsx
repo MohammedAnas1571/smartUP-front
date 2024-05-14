@@ -4,9 +4,10 @@ import { RootState } from "@/Redux/Store";
 import { UserNav } from "../Instructor/LogOut";
 
 import { Button } from "../ui/button";
-import { CiSearch } from "react-icons/ci";
+
 import { FcBusinessman, FcHome, FcShop } from "react-icons/fc";
 import { FaAlignJustify } from "react-icons/fa";
+import SearchBar from "./SearchBar";
 
 export const NavBar = () => {
   const { currentUser, isUserSign } = useSelector(
@@ -15,26 +16,16 @@ export const NavBar = () => {
   console.log(currentUser?.username);
   console.log(isUserSign);
   return (
-    <header className="shadow-md">
+    <header className="shadow-md  w-full  bg-white">
       <div className="max-w-[1640px] p-4 mx-auto">
         <div className="flex justify-between">
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-16">
             <h1 className="text-3xl font-semibold font-serif whitespace-nowrap">
               Smart Up
             </h1>
-            <div className=" items-center ml-6 border-2 focus-within:ring focus-within:ring-blue-800 rounded-lg hidden sm:flex flex-wrap">
-              <input
-                className="px-4 py-2 border-none focus:outline-none w-64"
-                type="text"
-                placeholder="Search Courses"
-              />
-              <button className="p-2 focus:outline-none focus:ring focus:ring-blue-800">
-                <CiSearch className="h-6 w-6 " />
-              </button>
-            </div>
-            {/* <div>
-      <FaAlignJustify/>
-      </div> */}
+            <div className=" flex flex-col gap-2">
+            <SearchBar/>
+           </div>
           </div>
           <ul className="items-center gap-4  hidden sm:flex flex-wrap">
             <Link to="/">
@@ -45,12 +36,14 @@ export const NavBar = () => {
                 <span>Home</span>
               </li>
             </Link>
+            <Link to= "/courses">
             <li className=" p-2 cursor-pointer flex items-center  hover:bg-slate-200 rounded-lg">
               <span>
                 <FcShop />
               </span>
               <span>Courses</span>
             </li>
+            </Link>
             {currentUser?.username && isUserSign ? (
               <li className="  p-2 cursor-pointer flex items-center  hover:bg-slate-200 rounded-lg">
                 {" "}

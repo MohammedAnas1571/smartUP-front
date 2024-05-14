@@ -8,42 +8,22 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel"
 import { Course } from "../../Pages/User/Home"
-import { useNavigate } from "react-router-dom";
+
+import CourseCard from "./CourseCard";
 
 
 interface ShortDescription {
-  course: Course[];
+  courses: Course[];
 }
 
-const CourseDetails = ({course}:ShortDescription) => {
-  const navigate = useNavigate()
-
-  const handleClick = (id:string)=>{
-    navigate(`/course-details/${id}`)
-  }
- 
+const CourseDetails = ({courses}:ShortDescription) => {
   return (
     <div >
     <Carousel className="max-w-screen mx-auto ">
     <CarouselContent className="-ml-1">
-      {course.map((course, index) => (
+      {courses.map((course, index) => (
         <CarouselItem key={index} className="pl-1 md:basis-1/3 lg:basis-1/3">
-          <div className="py-6  cursor-pointer"onClick={()=>handleClick(course._id)}>
-          <article className="mx-auto w-[350px]  flex flex-col  overflow-hidden rounded-xl border border-gray-300 bg-white text-gray-900 transition hover:-translate-y-2 hover:shadow-lg">
-     <div>
-        <img src={course.image} className="h-56 w-full object-cover" alt="something wrong" />
-        <div className="flex-auto p-5">
-          <span className="mb-2 bg-slate-200 p-1 text-sm font-semibold">{course.level}</span>
-          
-          <h3 className="mt-3 mb-2 text-xl text-black font-bold xl:text-xl">{course.title}</h3> 
-          <div className="bg-slate-200 "></div>
-          <h2 className=""> {course.tutorId.username}</h2>
-          <p className="mb-6 mt-1 text-xl font-semibold">₹{course.price}</p>
-         
-        </div>
-        </div>
-    </article>
-          </div>
+          <CourseCard course={course} />
         </CarouselItem>
       ))}
     </CarouselContent>

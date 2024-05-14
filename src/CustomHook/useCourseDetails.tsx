@@ -44,10 +44,10 @@ export const useCourseDetails = (id: string) => {
       }
     }
   };
- console.log(purchased)
+
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [id]);
   
   return { course, chapters,setChapters,purchased };
 };

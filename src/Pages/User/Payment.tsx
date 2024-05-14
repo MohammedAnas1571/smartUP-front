@@ -43,7 +43,7 @@ const Payment = () => {
               </div>
               <div className="flex items-center text-gray-800">
                 <FontAwesomeIcon icon={faHourglassHalf} className="mr-3 text-lg" />
-                <span className="text-lg">Duration:klfjdgl</span>
+                <span className="text-lg"> Tags:{course?.tags}</span>
               </div>
             </div>
           </div>

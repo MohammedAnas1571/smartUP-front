@@ -45,6 +45,7 @@ import CourseApprovals from "./Pages/Admin/CourseApprovals";
 import Subscription from "./Pages/Admin/Subscription";
 import SubscriptionPlan from "./Pages/Instructor/SubscriptionPlan";
 import SubscriptionSuccess from "./Pages/Instructor/SubscriptionSuccess";
+import Courses from "./Pages/User/Courses";
 
 function App() {
   return (
@@ -61,6 +62,7 @@ function App() {
             <Route index element={<Home />} />
     
             <Route path="course-Details/:id" element={<AboutCourse />} />
+            <Route path= "courses" element = {<Courses/>} />
             <Route Component={UserAuthLayout}>
               <Route path="/payment/:id" element={<Payment />} />
               <Route path="/profile" element={<Profile />} />

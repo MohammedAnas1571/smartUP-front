@@ -13,17 +13,19 @@ import { toast } from "sonner";
 const DetailDescription = ({
   course,
   chapters,
-  setChapters
+  setChapters,
+  courseId
  
 }: {
   course: CourseAbout;
   chapters: Chapters[]|null;
   setChapters:React.Dispatch<React.SetStateAction<Chapters[] |null>>
+  courseId:string
 
 }) => {
   const deleteChapter = async(chapterId: string) => {
     try{
-    const {data} = await axios.delete(`/auth/tutor/deleteChapter/${chapterId}`)
+    const {data} = await axios.delete(`/auth/tutor/deleteChapter/${chapterId}/${courseId}`,)
 
     setChapters (data.remainingChapters)
     toast.success(data.message)
