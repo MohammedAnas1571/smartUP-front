@@ -18,12 +18,22 @@ export type Chapters = {
   name: string;
   _id:string
 };
+export type Reviews = {
+  review:string;
+  rating:number;
+  userId:{username:string;profilePhoto:string}
+  createdAt:string
+}
+
+
 
 export const useCourseDetails = (id: string) => {
   const [course, setData] = useState<CourseAbout | null>();
   const [purchased,setPurchased] = useState()
+  const[reviews,setReviews] = useState<Reviews[]|null>()
+  const[value,setValue] = useState()
 
-  const [chapters, setChapters] = useState<Chapters[] | null>([]);
+  const [chapters, setChapters] = useState<Chapters[]>([]);
   const fetchData = async () => {
     try {
       const response = await axios.get(`/auth/getDetails/${id}`);
@@ -35,9 +45,15 @@ export const useCourseDetails = (id: string) => {
         month: "2-digit",
         year: "numeric",
       });
+      
+    
+
+
       setData({ ...response.data.course, updatedAt: formattedUpdatedAt });
       setChapters(response.data.chapters);
       setPurchased(response.data.isPurchased)
+      setReviews(response.data.reviews)
+      setValue(response.data.averageRating)
     } catch (err) {
       if (axios.isAxiosError(err) && err.response) {
         toast(err.response.data.message || "Sorry, something went wrong!");
@@ -49,5 +65,5 @@ export const useCourseDetails = (id: string) => {
     fetchData();
   }, [id]);
   
-  return { course, chapters,setChapters,purchased };
+  return { course, chapters,setChapters,purchased,value,reviews };
 };
