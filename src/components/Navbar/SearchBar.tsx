@@ -26,7 +26,7 @@ const SearchBar: React.FC = () => {
 
   const fetchSearch = async () => {
     try {
-      const response = await axios.get<Course[]>(`/auth/search/?searchText=${searchText}`);
+      const response = await axios.get<Course[]>(`/auth/search/?searchText=${searchText||""}`);
       setResults(response.data);
       setShowSuggestions(true);
     } catch (error) {
@@ -41,7 +41,8 @@ const SearchBar: React.FC = () => {
   };
    const handleSearch = ()=>{
     if (searchText.trim() !== ""){
-    navigate(`/courses/?search=${searchText}`)
+      navigate('/courses', { state: { results } });
+    setSearchText("")
     setShowSuggestions(false);
     }
    }
