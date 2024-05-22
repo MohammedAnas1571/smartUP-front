@@ -21,7 +21,7 @@ const Courses = () => {
   const location = useLocation();
  
 
-  const { results } = location.state;
+  const { results } = location.state || {}
   const handleCheckboxChange = (categoryId: string) => {
     setSelectedCategories((prevSelectedCategories) => {
       if (prevSelectedCategories?.includes(categoryId)) {
@@ -44,7 +44,7 @@ const Courses = () => {
       }
     }
   };
-
+ 
   useEffect(() => {
     if (results) {
       setCourses(results);

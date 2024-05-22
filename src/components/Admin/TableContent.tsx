@@ -1,13 +1,13 @@
 import { User } from "../../Pages/Admin/UserList";
 
-type FullDatails = {
+type FullDetails = {
   change :boolean;
   users: User[];
   handleBlock: (id: string) => void,
 }
 
 
-const TableContent = ({handleBlock,change,users}:FullDatails) => {
+const TableContent = ({handleBlock,change,users}:FullDetails) => {
   return (
 
         <div>
@@ -32,8 +32,8 @@ const TableContent = ({handleBlock,change,users}:FullDatails) => {
         <img className='w-10 h-10 rounded-full' src ={`/auth/${user.profilePhoto}`} alt="no image"/>
             </td>
             <td className="px-6 py-4 whitespace-nowrap">
-            <button onClick={() => handleBlock(user._id)} className={`px-4 py-2 font-medium text-white rounded-md transition duration-150 ease-in-out ${change ? 'bg-green-600' : "bg-red-600"}`}>
-  {change ? 'Activate' : 'Deactivate'}
+            <button onClick={() => handleBlock(user._id)} className={`px-4 py-2 font-medium text-white rounded-md transition duration-150 ease-in-out ${user.isBlocked? "bg-red-600" :"bg-green-600" }`}>
+  {user.isBlocked ? 'Deactivate' : 'Activate'}
 </button>
 
              

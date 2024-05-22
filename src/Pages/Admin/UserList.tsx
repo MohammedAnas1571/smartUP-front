@@ -1,66 +1,69 @@
+import axios, { AxiosResponse } from "axios";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
-import axios, { AxiosResponse } from 'axios';
-import { useEffect, useState } from 'react';
-import { toast } from 'sonner';
-
-import TableContent from '../../components/Admin/TableContent';
+import TableContent from "../../components/Admin/TableContent";
 import { usePagination } from "@/CustomHook/usePagination";
-import PaginationPage from '@/components/PaginationPage';
+import PaginationPage from "@/components/PaginationPage";
 
 export type User = {
-    username: string;
-    email: string;
-    _id: string;
-    role: string;
-    profilePhoto: string; 
-}
+  username: string;
+  email: string;
+  _id: string;
+  role: string;
+  profilePhoto: string;
+  isBlocked:boolean
+};
 
 const UserList = () => {
-  const [users, setUsers] = useState<User[]>([])
-  const [change,setChange] = useState<boolean> (true)
- 
-  const{ currentPage, setCurrentPage,totalPages,setTotalPages } = usePagination()
+  const [users, setUsers] = useState<User[]>([]);
+  const [change, setChange] = useState<boolean>(true);
 
-    const fetchUsers = async () => {
-        try {
-            const { data }: AxiosResponse<{ user: User[],pageCount:number }> = await axios.get(`/auth/admin/users/?page=${currentPage}`);
-            setUsers(data.user);
-            setTotalPages(data.pageCount);
-        } catch ( err) {
-          if (axios.isAxiosError(err) && err.response?.data.err) {
-            toast.error(
-              err.response.data.message || " Sorry Something  Went Wrong!"
-            )}
-          }
+  const { currentPage, setCurrentPage, totalPages, setTotalPages } =
+    usePagination();
+
+  const fetchUsers = async () => {
+    try {
+      const { data }: AxiosResponse<{ user: User[]; pageCount: number }> =
+        await axios.get(`/auth/admin/users/?page=${currentPage}`);
+      setUsers(data.user);
+      setTotalPages(data.pageCount);
+    } catch (err) {
+      if (axios.isAxiosError(err) && err.response?.data.err) {
+        toast.error(
+          err.response.data.message || " Sorry Something  Went Wrong!"
+        );
+      }
     }
+  };
 
-    useEffect(() => {
-        fetchUsers();
-    }, [currentPage]);
+  useEffect(() => {
+    fetchUsers();
+  }, [currentPage,change]);
+  console.log(change)
 
-    
-
-    const handleBlock = async (id: string) => { 
-      console.log(id)     
-        try {  
-            await axios.put("/auth/admin/block-user",  {id,change}  );
-           setChange(!change)
-        } catch (err) {
-          if (axios.isAxiosError(err)&&err.response) {
-            toast.error(err.response.data.message||"Something Went To Wrong");
-         
-         }
+  const handleBlock = async (id: string) => {
+    try {
+      await axios.put("/auth/admin/block-user", { id, change });
+      setChange(!change);
+     
+    } catch (err) {
+      if (axios.isAxiosError(err) && err.response) {
+        toast.error(err.response.data.message || "Something Went To Wrong");
+      }
     }
-  }    
-   
+  };
+
   return (
-   <>
-   <TableContent handleBlock={handleBlock} users={users} change={change}/>
-   <PaginationPage currentPage={currentPage} setCurrentPage={setCurrentPage} totalPages={totalPages}  />
+    <>
+      <TableContent handleBlock={handleBlock} users={users} change={change} />
+      <PaginationPage
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+        totalPages={totalPages}
+      />
+    </>
+  );
+};
 
-</>
-  )
-
-}
-
-export default UserList
+export default UserList;

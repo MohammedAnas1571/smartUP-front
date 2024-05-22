@@ -94,7 +94,7 @@ const Catagory = () => {
                 onClick={() => handleDelete(category._id)}
                 variant="outline"
               >
-                Delete
+                Unlist
               </Button>
             </CardFooter>
           </Card>

@@ -47,6 +47,7 @@ import SubscriptionPlan from "./Pages/Instructor/SubscriptionPlan";
 import SubscriptionSuccess from "./Pages/Instructor/SubscriptionSuccess";
 import Courses from "./Pages/User/Courses";
 
+
 function App() {
   return (
     <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
@@ -63,6 +64,7 @@ function App() {
     
             <Route path="course-Details/:id" element={<AboutCourse />} />
             <Route path= "courses" element = {<Courses/>} />
+           
             <Route Component={UserAuthLayout}>
               <Route path="/payment/:id" element={<Payment />} />
               <Route path="/profile" element={<Profile />} />
