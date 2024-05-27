@@ -10,23 +10,27 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
-type CatagoriesDetails = {
+ type CatagoriesDetails = {
   name: string;
   _id: string;
+  activeStatus: boolean;
 };
 
 const Catagory = () => {
-  const [change, setChange] = useState({ id: "", name: "", isOpen: false });
+  const [change, setChange] = useState({ id: "", name: "", isOpen: false, });
   const [catagories, setCatagories] = useState<CatagoriesDetails[]>([]);
-  const [select, setSelect] = useState({ id: "",isOpen:false});
-  const{ currentPage, setCurrentPage,totalPages,setTotalPages } = usePagination()
-  
-  
+  const [select, setSelect] = useState({ id: "", isOpen: false,activeStatus:true})
+
+  const { currentPage, setCurrentPage, totalPages, setTotalPages } =  usePagination()
+
   const fetchCatagories = async () => {
     try {
-      const { data } = await axios.get(`/auth/admin/catagory/?page=${currentPage}`);
+      const { data } = await axios.get(
+        `/auth/admin/catagory/?page=${currentPage}`
+      );
       setCatagories(data.catagories);
-      setTotalPages(data.pageCount)
+
+      setTotalPages(data.pageCount);
     } catch (err) {
       if (axios.isAxiosError(err) && err.response) {
         toast.error(err.response.data.message || "Something Went Wrong");
@@ -35,32 +39,36 @@ const Catagory = () => {
   };
   useEffect(() => {
     fetchCatagories();
-  }, [change,select,currentPage]);
+    
+},[currentPage])
+
 
   const handleEdit = (id: string, name: string) => {
     setChange({ id, name, isOpen: true });
   };
 
-  const handleDelete = async (id: string) => {
-    setSelect({ id: id, isOpen: true });
-    
+  const handleDelete = async (id: string,status:boolean) => {
+    setSelect({ id: id, isOpen: true,activeStatus:status })
   };
-    const handleCatagoryDelete =  async ()=>{
-      try {
-      await axios.delete(`/auth/admin/deleteCatagory/${select.id}`);
-       setSelect({id:"",isOpen:false});
-      toast.success("Category deleted successfully.");
+  const handleCatagoryDelete = async (activeStatus:boolean) => {
+    try {
+     await axios.put(`/auth/admin/deleteCatagory/${select.id}`,{activeStatus})
+      setSelect({ id: "", isOpen: false,activeStatus:true })
+      fetchCatagories()
+
+    
+
+      toast.success("Category status changed succesfully");
     } catch (err) {
       if (axios.isAxiosError(err) && err.response) {
         toast.error(err.response.data.message || "Something Went Wrong");
       }
-  
-  }
-}
+    }
+  };
   return (
     <>
       <div className="my-5 mx-5 flex justify-end ">
-        {change && <CatagoryAdding change={change} setChange={setChange} />}
+        {change && <CatagoryAdding change={change}  fetchCatagories = {fetchCatagories}   setChange={setChange} />}
 
         <button
           onClick={() => setChange({ id: "", name: "", isOpen: true })}
@@ -69,7 +77,13 @@ const Catagory = () => {
           + Create Category
         </button>
       </div>
-      {select.isOpen && ( <DeleteModal handleDelete ={handleCatagoryDelete}  setSelect={setSelect} />)}
+      {select.isOpen && (
+        <DeleteModal
+          handleDelete={handleCatagoryDelete}
+          setSelect={setSelect}
+          select={select}
+        />
+      )}
 
       <div className="grid grid-cols-1  md:grid-cols-3 gap-2  px-4">
         {catagories.map((category, index) => (
@@ -90,17 +104,21 @@ const Catagory = () => {
               >
                 Edit
               </Button>
-              <Button
-                onClick={() => handleDelete(category._id)}
+              <Button className={`${category.activeStatus === true ?"bg-red-500":"bg-green-500"}`}
+                onClick={() => handleDelete(category._id,category.activeStatus)}
                 variant="outline"
               >
-                Unlist
+                {category.activeStatus ?"Unlist":"List" }
               </Button>
             </CardFooter>
           </Card>
         ))}
       </div>
-      <PaginationPage currentPage={currentPage} setCurrentPage={setCurrentPage} totalPages={totalPages}  />
+      <PaginationPage
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+        totalPages={totalPages}
+      />
     </>
   );
 };

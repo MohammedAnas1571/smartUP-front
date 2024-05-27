@@ -13,7 +13,9 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import Chat from "./Chat";
+import Chat from "../../components/Chat/Chat";
+import api from "@/Utils/api";
+import handleApiError from "@/Error Handler/ApiErrorHandler";
 
 type ChapterDetails = {
   _id: string;
@@ -43,20 +45,18 @@ const ViewCourse = () => {
   const[showChat,setShowChat] = useState(false)
   const fetchData = async () => {
     try {
-      const { data } = await axios.get(`/auth/modules/${id}`);
+      const { data } = await api.get(`/auth/modules/${id}`);
       setChapters(data.chapters);
       setUserReview(data.reviews);
       if (data.chapters.length > 0) {
         setSelected(data.chapters[0]);
       }
     } catch (err) {
-      if (axios.isAxiosError(err) && err.response) {
-        toast.error(
-          err.response.data.message || "Sorry, something went wrong!"
-        );
-      }
+   
+      handleApiError(err);
     }
-  };
+    }
+  
   useEffect(() => {
     fetchData();
   }, [id]);
@@ -67,7 +67,7 @@ const ViewCourse = () => {
       return;
     }
     try {
-      const { data } = await axios.post(`/auth/review/${id}`, {
+      const { data } = await api.post(`/auth/review/${id}`, {
         star,
         review,
       });
@@ -76,13 +76,11 @@ const ViewCourse = () => {
       setStar(0);
       setReview("");
     } catch (err) {
-      if (axios.isAxiosError(err) && err.response) {
-        toast.error(
-          err.response.data.message || "Sorry, something went wrong!"
-        );
-      }
+   
+      handleApiError(err);
     }
-  };
+    
+  }
 
   return (
     <div className="py-10 px-8">

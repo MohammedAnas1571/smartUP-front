@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { Course } from "@/Pages/User/Home";
 import { toast } from "sonner";
+import api from "@/Utils/api"; 
 
 export type CourseAbout = Course & {
   description: string;
@@ -33,10 +34,10 @@ export const useCourseDetails = (id: string) => {
   const[reviews,setReviews] = useState<Reviews[]|null>()
   const[value,setValue] = useState()
 
-  const [chapters, setChapters] = useState<Chapters[]>([]);
+  const [chapters, setChapters] = useState<Chapters[] | null>([]);
   const fetchData = async () => {
     try {
-      const response = await axios.get(`/auth/getDetails/${id}`);
+      const response = await api.get(`/auth/getDetails/${id}`);
 
       const formattedUpdatedAt = new Date(
         response.data.course.updatedAt
@@ -46,9 +47,7 @@ export const useCourseDetails = (id: string) => {
         year: "numeric",
       });
       
-    
-
-
+  
       setData({ ...response.data.course, updatedAt: formattedUpdatedAt });
       setChapters(response.data.chapters);
       setPurchased(response.data.isPurchased)
@@ -63,7 +62,7 @@ export const useCourseDetails = (id: string) => {
 
   useEffect(() => {
     fetchData();
-  }, [id]);
+  }, []);
   
   return { course, chapters,setChapters,purchased,value,reviews };
 };

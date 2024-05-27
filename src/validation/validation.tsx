@@ -168,3 +168,18 @@ price: Yup.number()
   .required("Description is required"),
 
 })
+
+
+export const changingPassword = Yup.object().shape({
+  oldPassword: Yup.string().required("old password is required"),
+  newPassword: Yup.string()
+  .matches(
+   passwordPattern,
+    "Password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, one special character, and one number"
+  )
+  .required("Password is required"),
+  confirmPassword: Yup.string()
+    .oneOf([Yup.ref("newPassword"), undefined], "Passwords must match")
+    .required("Confirm password is required"),
+
+})

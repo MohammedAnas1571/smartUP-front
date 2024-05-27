@@ -1,7 +1,7 @@
 import { RootState } from "@/Redux/Store";
-import { current } from "@reduxjs/toolkit";
+
 import axios from "axios";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,  } from "react";
 import { useSelector } from "react-redux";
 import { io } from "socket.io-client";
 import { toast } from "sonner";
@@ -13,7 +13,7 @@ type Tutor = {
   profession: string;
   _id: string;
 };
-type messageDetails={
+export type messageDetails={
   senderId:string;
   reciverId:string;
   message:string;
@@ -26,25 +26,26 @@ function Chat({
   setShowChat: React.Dispatch<React.SetStateAction<boolean>>;
   tutor: Tutor;
 }) {
- 
+
   const [input,setInput] = useState("")
   const { currentUser } = useSelector((state: RootState) => state.user);
   const [messages, setMessages] = useState<messageDetails[]>([]);
  
-  // const fetchChat = async () => {
-  //   try {
-  //     const { data } = await axios.get(`/auth/chat/${currentUser?._id}`);
-  //     setChat(data);
-  //     console.log(data);
-  //   } catch (err) {
-  //     if (axios.isAxiosError(err) && err.response) {
-  //       toast(err.response.data.message || "Something Went To Wrong");
-  //     }
-  //   }
-  // };
-  // useEffect(() => {
-  //   fetchChat();
-  // }, [currentUser]);
+  const fetchChat = async () => {
+    try {
+      const { data } = await axios.get(`/auth/chat/${currentUser?._id}/${tutor._id}`);
+      setMessages(data);
+      
+    } catch (err) {
+      if (axios.isAxiosError(err) && err.response) {
+        toast(err.response.data.message || "Something Went To Wrong");
+      }
+    }
+  };
+  useEffect(() => {
+    fetchChat();
+  }, [currentUser]);
+
 
   // useEffect(() => {
   //     socket.on('connection', (msg) => {
@@ -63,6 +64,13 @@ function Chat({
     socket.emit('chat message', {message:input,senderId:currentUser?._id,recieverId:tutor._id});
       setInput('')
   };
+
+  const enterSubmit = (event: React.KeyboardEvent<HTMLInputElement>): void =>{
+    if(event.key==="Enter"){
+      sendMessage()
+
+    }
+  }
 
   return (
     <div className=" fixed z-50 bottom-16 right-4 w-96">
@@ -92,6 +100,7 @@ function Chat({
         </div>
         <div className="p-4 h-80 overflow-y-auto">
           {messages.map((item) => {
+
             if (item.senderId === currentUser?._id ) {
               return (
                 <div className="mb-2 text-right">
@@ -116,7 +125,9 @@ function Chat({
           <input
             id="user-input"
             type="text"
+            value={input}
             onChange = {(e)=>setInput(e.target.value)}
+            onKeyDown={enterSubmit}
             placeholder="Type a message"
             className="w-full px-3 py-2 border rounded-l-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />

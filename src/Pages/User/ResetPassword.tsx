@@ -29,7 +29,7 @@ const ConfirmPassword = () => {
       try {
         dispatch(isLoading());
 
-        await axios.post(`${URL}/change_Password/${id}/${token}`, values);
+        await axios.post(`${URL}/reset-password/${id}/${token}`, values);
         dispatch(loginSuccess());
         navigate("/sign-in");
       } catch (err: any) {

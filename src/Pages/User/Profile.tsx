@@ -4,6 +4,7 @@ import { RootState } from "@/Redux/Store";
 import { useState } from "react";
 
 import EditUser from "@/components/Profile/EditUser";
+import { Link } from "react-router-dom";
 
 const Profile = () => {
   const { currentUser } = useSelector((state: RootState) => state.user);
@@ -15,8 +16,8 @@ const Profile = () => {
         <div className="md:flex no-wrap md:-mx-2 ">
           <div className="w-full md:w-3/12 md:mx-2">
             <div className="flex flex-col items-center gap-5">
-              <div className="w-52 h-52 rounded-full image overflow-hidden ">
-                <img className="object-cover" src={`/auth/${currentUser?.profilePhoto}`} alt="" />
+              <div className="  overflow-hidden ">
+                <img className="object-cover w-52 h-52 rounded-full" src={`/auth/${currentUser?.profilePhoto}`} alt="" />
               </div>
               <h1 className="text-gray-900 font-bold text-xl flex justify-center py-3 my-1">
                 {currentUser?.username}
@@ -57,6 +58,7 @@ const Profile = () => {
                   <div className="grid grid-cols-2">
                     <div className="px-4 py-2 font-semibold"> Name</div>
                     <div className="px-4 py-2">{currentUser?.username}</div>
+                    <div className="px-4 py-2 text-sm font-semibold ">About me </div>
                   </div>
 
                   <div className="grid grid-cols-2">
@@ -64,13 +66,16 @@ const Profile = () => {
                     <div className="px-4 py-2">
                       <p className="text-blue-800">{currentUser?.email}</p>
                     </div>
+                    <div className="px-4 py-2 text-sm font-semibold text-blue-800">
+                <Link to="/change-password">Change Password</Link>
+                </div>
                   </div>
-                  
+                 
                 </div>
-                <div className="px-4 py-2 text-sm font-semibold ">About me:
-                <div className="w-full mt-5 ">{currentUser?.about}</div>
+               
+                <div className="w-full px-4 py-2 text-sm font-semibold">{currentUser?.about}</div>
                 </div>
-              </div>
+       
             
             </div>
           </div>

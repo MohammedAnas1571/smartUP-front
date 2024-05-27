@@ -24,10 +24,14 @@ const Courses = () => {
             Create an Engaging Course Whether you've been teaching for years or
             are teaching for the first time, you can make an engaging course.
           </p>
-        
+          <div>
+          <Link to= "/instructor/addcourse">
          <button   className="my-5 rounded-sm  px-5 py-3 text-center font-bold transition text-lg  bg-primary  text-white sm:me-auto">
-         <Link to= "/instructor/addcourse"> Create Your Course  </Link>
+        Create Your Course  
           </button>
+          </Link>
+          
+          </div>
           
 
         </div>

@@ -1,5 +1,6 @@
 import { Chapters, CourseAbout, Reviews } from "@/CustomHook/useCourseDetails";
 import BreadCrumps from "./BreadCrumps";
+
 import {
   Card,
   CardContent,

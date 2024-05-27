@@ -28,7 +28,7 @@ export const ForgotPassword = () => {
     },
     validationSchema: verificationSchema,
     onSubmit: async (values) => {
-      console.log(values);
+   
       try {
         dispatch(isLoading());
 

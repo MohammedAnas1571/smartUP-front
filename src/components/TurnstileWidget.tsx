@@ -1,9 +1,11 @@
-import Turnstile, { useTurnstile } from "react-turnstile";
+import React from "react";
+import Turnstile from "react-turnstile";
 
+interface TurnstileWidgetProps {
+  setCloudFire: React.Dispatch<React.SetStateAction<string>>;
+}
 
-
-export function TurnstileWidget({setCloudFire}) {
-   useTurnstile();
+const TurnstileWidget: React.FC<TurnstileWidgetProps> = ({ setCloudFire }) => {
   return (
     <Turnstile
       sitekey="0x4AAAAAAAXY7K07__mpgWAd"
@@ -12,4 +14,6 @@ export function TurnstileWidget({setCloudFire}) {
       }}
     />
   );
-}
+};
+
+export default TurnstileWidget;

@@ -19,7 +19,7 @@ const DetailDescription = ({
 }: {
   course: CourseAbout;
   chapters: Chapters[]|null;
-  setChapters:React.Dispatch<React.SetStateAction<Chapters[] |null>>
+  setChapters:React.Dispatch<React.SetStateAction<Chapters[]|null>>
   courseId:string
 
 }) => {

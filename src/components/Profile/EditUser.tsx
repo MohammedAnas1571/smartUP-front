@@ -54,10 +54,10 @@ const EditUser = ({
             "Content-Type": "multipart/form-data",
           },
         });
-        toast.success("Profile Updated Successfully");
         console.log(data);
         dispatch(loginSuccessData(data));
         setSelect(false);
+        toast.success("Profile Updated Successfully");
       } catch (err) {
         if (axios.isAxiosError(err) && err.response) {
           toast.error(err.response.data.message || "Something Went To Wrong");

@@ -10,46 +10,59 @@ import { Label } from "@/components/ui/label";
 import axios from "axios";
 import React from "react";
 import { useEffect, useState } from "react";
-import { MdChangeCircle } from "react-icons/md";
+
 import { toast } from "sonner";
 
+
 type CatagorySubmit = {
-  setChange: React.Dispatch<React.SetStateAction<{id:string;name:string;isOpen:boolean}>>;
+  setChange: React.Dispatch<
+    React.SetStateAction<{ id: string; name: string; isOpen: boolean }>
+  >;
   change: { id: string; name: string; isOpen: boolean };
+  fetchCatagories:()=>void
+
+ 
 };
 
-const CatagoryAdding = ({ change, setChange }: CatagorySubmit) => {
+const CatagoryAdding = ({
+  change,
+  setChange,
+  fetchCatagories
+ 
+}: CatagorySubmit) => {
   const [catagory, setCatagory] = useState<string>("");
   const [validationError, setValidationError] = useState<string>("");
 
-  useEffect(()=>{
-   console.log("------------")
-    if(change.id){
+  useEffect(() => {
+    if (change.id) {
       setCatagory(change.name.trim());
     }
-  },[change])
+  }, [change]);
 
   const handleSubmit = async (e: React.FormEvent<Element>) => {
-    e.preventDefault()
+    e.preventDefault();
     const trimmedCategory = catagory.trim();
-  
-  if (!trimmedCategory) {
-    setValidationError("Please add fields ");
-    return;
-  }else{
-    setValidationError("")
-  }
+
+    if (!trimmedCategory) {
+      setValidationError("Please add fields ");
+      return;
+    } else {
+      setValidationError("");
+    }
 
     try {
       if (!change.id) {
-        await axios.post("/auth/admin/catagory", { catagory:trimmedCategory });
-        toast.success("Catagory added");
-        setChange({id: "", name: "", isOpen: false});
-      }else{
-       await axios.put("/auth/admin/editCatagory",{id:change.id, catagory:trimmedCategory})
-       toast.success("Catagory Edited")
-       setChange({id: "", name: "", isOpen: false});
+        await axios.post("/auth/admin/catagory", { catagory: trimmedCategory });
+        toast.success("Catagory added")
+      } else {
+            await axios.put("/auth/admin/editCatagory", {
+          id: change.id,
+          catagory: trimmedCategory,
+        });   
+        toast.success("Catagory Edited");
       }
+      setChange({ id: "", name: "", isOpen: false });
+      fetchCatagories()
     } catch (err) {
       if (axios.isAxiosError(err) && err.response) {
         toast.error(err.response.data.message || "Something Went To Wrong");
@@ -58,7 +71,10 @@ const CatagoryAdding = ({ change, setChange }: CatagorySubmit) => {
   };
 
   return (
-    <Dialog open={change.isOpen} onOpenChange={()=>setChange({name:"",id:"",isOpen: false})}>
+    <Dialog
+      open={change.isOpen}
+      onOpenChange={() => setChange({ name: "", id: "", isOpen: false })}
+    >
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
           <DialogTitle className="text-xl ">Add Catagory</DialogTitle>
@@ -74,7 +90,8 @@ const CatagoryAdding = ({ change, setChange }: CatagorySubmit) => {
                 Name
               </Label>
             </div>
-            <Input className="capitalize"
+            <Input
+              className="capitalize"
               defaultValue={change.name}
               onChange={(e) => setCatagory(e.target.value)}
             />

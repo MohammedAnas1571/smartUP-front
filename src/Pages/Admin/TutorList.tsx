@@ -9,7 +9,7 @@ import PaginationPage from "@/components/PaginationPage";
 
 const TutorList = () => {
   const [users, setUsers] = useState<User[]>([]);
-  const [change, setChange] = useState<boolean>(true);
+ 
   const { currentPage, setCurrentPage, totalPages, setTotalPages } =
     usePagination();
 
@@ -28,12 +28,12 @@ const TutorList = () => {
 
   useEffect(() => {
     fetchUsers();
-  }, [currentPage, change]);
+  }, [currentPage]);
 
-  const handleBlock = async (id: string) => {
+  const handleBlock = async (id: string,isBlocked:boolean) => {
     try {
-      await axios.put("/auth/admin/block-instructor", { id, change });
-      setChange(!change);
+      await axios.put("/auth/admin/block-instructor", { id, isBlocked });
+      fetchUsers();
     } catch (err) {
       if (axios.isAxiosError(err) && err.response) {
         toast.error(err.response.data.message || "Something Went To Wrong");
@@ -42,7 +42,7 @@ const TutorList = () => {
   };
   return (
     <div>
-      <TableContent handleBlock={handleBlock} users={users} change={change} />
+      <TableContent handleBlock={handleBlock} users={users}  />
       <PaginationPage
         currentPage={currentPage}
         setCurrentPage={setCurrentPage}

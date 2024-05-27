@@ -56,7 +56,7 @@ const AddingSubscription = ({change,setChange,setSubscription}:AddingSubscriptio
           <Dialog open={change} onOpenChange={setChange}>
             <DialogContent className="sm:max-w-[500px]">
               <DialogHeader>
-                <DialogTitle className="text-xl">Add Category</DialogTitle>
+                <DialogTitle className="text-xl">Add Subcription</DialogTitle>
               </DialogHeader>
               <form  onSubmit={formik.handleSubmit}>
                 <div className="mb-4">

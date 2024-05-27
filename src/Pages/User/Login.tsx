@@ -17,7 +17,7 @@ import { SignInSchema } from "@/validation/validation";
 
 import axios from "axios";
 import { toast } from "sonner";
-import { TurnstileWidget } from "@/components/TurnstileWidget";
+import  TurnstileWidget  from "@/components/TurnstileWidget";
 import { useState } from "react";
 import { SignOut } from "@/Redux/Tutor/tutorSlice";
 import { adminSignOut } from "@/Redux/Admin/adminSlice";
@@ -41,7 +41,7 @@ const Login = () => {
         values.token = cloudFire;
         const { data } = await axios.post("/auth/signIn", values);
         dispatch(loginSuccessData(data.user));
-        console.log(data.user);
+        
         if (data.user.isVerified === true) {
           dispatch(isUserLogin());
           dispatch(SignOut())

@@ -17,16 +17,16 @@ export type User = {
 
 const UserList = () => {
   const [users, setUsers] = useState<User[]>([]);
-  const [change, setChange] = useState<boolean>(true);
 
-  const { currentPage, setCurrentPage, totalPages, setTotalPages } =
-    usePagination();
+  const { currentPage, setCurrentPage, totalPages, setTotalPages } =  usePagination();
 
+   
   const fetchUsers = async () => {
     try {
       const { data }: AxiosResponse<{ user: User[]; pageCount: number }> =
         await axios.get(`/auth/admin/users/?page=${currentPage}`);
       setUsers(data.user);
+     
       setTotalPages(data.pageCount);
     } catch (err) {
       if (axios.isAxiosError(err) && err.response?.data.err) {
@@ -38,14 +38,18 @@ const UserList = () => {
   };
 
   useEffect(() => {
-    fetchUsers();
-  }, [currentPage,change]);
-  console.log(change)
+    fetchUsers()
+    
+  }, [currentPage])
 
-  const handleBlock = async (id: string) => {
+
+
+  const handleBlock = async (id: string,isBlocked:boolean) => {
     try {
-      await axios.put("/auth/admin/block-user", { id, change });
-      setChange(!change);
+     await axios.put("/auth/admin/block-user", { id,isBlocked })
+     
+     fetchUsers()
+     
      
     } catch (err) {
       if (axios.isAxiosError(err) && err.response) {
@@ -56,7 +60,7 @@ const UserList = () => {
 
   return (
     <>
-      <TableContent handleBlock={handleBlock} users={users} change={change} />
+      <TableContent handleBlock={handleBlock} users={users}  />
       <PaginationPage
         currentPage={currentPage}
         setCurrentPage={setCurrentPage}

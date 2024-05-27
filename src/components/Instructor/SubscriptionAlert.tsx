@@ -4,7 +4,6 @@ import {
   DialogContent,
 
   DialogFooter,
-  DialogHeader,
  
 
 } from "@/components/ui/dialog"
@@ -17,10 +16,7 @@ const SubscriptionAlert = ({subscribed}:{subscribed:boolean} ) => {
 <Dialog  open={subscribed} >
       
       <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader>
         
-          
-        </DialogHeader>
          <div>
            <p className="text-lg font-bold">Please subscribe</p>  
              </div>

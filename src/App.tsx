@@ -1,5 +1,9 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Home from "./Pages/User/Home";
+import  { lazy,Suspense, useEffect, useState,startTransition, ReactNode  } from "react"
+
+
+
+const  Home= lazy(()=>(import('./Pages/User/Home')))
 import Login from "./Pages/User/Login";
 import SignUp from "./Pages/User/SignUp";
 
@@ -16,37 +20,58 @@ import { EmailConfirm } from "./Pages/Instructor/EmailConfirm";
 import Reset from "./Pages/Instructor/Reset";
 
 import { Page404 } from "./Pages/404";
-import DashboardPage from "./Pages/Instructor/DashBoard";
+const DashboardPage = lazy(()=>(import("./Pages/Instructor/DashBoard"))) 
 import NavBarLayout from "./layout/NavBarLayout";
 import { UserAuthLayout } from "./layout/UserAuthLayout";
 import UserVerifiedLayout from "./layout/UserVerifiedLayout";
 import InstructorAuthLayout from "./layout/InstructorAuthLayout";
 import InstructorVerifiedLayout from "./layout/InstructorVerifiedLayout";
-import AboutCourse from "./Pages/User/AboutCourse";
-import MyCourses from "./Pages/Instructor/MyCourses";
+const AboutCourse = lazy(()=>(import("./Pages/User/AboutCourse")))
+const MyCourses = lazy(() => import('./Pages/Instructor/MyCourses'));
 import InstructorNavBar from "./layout/InstructorNavBar";
 
-import AddCourse from "./Pages/Instructor/AddCourse";
+const  AddCourse  = lazy(()=>(import("./Pages/Instructor/AddCourse")))
 import Layout from "./components/Admin/Layout";
 import DashBoard from "./components/Admin/Main";
-import UserList from "./Pages/Admin/UserList";
-import TutorList from "./Pages/Admin/TutorList";
-import Catagory from "./Pages/Admin/Catagory";
-import DetailsAbout from "./Pages/Instructor/DetailsAbout";
-import ViewCourse from "./Pages/User/ViewCourse";
-import Payment from "./Pages/User/Payment";
+const  UserList = lazy(()=>(import("./Pages/Admin/UserList"))) 
+const TutorList = lazy(()=>(import("./Pages/Admin/TutorList"))) 
+const  Catagory = lazy(()=>(import("./Pages/Admin/Catagory"))) 
+const  DetailsAbout = lazy(()=>(import("./Pages/Instructor/DetailsAbout"))) 
+const  ViewCourse = lazy(()=>(import("./Pages/User/ViewCourse")))
+const Payment = lazy(()=>(import("./Pages/User/Payment"))) 
 import Profile from "./Pages/User/Profile";
 
 import PaymentSuccess from "./Pages/User/PaymentSuccess";
 import AdminLogin from "./Pages/Admin/AdminLogin";
 import { AdminLayout } from "./layout/AdminLayout";
-import CoursesList from "./Pages/Admin/CoursesList";
-import CourseApprovals from "./Pages/Admin/CourseApprovals";
-import Subscription from "./Pages/Admin/Subscription";
-import SubscriptionPlan from "./Pages/Instructor/SubscriptionPlan";
+const  CoursesList = lazy(()=>(import("./Pages/Admin/CoursesList")))
+const CourseApprovals = lazy(()=>(import("./Pages/Admin/CourseApprovals"))) 
+const  Subscription =lazy(()=>(import("./Pages/Admin/Subscription"))) 
+const  SubscriptionPlan = lazy(()=>(import("./Pages/Instructor/SubscriptionPlan"))) 
 import SubscriptionSuccess from "./Pages/Instructor/SubscriptionSuccess";
-import Courses from "./Pages/User/Courses";
+ const Courses = lazy(()=>(import('./Pages/User/Courses')))
+import Test from "./components/Test";
+import ChangePassword from "./Pages/User/ChangePassword";
+import ChatList from "./Pages/Instructor/ChatList"; 
 
+type SuspenseFnProps = {
+  Element: ReactNode;
+};
+const SuspenseFn: React.FC<SuspenseFnProps> = ({ Element }) => {
+  const [element, setElement] = useState<ReactNode>(null);
+
+  useEffect(() => {
+    startTransition(() => {
+      setElement(Element);
+    })
+  }, [Element]);
+
+  return (
+    <Suspense fallback={<Test />}>
+      {element}
+    </Suspense>
+  );
+};
 
 function App() {
   return (
@@ -58,18 +83,22 @@ function App() {
           position="top-right"
           className="mt-8"
         />
+
+
         <Routes>
           <Route path="/" Component={NavBarLayout}>
-            <Route index element={<Home />} />
+            <Route index element={<SuspenseFn Element={<Home />} />} />
+
     
-            <Route path="course-Details/:id" element={<AboutCourse />} />
-            <Route path= "courses" element = {<Courses/>} />
+            <Route path="course-Details/:id" element={<SuspenseFn Element={<AboutCourse />} />} />
+            <Route path= "courses" element = {<SuspenseFn Element={<Courses/>}/>} />
            
             <Route Component={UserAuthLayout}>
-              <Route path="/payment/:id" element={<Payment />} />
-              <Route path="/profile" element={<Profile />} />
+              <Route path="/payment/:id" element={<SuspenseFn Element={<Payment/>}/>}/>
+              <Route path="/profile"   element={<Profile/>}/>
+              <Route path = "/change-password" element={<SuspenseFn Element={<ChangePassword/>}/>}/>
               <Route path="/success/:id" element={<PaymentSuccess />} />
-              <Route path="/viewcourse/:id" element={<ViewCourse />} />
+              <Route path="/viewcourse/:id" element={<SuspenseFn Element= {<ViewCourse />}/>}/>
             </Route>
           </Route>
           <Route Component={UserVerifiedLayout}>
@@ -96,16 +125,16 @@ function App() {
           </Route>
           <Route Component={InstructorAuthLayout}>
             <Route Component={InstructorNavBar}>
-              <Route path="/instructor/dashboard" element={<DashboardPage />} />
-
-              <Route path="/instructor/courses" element={<MyCourses />} />
-              <Route path="/instructor/addcourse" element={<AddCourse />} />
-              <Route path="/instructor/subscription" element={<SubscriptionPlan/>}/>
+              <Route path="/instructor/dashboard" element={<SuspenseFn Element={<DashboardPage />}/>} />
+              <Route path="/instructor/courses" element={ <SuspenseFn Element={<MyCourses />}/>} />
+              <Route path="/instructor/addcourse" element={<SuspenseFn Element={<AddCourse />}/>} />
+              <Route path="/instructor/chat"   element={<ChatList/>}/>
+           
+              <Route path="/instructor/subscription" element={<SuspenseFn Element={<SubscriptionPlan/>}/>}/>
               <Route path = "/instructor/subscription-success" element = {<SubscriptionSuccess/>}/>
               <Route
                 path="/instructor/mycourse/:id"
-                element={<DetailsAbout />}
-              />
+                element={<SuspenseFn Element={<DetailsAbout />}/>}/>
             </Route>
           </Route>
 
@@ -115,12 +144,12 @@ function App() {
           <Route Component={AdminLayout}>
             <Route path="/admin/*" element={<Layout />}>
               <Route path="dashboard" element={<DashBoard />} />
-              <Route path="client" element={<UserList />} />
-              <Route path="tutor" element={<TutorList />} />
-              <Route path="catagory" element={<Catagory />} />
-              <Route path="courses" element={<CoursesList />} />
-              <Route path="course/:id" element={<CourseApprovals />} />
-              <Route path="subscription" element={<Subscription />} />
+              <Route path="client" element={<SuspenseFn Element={<UserList />}/>} />
+              <Route path="tutor" element={<SuspenseFn Element={<TutorList />}/>} />
+              <Route path="catagory" element={<SuspenseFn Element={<Catagory />}/>} />
+              <Route path="courses" element={<SuspenseFn Element={<CoursesList />}/>} />
+              <Route path="course/:id" element={<SuspenseFn Element={<CourseApprovals />}/>} />
+              <Route path="subscription" element={<SuspenseFn Element={<Subscription />}/>} />
 
             </Route>
           </Route>

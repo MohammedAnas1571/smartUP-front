@@ -18,7 +18,7 @@ const Subscription = () => {
   const [subscriptions, setSubscription] = useState<
     SubscriptionDetails[] | null
   >([]);
-  const [select,setSelect] = useState({id:"",isOpen:false})
+  const [select,setSelect] = useState({id:"",isOpen:false,activeStatus:true})
   const [change, setChange] = useState(false);
   const fetchSubscription = async () => {
     try {
@@ -32,13 +32,13 @@ const Subscription = () => {
   };
   
   const handleDelete = async (subscriptionId: string) => {
-    setSelect({id:subscriptionId,isOpen:true})
+    setSelect({id:subscriptionId,isOpen:true ,activeStatus:true})
   }
    const handlesubscriptionDelete = async()=>{
     try {
      const{data} =  await axios.delete(`/auth/admin/subscription/${select.id}`);
      setSubscription(data)
-     setSelect({id:"",isOpen:false});
+     setSelect({id:"",isOpen:false,activeStatus:true});
       toast.success("Subscription deleted successfully");
     } catch (err) {
       if (axios.isAxiosError(err) && err.response) {
@@ -60,7 +60,7 @@ const Subscription = () => {
             setSubscription={setSubscription}
           />
         )}
-          {select.isOpen && ( <DeleteModal handleDelete ={handlesubscriptionDelete}  setSelect={setSelect} />)}
+          {select.isOpen && ( <DeleteModal handleDelete ={handlesubscriptionDelete} select = {select} setSelect={setSelect} />)}
         <button
           onClick={() => setChange(true)}
           className="bg-indigo-700 rounded-lg p-3 text-white font-medium "
