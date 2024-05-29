@@ -13,8 +13,8 @@ import { toast } from "sonner";
 import { useState } from "react";
 import Alert from "@/components/Alert";
 
-export const ForgotPassword = () => {
-  const URL = "http://localhost:3000";
+   const ForgotPassword = () => {
+ 
   const [submit, setSubmit] = useState<boolean>(false);
 
   const dispatch = useDispatch();
@@ -30,9 +30,9 @@ export const ForgotPassword = () => {
     onSubmit: async (values) => {
    
       try {
-        dispatch(isLoading());
+        dispatch(isLoading())
 
-        await axios.post(`${URL}/verification`, values);
+        await axios.post(`/auth/verification`, values);
         dispatch(loginSuccess());
         setSubmit(true);
       } catch (err) {
@@ -82,3 +82,4 @@ export const ForgotPassword = () => {
     </div>
   );
 };
+export default ForgotPassword

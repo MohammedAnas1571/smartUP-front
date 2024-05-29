@@ -17,7 +17,7 @@ const DetailsAbout = () => {
         {change && (
           <AddModules change={change} setChange={setChange} setChapters={setChapters} courseId={id!}  />
         )}
-        <Button
+        { course &&(<Button
           onClick={() => {
             setChange(true);
           }}
@@ -25,6 +25,7 @@ const DetailsAbout = () => {
         >
           +Add new modules
         </Button>
+          )}
       </div>
       {course&& chapters &&( <DetailDescription setChapters={setChapters}  courseId={id!}  course={course} chapters= {chapters} />)}
      

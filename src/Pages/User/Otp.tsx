@@ -34,7 +34,7 @@ import { FormSchema } from "@/validation/validation";
 import { useNavigate } from "react-router-dom";
 import { adminSignOut } from "@/Redux/Admin/adminSlice";
 
-export function Otp() {
+ function Otp() {
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
@@ -55,7 +55,7 @@ export function Otp() {
       dispatch(isLoading());
       const response = await axios.post(`/auth/otp`, {
         otp: data.otp,
-        id: currentUser?.id || currentTutor?.id,
+        id: currentUser?._id || currentTutor?.id,
         role: currentUser?.role,
       });
 
@@ -143,3 +143,5 @@ export function Otp() {
     </div>
   );
 }
+
+export default Otp

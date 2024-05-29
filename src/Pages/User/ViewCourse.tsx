@@ -45,7 +45,7 @@ const ViewCourse = () => {
   const[showChat,setShowChat] = useState(false)
   const fetchData = async () => {
     try {
-      const { data } = await api.get(`/auth/modules/${id}`);
+      const { data } = await api.get(`/auth/modules/${id}`)
       setChapters(data.chapters);
       setUserReview(data.reviews);
       if (data.chapters.length > 0) {
@@ -103,7 +103,7 @@ const ViewCourse = () => {
               {selected?._id === chapter._id && (
                 <>
                   <h1 className="text-3xl mb-5">{chapter.courseId.title}</h1>
-                  <div className="flex gap-5 mt-2">
+                  <div className="flex gap-5 mt-2 ">
                     <div>
                       <img
                         className="w-20 h-20 rounded-full object-cover"
@@ -139,7 +139,7 @@ const ViewCourse = () => {
                       </button>
                     </div>
                   </div>
-                 {showChat && (<Chat setShowChat={setShowChat} tutor = {chapter.courseId.tutorId} />)} 
+                 {showChat && (<Chat  setShowChat={setShowChat} tutor = {chapter.courseId.tutorId} />)} 
                   <Card className="border-0 shadow-none">
                     <CardHeader>
                       <CardTitle>What you'll learn</CardTitle>

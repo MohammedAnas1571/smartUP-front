@@ -7,7 +7,8 @@ import { faChalkboardTeacher, faLayerGroup, faHourglassHalf, faInfinity, faDownl
 
 const Payment = () => {
   const { id } = useParams();
-  const { course } = useCourseDetails(id!);
+  const { course } = useCourseDetails(id!)
+  
 
   const handlePayment = async () => {
     try {

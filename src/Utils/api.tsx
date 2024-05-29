@@ -1,39 +1,31 @@
-import axios from 'axios';
-
+import axios from "axios";
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL, 
-  withCredentials: true, 
+  baseURL: import.meta.env.VITE_API_BASE_URL,
+  withCredentials: true,
 });
 
+api.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    const originalRequest = error.config;
+ 
 
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+      try {
 
-// const refreshToken = async () => {
-//   try {
-//     const response = await api.post('/auth/refresh-token');
-//     console.log(response)   
-//      return response.data; 
-//   } catch (error) {
-//     console.error("Unable to refresh token:", error);
-//     return null;
-//   }
-// };
+        await api.post("/auth/refresh-token", null, {
+          withCredentials: true,
+        });
 
-// api.interceptors.response.use(
-//   response => response,
-//   async error => {
-//     const originalRequest = error.config
-
-//     if (error.response  && !originalRequest._retry) {
-//       originalRequest._retry = true;
-//       const result = await refreshToken();
-//       if (result) {
-    
-//         return api(originalRequest);
-//       }
-//     }
-//     return Promise.reject(error);
-//   }
-// );
+        return api(originalRequest);
+      } catch {
+        return Promise.reject(error);
+      }
+    }
+    return Promise.reject(error);
+  }
+);
 
 export default api;

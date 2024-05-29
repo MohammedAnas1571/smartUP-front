@@ -24,10 +24,10 @@ export function MainNav({ className }: React.HTMLAttributes<HTMLElement>) {
             My Courses
           </Link>
           <Link
-            to="/instructor/dashboard"
+            to="/instructor/chat"
             className="text-sm font-medium  transition-colors  focus:text-xl focus:font-bold focus:outline-none"
           >
-            Products
+           Chat
           </Link>
           <Link
             to="/instructor/subscription"

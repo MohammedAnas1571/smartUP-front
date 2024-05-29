@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import CourseDetails from "@/components/Home/CourseDetails";
 import Advertisment from "@/components/Home/Advertisment";
+import api from "@/Utils/api";
 
 
 export type Course = {
@@ -39,8 +40,11 @@ const Home = () => {
     fetchCourses();
   }, []);
 
+
+
   return (
     <div>
+    
       <div className=" max-w-[1640px] mx-auto p-4">
         <div className="max-h-[500px] relative">
           <div className="absolute w-full h-full text-white bg-black/10  flex flex-col justify-center ">

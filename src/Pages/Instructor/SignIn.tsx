@@ -122,7 +122,7 @@ const SignIn = () => {
               )}
               <p className="mb-3 mt-2 text-sm text-gray-500">
                 <Link
-                  to="/instructor/forgot-password"
+                  to="/instructor/forgot-password"      
                   className="text-blue-800 hover:text-blue-600"
                 >
                   Reset your password?

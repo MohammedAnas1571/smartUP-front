@@ -38,8 +38,9 @@ const Login = () => {
     onSubmit: async (values) => {
       try {
         dispatch(isLoading());
-        values.token = cloudFire;
+        // values.token = cloudFire;
         const { data } = await axios.post("/auth/signIn", values);
+      
         dispatch(loginSuccessData(data.user));
         
         if (data.user.isVerified === true) {
@@ -120,7 +121,7 @@ const Login = () => {
           )}
 
           <div className="flex items-center  space-x-2 py-2">
-            <TurnstileWidget setCloudFire={setCloudFire} />
+            {/* <TurnstileWidget setCloudFire={setCloudFire} /> */}
           </div>
           <Button type="submit" className="w-full">
             {loading ? <span className="loader "></span> : "Submit"}

@@ -37,7 +37,8 @@ export const useCourseDetails = (id: string) => {
   const [chapters, setChapters] = useState<Chapters[] | null>([]);
   const fetchData = async () => {
     try {
-      const response = await api.get(`/auth/getDetails/${id}`);
+      const response = await axios.get(`/auth/getDetails/${id}`);
+      
 
       const formattedUpdatedAt = new Date(
         response.data.course.updatedAt

@@ -13,7 +13,7 @@ import { toast } from "sonner";
 import { useState } from "react";
 import Alert from "@/components/Alert";
 
-export const EmailConfirm = () => {
+ const EmailConfirm = () => {
   const [submit, setSubmit] = useState<boolean>(false);
 
   const dispatch = useDispatch();
@@ -76,3 +76,5 @@ export const EmailConfirm = () => {
     </div>
   );
 };
+
+export default EmailConfirm

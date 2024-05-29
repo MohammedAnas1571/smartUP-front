@@ -1,6 +1,6 @@
 
 
-export  function Page404() {
+ function Page404() {
   return (
 <div className="flex items-center justify-center min-h-screen bg-white py-48">
         <div className="flex flex-col items-center">
@@ -22,3 +22,4 @@ export  function Page404() {
   
   )
 }
+export default Page404
