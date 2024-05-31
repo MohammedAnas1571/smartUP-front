@@ -1,12 +1,11 @@
 import { useSocket } from "@/Context/SocketContext";
 import { RootState } from "@/Redux/Store";
 
-import axios from "axios";
+
 
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { io } from "socket.io-client";
-import { toast } from "sonner";
+
 
 type Tutor = {
   username: string;
@@ -15,8 +14,8 @@ type Tutor = {
   _id: string;
 };
 export type messageDetails = {
-  senderId: string;
-  reciverId: string;
+  senderID: string;
+  reciverID: string;
   message: string;
 };
 
@@ -31,7 +30,7 @@ function Chat({
   const [input, setInput] = useState("");
   const { currentUser } = useSelector((state: RootState) => state.user);
   const [messages, setMessages] = useState<messageDetails[]>([]);
-  const { setSocket } = useSocket();
+  const { socket } = useSocket();
 
   // const fetchChat = async () => {
   //   try {
@@ -44,38 +43,41 @@ function Chat({
   //     }
   //   }
   // };
+
   useEffect(() => {
-    // fetchChat();
+    if (socket) {
+      socket.on("message", (message) => {
+        setMessages((prevMessages) => [...prevMessages, message]);
+      });
 
-    const socket = io("http://localhost:3000", { withCredentials: true });
+      socket.emit("messages_page", tutor._id)
 
-    setSocket(socket);
-    return () => {
-      socket.disconnect();
-    };
-  }, []);
+      socket.on('messages', data => {
+        console.log('messages from messages_page: ', data.messages)
+        setMessages(data.messages)
+      })
 
-  // socket.on("recive", (data) => {
-  //   console.log(data);
-  //   setMessages([...messages, data]);
-  // });
-  // const sendMessage = () => {
-  //   if (!input.trim()) {
-  //     return;
-  //   }
+      return () => {
+        socket.disconnect();
+        socket.off("message");
+        socket.off("messages")
+      };
+    }
+  });
 
-  //   socket.emit("message", {
-  //     message: input,
-  //     senderId: currentUser?._id,
-  //     tutorId: tutor._id,
-  //     userId: currentUser?._id,
-  //   });
-  //   setInput("");
-  // };
+  function onSubmit() {
+    socket?.emit("send_message", {
+      senderID: currentUser?._id,
+      receiverID: tutor._id,
+      message: input,
+    });
+    setInput("");
+  }
 
   const enterSubmit = (event: React.KeyboardEvent<HTMLInputElement>): void => {
-    if (event.key === "Enter") {
-      // sendMessage();
+    if (event.code === "Enter") {
+      event.preventDefault();
+      onSubmit();
     }
   };
 
@@ -106,7 +108,7 @@ function Chat({
         </div>
         <div className="p-4 h-80 overflow-y-auto">
           {messages.map((item) => {
-            if (item.senderId === currentUser?._id) {
+            if (item.senderID === currentUser?._id) {
               return (
                 <div className="mb-2 text-right">
                   <p className="bg-blue-500 text-white rounded-lg py-2 px-4 inline-block">
@@ -124,6 +126,14 @@ function Chat({
               );
             }
           })}
+
+          {/* {messages.map((msg) => (
+            <div className="mb-2 text-right">
+              <p className="bg-blue-500 text-white rounded-lg py-2 px-4 inline-block">
+                {msg}
+              </p>
+            </div>
+          ))} */}
         </div>
         <div className="p-4 border-t flex">
           <input
@@ -136,7 +146,7 @@ function Chat({
             className="w-full px-3 py-2 border rounded-l-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
           <button
-            // onClick={sendMessage}
+            onClick={onSubmit}
             id="send-button"
             className="bg-blue-500 text-white px-4 py-2 rounded-r-md hover:bg-blue-600 transition duration-300"
           >

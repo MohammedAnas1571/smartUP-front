@@ -2,9 +2,8 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "@/Redux/Store";
-import handleApiError from "@/Error Handler/ApiErrorHandler";
-import axios from "axios";
 
+import { useSocket } from "@/Context/SocketContext"
 import ChatWindow from "@/components/Instructor/ChatWindow";
 
 
@@ -19,23 +18,21 @@ const ChatList = () => {
 
   const [users, setUsers] = useState<Users[]>([]);
   const [selectedUser, setSelectedUser] = useState<Users | null>(null);
+  const { socket } = useSocket()
 
   const { currentTutor } = useSelector((state: RootState) => state.tutor);
 
-  const fetchUsers = async () => {
-    try {
-      const res = await axios.get(`/auth/chat/getUsers/${currentTutor?._id}`);
-      setUsers(res.data);
-    } catch (err) {
-      handleApiError(err);
-    }
-  };
 
   useEffect(() => {
-    if (currentTutor?._id) {
-      fetchUsers();
+    if (socket) {
+      socket.emit('sidebar_users', currentTutor?._id)
+
+      socket.on('users', data => {
+        console.log(data)
+        setUsers(data)
+      })
     }
-  }, [currentTutor?._id]);
+  }, [socket])
 
   return (
     <div>

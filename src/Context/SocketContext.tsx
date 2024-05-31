@@ -1,32 +1,35 @@
-import { createContext, useContext, useState } from "react";
-import { Socket } from "socket.io-client";
+import { createContext, useContext, useEffect, useState } from "react";
+import { Socket, io } from "socket.io-client";
 type SocketContextType = {
- socket: Socket | null;
- setSocket :(connection:Socket)=>void
+  socket: Socket | null;
+};
+
+const SocketContext = createContext<SocketContextType | undefined>(undefined);
+
+const SocketProvider = ({ children }: { children: React.ReactNode }) => {
+  const [socket, setSocket] = useState<Socket | null>(null);
+
+  useEffect(() => {
+    const socket = io("http://localhost:3000", { withCredentials: true });
+    setSocket(socket);
+
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
+
+  return (
+    <SocketContext.Provider value={{ socket }}>
+      {children}
+    </SocketContext.Provider>
+  );
+};
+
+export default SocketProvider;
+
+export function useSocket() {
+  const context = useContext(SocketContext);
+  if (context === undefined)
+    throw new Error("useSocket must be used within a SocketProvider");
+  return context;
 }
-
-const SocketContext = createContext<SocketContextType|undefined>(undefined)
-
-
- 
- const SocketProvider = ({children}:{children:React.ReactNode}) => {
-   const [socket,setSocket] = useState<Socket|null>(null)
-
-   return (
-     <SocketContext.Provider value={{socket,setSocket}} >
-
-        {children}
-     </SocketContext.Provider>
-   )
- }
- 
- export default SocketProvider
-
-
-
-  export function useSocket (){
-    const context = useContext(SocketContext)
-    if(context === undefined) throw new Error("useSocket must be used within a SocketProvider")
-        return context
-    
-  }
