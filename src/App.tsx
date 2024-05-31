@@ -41,6 +41,7 @@ import  InstructorAuthLayout  from "./layout/InstructorAuthLayout"
 import InstructorVerifiedLayout from "./layout/InstructorVerifiedLayout"
 import  InstructorNavBar from "./layout/InstructorNavBar"
 import  AdminLayout from "./layout/AdminLayout"
+import ChatWindow from "./components/Instructor/ChatWindow";
 const Test = lazy(() => import("./components/Test"))
 const Register = lazy(() => import("./Pages/Instructor/Register"));
 const SignIn = lazy(() => import("./Pages/Instructor/SignIn"));
@@ -110,7 +111,9 @@ function App() {
               <Route path="/instructor/dashboard" element={<SuspenseFn Element={<DashboardPage />} />} />
               <Route path="/instructor/courses" element={<SuspenseFn Element={<MyCourses />} />} />
               <Route path="/instructor/addcourse" element={<SuspenseFn Element={<AddCourse />} />} />
-              <Route path="/instructor/chat" element={<SuspenseFn Element={<ChatList />} />} />
+              <Route path="/instructor/chat" element={<SuspenseFn Element={<ChatList />} />}>
+                <Route path=":userID" Component={ChatWindow} />
+              </Route>
               <Route path="/instructor/subscription" element={<SuspenseFn Element={<SubscriptionPlan />} />} />
               <Route path="/instructor/subscription-success" element={<SuspenseFn Element={<SubscriptionSuccess />} />} />
               <Route path="/instructor/mycourse/:id" element={<SuspenseFn Element={<DetailsAbout />} />} />

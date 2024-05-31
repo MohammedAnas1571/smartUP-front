@@ -1,11 +1,8 @@
 import { useSocket } from "@/Context/SocketContext";
 import { RootState } from "@/Redux/Store";
 
-
-
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-
 
 type Tutor = {
   username: string;
@@ -14,8 +11,9 @@ type Tutor = {
   _id: string;
 };
 export type messageDetails = {
+  _id: string;
   senderID: string;
-  reciverID: string;
+  chatID: string;
   message: string;
 };
 
@@ -50,20 +48,20 @@ function Chat({
         setMessages((prevMessages) => [...prevMessages, message]);
       });
 
-      socket.emit("messages_page", tutor._id)
+      socket.emit("messages_page", tutor._id);
 
-      socket.on('messages', data => {
-        console.log('messages from messages_page: ', data.messages)
-        setMessages(data.messages)
-      })
+      socket.on("messages", (data) => {
+        console.log("messages from messages_page: ", data);
+        setMessages(data);
+      });
 
       return () => {
         socket.disconnect();
         socket.off("message");
-        socket.off("messages")
+        socket.off("messages");
       };
     }
-  });
+  }, [socket]);
 
   function onSubmit() {
     socket?.emit("send_message", {
@@ -107,33 +105,25 @@ function Chat({
           </button>
         </div>
         <div className="p-4 h-80 overflow-y-auto">
-          {messages.map((item) => {
-            if (item.senderID === currentUser?._id) {
-              return (
-                <div className="mb-2 text-right">
-                  <p className="bg-blue-500 text-white rounded-lg py-2 px-4 inline-block">
-                    {item.message}
-                  </p>
-                </div>
-              );
-            } else {
-              return (
-                <div className="mb-2">
-                  <p className="bg-gray-200 text-gray-700 rounded-lg py-2 px-4 inline-block">
-                    {item.message}
-                  </p>
-                </div>
-              );
-            }
-          })}
-
-          {/* {messages.map((msg) => (
-            <div className="mb-2 text-right">
-              <p className="bg-blue-500 text-white rounded-lg py-2 px-4 inline-block">
-                {msg}
+          {messages?.map((item) => (
+            <div
+              className={`flex ${
+                item.senderID === currentUser?._id
+                  ? "justify-end"
+                  : "justify-start"
+              } mb-2`}
+            >
+              <p
+                className={`${
+                  item.senderID === currentUser?._id
+                    ? "bg-blue-500 text-white"
+                    : "bg-gray-200"
+                } rounded-lg py-2 px-4 inline-block max-w-[80%] break-words`}
+              >
+                {item.message}
               </p>
             </div>
-          ))} */}
+          ))}
         </div>
         <div className="p-4 border-t flex">
           <input

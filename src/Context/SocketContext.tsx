@@ -1,4 +1,6 @@
+import { RootState } from "@/Redux/Store";
 import { createContext, useContext, useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { Socket, io } from "socket.io-client";
 type SocketContextType = {
   socket: Socket | null;
@@ -8,6 +10,7 @@ const SocketContext = createContext<SocketContextType | undefined>(undefined);
 
 const SocketProvider = ({ children }: { children: React.ReactNode }) => {
   const [socket, setSocket] = useState<Socket | null>(null);
+  const { user, tutor} = useSelector((state: RootState) => state)
 
   useEffect(() => {
     const socket = io("http://localhost:3000", { withCredentials: true });
@@ -16,7 +19,7 @@ const SocketProvider = ({ children }: { children: React.ReactNode }) => {
     return () => {
       socket.disconnect();
     };
-  }, []);
+  }, [user.currentUser, tutor.currentTutor]);
 
   return (
     <SocketContext.Provider value={{ socket }}>

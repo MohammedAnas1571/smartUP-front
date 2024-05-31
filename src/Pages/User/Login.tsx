@@ -39,7 +39,7 @@ const Login = () => {
       try {
         dispatch(isLoading());
         // values.token = cloudFire;
-        const { data } = await axios.post("/auth/signIn", values);
+        const { data } = await axios.post("/auth/signIn", values)
       
         dispatch(loginSuccessData(data.user));
         

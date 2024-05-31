@@ -1,12 +1,10 @@
-
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "@/Redux/Store";
+import { NavLink, Outlet } from "react-router-dom";
 
-import { useSocket } from "@/Context/SocketContext"
+import { useSocket } from "@/Context/SocketContext";
 import ChatWindow from "@/components/Instructor/ChatWindow";
-
-
 
 export interface Users {
   _id: string;
@@ -15,31 +13,29 @@ export interface Users {
 }
 
 const ChatList = () => {
-
   const [users, setUsers] = useState<Users[]>([]);
   const [selectedUser, setSelectedUser] = useState<Users | null>(null);
-  const { socket } = useSocket()
+  const { socket } = useSocket();
 
   const { currentTutor } = useSelector((state: RootState) => state.tutor);
 
-
   useEffect(() => {
     if (socket) {
-      socket.emit('sidebar_users', currentTutor?._id)
+      socket.emit("sidebar_users", currentTutor?._id);
 
-      socket.on('users', data => {
-        console.log(data)
-        setUsers(data)
-      })
+      socket.on("users", (data) => {
+        console.log(data);
+        setUsers(data);
+      });
     }
-  }, [socket])
+  }, [socket]);
 
   return (
-    <div>
-      <div className="px-5 ">
-        <div className="py-3 h-screen">
-          <div className="flex h-full">
-            <div className="w-1/3 border flex flex-col">
+    <div className="h-[calc(100vh-64px)] relative">
+      <div className="flex flex-col absolute inset-0">
+        <div className="flex flex-col">
+          <div className="flex flex-grow flex-shrink">
+            <div className="flex-shrink-0 w-[300px] border flex flex-col items-stretch">
               <div className="py-2 px-3 h-[60px] bg-gray-100 flex flex-row justify-between items-center">
                 <div>
                   <h1 className="text-2xl font-semibold">Chats</h1>
@@ -73,10 +69,15 @@ const ChatList = () => {
 
               <div className=" flex-1 overflow-auto">
                 {users.map((user) => (
-                  <div
+                  <NavLink
                     key={user._id}
-                    className="px-3 flex items-center hover:bg-gray-300 cursor-pointer"
-                    onClick={()=>setSelectedUser(user)}
+                    className={({ isActive }) =>
+                      `px-3 flex items-center hover:bg-gray-300 cursor-pointer ${
+                        isActive ? "bg-gray-300" : "hover:bg-gray-300"
+                      }`
+                    }
+                    to={user._id}
+                    onClick={() => setSelectedUser(user)}
                   >
                     <div>
                       <img
@@ -90,11 +91,11 @@ const ChatList = () => {
                         <p className="text-xs text-grey-darkest">12:45 pm</p>
                       </div>
                     </div>
-                  </div>
+                  </NavLink>
                 ))}
               </div>
             </div>
-            {selectedUser && (<ChatWindow user={selectedUser}  tutorId={currentTutor?._id} />)}
+            <Outlet />
           </div>
         </div>
       </div>

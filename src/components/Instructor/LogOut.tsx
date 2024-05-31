@@ -28,7 +28,6 @@ export function UserNav() {
       console.log(data);
       dispatch(userSignOut());
       dispatch(SignOut());
-
       toast.success("Logout Successfully");
     } catch (err) {
       if (axios.isAxiosError(err) && err.response) {
