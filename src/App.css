@@ -108,3 +108,12 @@
   .wrapper {
     background-color: #FFFFFF
   }
+
+
+  .example-container div {
+
+    position: absolute;
+    top: calc(68% - 150px / 2);
+    left: calc(70% - 150px / 2);
+  }
+  

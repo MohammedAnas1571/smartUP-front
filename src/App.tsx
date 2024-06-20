@@ -4,7 +4,7 @@ import { ThemeProvider } from "./components/ui/theme-provider";
 import "./App.css";
 import { Toaster } from "@/components/ui/sonner";
 
-// Lazy-loaded components
+
 const Home = lazy(() => import('./Pages/User/Home'));
 const Login = lazy(() => import("./Pages/User/Login"));
 const SignUp = lazy(() => import("./Pages/User/SignUp"));
@@ -34,6 +34,7 @@ const ChatList = lazy(() => import("./Pages/Instructor/ChatList"));
 const Page404 = lazy(() => import("./Pages/404"));
 const Layout = lazy(() => import("./components/Admin/Layout"));
 const DashBoard = lazy(() => import("./components/Admin/Main"));
+import VideoCall from "./Pages/User/VideoCall";
 import  NavBarLayout from "./layout/NavBarLayout"
 import UserAuthLayout from "./layout/UserAuthLayout"
 import UserVerifiedLayout from"./layout/UserVerifiedLayout"
@@ -42,6 +43,7 @@ import InstructorVerifiedLayout from "./layout/InstructorVerifiedLayout"
 import  InstructorNavBar from "./layout/InstructorNavBar"
 import  AdminLayout from "./layout/AdminLayout"
 import ChatWindow from "./components/Instructor/ChatWindow";
+
 const Test = lazy(() => import("./components/Test"))
 const Register = lazy(() => import("./Pages/Instructor/Register"));
 const SignIn = lazy(() => import("./Pages/Instructor/SignIn"));
@@ -81,6 +83,7 @@ function App() {
         />
 
         <Routes>
+         
           <Route path="/" Component={NavBarLayout}>
             <Route index element={<SuspenseFn Element={<Home />} />} />
             <Route path="course-Details/:id" element={<SuspenseFn Element={<AboutCourse />} />} />
@@ -91,6 +94,7 @@ function App() {
               <Route path="/change-password" element={<SuspenseFn Element={<ChangePassword />} />} />
               <Route path="/success/:id" element={<SuspenseFn Element={<PaymentSuccess />} />} />
               <Route path="/viewcourse/:id" element={<SuspenseFn Element={<ViewCourse />} />} />
+              <Route path="/video-call/:roomID" element={<VideoCall/>}/>
             </Route>
           </Route>
           <Route Component={UserVerifiedLayout}>
@@ -111,6 +115,7 @@ function App() {
               <Route path="/instructor/dashboard" element={<SuspenseFn Element={<DashboardPage />} />} />
               <Route path="/instructor/courses" element={<SuspenseFn Element={<MyCourses />} />} />
               <Route path="/instructor/addcourse" element={<SuspenseFn Element={<AddCourse />} />} />
+               <Route path="/instructor/video-call/:roomID" element={<VideoCall/>}/>
               <Route path="/instructor/chat" element={<SuspenseFn Element={<ChatList />} />}>
                 <Route path=":userID" Component={ChatWindow} />
               </Route>

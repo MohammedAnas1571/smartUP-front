@@ -1,6 +1,5 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
 import { CiStar } from "react-icons/ci";
 import { Textarea } from "@/components/ui/textarea";
@@ -13,6 +12,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { MdVideoCall } from "react-icons/md";
+import { IoChatboxEllipses } from "react-icons/io5";
 import Chat from "../../components/Chat/Chat";
 import api from "@/Utils/api";
 import handleApiError from "@/Error Handler/ApiErrorHandler";
@@ -25,7 +26,12 @@ type ChapterDetails = {
   courseId: {
     content: string;
     title: string;
-    tutorId: { username: string; profilePhoto: string; profession: string;_id:string};
+    tutorId: {
+      username: string;
+      profilePhoto: string;
+      profession: string;
+      _id: string;
+    };
   };
 
   title: string;
@@ -42,21 +48,21 @@ const ViewCourse = () => {
   const [userReview, setUserReview] = useState<ReviewDetails | null>(null);
   const [selected, setSelected] = useState<ChapterDetails | null>(null);
   const { id } = useParams();
-  const[showChat,setShowChat] = useState(false)
+  const [showChat, setShowChat] = useState(false);
+  const navigate = useNavigate();
   const fetchData = async () => {
     try {
-      const { data } = await api.get(`/auth/modules/${id}`)
+      const { data } = await api.get(`/auth/modules/${id}`);
       setChapters(data.chapters);
       setUserReview(data.reviews);
       if (data.chapters.length > 0) {
         setSelected(data.chapters[0]);
       }
     } catch (err) {
-   
       handleApiError(err);
     }
-    }
-  
+  };
+
   useEffect(() => {
     fetchData();
   }, [id]);
@@ -76,11 +82,26 @@ const ViewCourse = () => {
       setStar(0);
       setReview("");
     } catch (err) {
-   
       handleApiError(err);
     }
-    
-  }
+  };
+  const handleVideocall = () => {
+    function randomID(len: number) {
+      let result = "";
+      if (result) return result;
+      var chars =
+          "12345qwertyuiopasdfgh67890jklmnbvcxzMNBVCZXASDQWERTYHGFUIOLKJP",
+        maxPos = chars.length,
+        i;
+      len = len || 5;
+      for (i = 0; i < len; i++) {
+        result += chars.charAt(Math.floor(Math.random() * maxPos));
+      }
+      return result;
+    }
+    const result = randomID(7)
+    navigate(`/video-call/${result}`);
+  };
 
   return (
     <div className="py-10 px-8">
@@ -111,35 +132,38 @@ const ViewCourse = () => {
                         alt={chapter.courseId.tutorId.username}
                       />
                     </div>
-                    <div >
-                      <p className="text-2xl">{chapter.courseId.tutorId.username}</p>
-                      <p className="text-sm" >{chapter.courseId.tutorId.profession}</p>
+                    <div>
+                      <p className="text-2xl">
+                        {chapter.courseId.tutorId.username}
+                      </p>
+                      <p className="text-sm">
+                        {chapter.courseId.tutorId.profession}
+                      </p>
                     </div>
 
-                    <div className=" my-2">
+                    <div className=" flex gap-7 my-2">
                       <button
                         onClick={() => setShowChat(true)}
-                        className="bg-black/20 py-3 px-4 rounded-md hover:bg-black/20 transition duration-300 flex items-center"
+                        className="bg-black/20 py-2 px-2 rounded-md hover:bg-black/20 transition duration-300 flex gap-2 items-center"
                       >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="w-6 h-6 mr-2"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                          ></path>
-                        </svg>
+                        <IoChatboxEllipses size={25} />
                         Chat with Instructor
+                      </button>
+                      <button
+                        onClick={handleVideocall}
+                        className="bg-black/20 py-2 px-2 rounded-md hover:bg-black/20 transition duration-300 flex gap-2 items-center"
+                      >
+                        <MdVideoCall size={30} />
+                        Connect with Instructor
                       </button>
                     </div>
                   </div>
-                 {showChat && (<Chat  setShowChat={setShowChat} tutor = {chapter.courseId.tutorId} />)} 
+                  {showChat && (
+                    <Chat
+                      setShowChat={setShowChat}
+                      tutor={chapter.courseId.tutorId}
+                    />
+                  )}
                   <Card className="border-0 shadow-none">
                     <CardHeader>
                       <CardTitle>What you'll learn</CardTitle>

@@ -6,15 +6,14 @@ import { UserNav } from "../Instructor/LogOut";
 import { Button } from "../ui/button";
 
 import { FcBusinessman, FcHome, FcShop } from "react-icons/fc";
-import { FaAlignJustify } from "react-icons/fa";
+
 import SearchBar from "./SearchBar";
 
 export const NavBar = () => {
   const { currentUser, isUserSign } = useSelector(
     (state: RootState) => state.user
   );
-  console.log(currentUser?.username);
-  console.log(isUserSign);
+  
   return (
     <header className="shadow-md  w-full  bg-white">
       <div className="max-w-[1640px] p-4 mx-auto">
@@ -27,7 +26,7 @@ export const NavBar = () => {
             <SearchBar/>
            </div>
           </div>
-          <ul className="items-center gap-4  hidden sm:flex flex-wrap">
+          <ul className=" gap-4 flex items-center ">
             <Link to="/">
               <li className=" p-2 cursor-pointer flex items-center  hover:bg-slate-200 rounded-lg">
                 <span>

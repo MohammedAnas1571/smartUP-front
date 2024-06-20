@@ -116,7 +116,7 @@ function Chat({
               <p
                 className={`${
                   item.senderID === currentUser?._id
-                    ? "bg-blue-500 text-white"
+                    ? "bg-green-500 text-white"
                     : "bg-gray-200"
                 } rounded-lg py-2 px-4 inline-block max-w-[80%] break-words`}
               >
