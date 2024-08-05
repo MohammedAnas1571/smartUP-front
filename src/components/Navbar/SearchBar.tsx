@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {  useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { CiSearch } from "react-icons/ci";
 import axios from "axios";
 
@@ -26,7 +26,9 @@ const SearchBar: React.FC = () => {
 
   const fetchSearch = async () => {
     try {
-      const response = await axios.get<Course[]>(`/auth/search/?searchText=${searchText||""}`);
+      const response = await axios.get<Course[]>(
+        `/auth/search/?searchText=${searchText || ""}`
+      );
       setResults(response.data);
       setShowSuggestions(true);
     } catch (error) {
@@ -39,23 +41,23 @@ const SearchBar: React.FC = () => {
     setSearchText(e.target.value);
     setShowSuggestions(false);
   };
-   const handleSearch = ()=>{
-    if (searchText.trim() !== ""){
-      navigate('/courses', { state: { results } });
-    setSearchText("")
-    setShowSuggestions(false);
-    }
-   }
-  const handleResultClick = (courseId: string) => { 
 
-    navigate(`/course-details/${courseId}`)
+  const handleSearch = () => {
+    if (searchText.trim() !== "") {
+      navigate("/courses", { state: { results } });
+      setSearchText("");
+      setShowSuggestions(false);
+    }
+  };
+
+  const handleResultClick = (courseId: string) => {
+    navigate(`/course-details/${courseId}`);
     setShowSuggestions(false);
-    
   };
 
   return (
     <div className="relative">
-      <div className="items-center border-2 focus-within:ring focus-within:ring-blue-800 rounded-lg hidden sm:flex flex-wrap">
+      <div className="flex items-center border-2 focus-within:ring focus-within:ring-blue-800 rounded-lg h-10 sm:h-12">
         <input
           className="px-4 py-2 border-none focus:outline-none w-64"
           type="text"
@@ -63,7 +65,11 @@ const SearchBar: React.FC = () => {
           value={searchText}
           onChange={handleChange}
         />
-        <button type="submit" className="p-2 focus:outline-none" onClick={handleSearch}>
+        <button
+          type="submit"
+          className="p-2 focus:outline-none"
+          onClick={handleSearch}
+        >
           <CiSearch className="h-6 w-6" />
         </button>
       </div>
@@ -71,7 +77,9 @@ const SearchBar: React.FC = () => {
         <div className="absolute top-full left-0 right-0 bg-white border z-10">
           {results.length > 0 && (
             <div>
-              <h2 className="px-4 py-2 border-b border-gray-300">Search Results:</h2>
+              <h2 className="px-4 py-2 border-b border-gray-300">
+                Search Results:
+              </h2>
               <ul>
                 {results.map((result) => (
                   <li

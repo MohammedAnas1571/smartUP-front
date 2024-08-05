@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { Course } from "@/Pages/User/Home";
 import { toast } from "sonner";
-import api from "@/Utils/api"; 
+
 
 export type CourseAbout = Course & {
   description: string;

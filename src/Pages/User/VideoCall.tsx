@@ -1,9 +1,9 @@
-import React, { useEffect, useRef } from 'react';
+import  { useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/Redux/Store';
 import { ZegoUIKitPrebuilt } from '@zegocloud/zego-uikit-prebuilt';
 import { useParams } from 'react-router-dom';
-import { ScreenShare } from 'lucide-react';
+
 
 const VideoCall = () => {
   const { currentUser } = useSelector((state: RootState) => state.user);

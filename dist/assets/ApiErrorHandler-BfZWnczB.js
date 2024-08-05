@@ -1,0 +1,1 @@
+import{b as s,A as o}from"./index-CPcYxd-k.js";const n=r=>{s.isAxiosError(r)&&r.response?o.error(r.response.data.message||"Sorry, something went wrong!"):o.error("Sorry, something went wrong!")};export{n as h};

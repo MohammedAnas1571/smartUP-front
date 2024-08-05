@@ -55,7 +55,7 @@ import { adminSignOut } from "@/Redux/Admin/adminSlice";
       dispatch(isLoading());
       const response = await axios.post(`/auth/otp`, {
         otp: data.otp,
-        id: currentUser?._id || currentTutor?.id,
+        id: currentUser?._id || currentTutor?._id,
         role: currentUser?.role,
       });
 

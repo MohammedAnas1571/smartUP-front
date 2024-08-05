@@ -4,7 +4,7 @@ import { RootState } from "@/Redux/Store";
 import { NavLink, Outlet } from "react-router-dom";
 
 import { useSocket } from "@/Context/SocketContext";
-import ChatWindow from "@/components/Instructor/ChatWindow";
+
 
 export interface Users {
   _id: string;
@@ -14,7 +14,7 @@ export interface Users {
 
 const ChatList = () => {
   const [users, setUsers] = useState<Users[]>([]);
-  const [selectedUser, setSelectedUser] = useState<Users | null>(null);
+
   const { socket } = useSocket();
 
   const { currentTutor } = useSelector((state: RootState) => state.tutor);
@@ -77,7 +77,7 @@ const ChatList = () => {
                       }`
                     }
                     to={user._id}
-                    onClick={() => setSelectedUser(user)}
+                    
                   >
                     <div>
                       <img

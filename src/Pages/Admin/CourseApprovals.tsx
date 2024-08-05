@@ -57,6 +57,7 @@ const CourseApprovals = () => {
           setChapters={setChapters}
           course={course}
           chapters={chapters}
+          courseId={course._id}
         />
       )}
     </div>

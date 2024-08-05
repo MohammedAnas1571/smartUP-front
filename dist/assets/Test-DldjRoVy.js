@@ -1,0 +1,1 @@
+import{j as e}from"./index-CPcYxd-k.js";function r(){return e.jsx("div",{className:"w-screen h-screen flex justify-center items-center",children:e.jsx("span",{className:"wrapper w-[800px] bg-black/40  ",children:e.jsx("svg",{className:"",children:e.jsx("text",{x:"50%",y:"50%",dy:".35em",textAnchor:"middle",children:"SmartUP"})})})})}export{r as default};
