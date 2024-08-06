@@ -15,8 +15,9 @@ import {
 import { MdVideoCall } from "react-icons/md";
 import { IoChatboxEllipses } from "react-icons/io5";
 import Chat from "../../components/Chat/Chat";
-import api from "@/Utils/api";
+
 import handleApiError from "@/Error Handler/ApiErrorHandler";
+import axios from "axios";
 
 type ChapterDetails = {
   _id: string;
@@ -52,7 +53,7 @@ const ViewCourse = () => {
   const navigate = useNavigate();
   const fetchData = async () => {
     try {
-      const { data } = await api.get(`/auth/modules/${id}`);
+      const { data } = await axios.get(`/auth/modules/${id}`);
       setChapters(data.chapters);
       setUserReview(data.reviews);
       if (data.chapters.length > 0) {
@@ -73,7 +74,7 @@ const ViewCourse = () => {
       return;
     }
     try {
-      const { data } = await api.post(`/auth/review/${id}`, {
+      const { data } = await axios.post(`/auth/review/${id}`, {
         star,
         review,
       });

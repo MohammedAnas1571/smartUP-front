@@ -36,7 +36,7 @@ const SearchBar: React.FC = () => {
       setShowSuggestions(false);
     }
   };
-
+   console.log(results)
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchText(e.target.value);
     setShowSuggestions(false);
