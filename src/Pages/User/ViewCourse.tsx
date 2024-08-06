@@ -34,9 +34,9 @@ type ChapterDetails = {
       _id: string;
     };
   };
-
   title: string;
 };
+
 type ReviewDetails = {
   rating: number;
   review: string;
@@ -51,6 +51,7 @@ const ViewCourse = () => {
   const { id } = useParams();
   const [showChat, setShowChat] = useState(false);
   const navigate = useNavigate();
+
   const fetchData = async () => {
     try {
       const { data } = await axios.get(`/auth/modules/${id}`);
@@ -86,12 +87,13 @@ const ViewCourse = () => {
       handleApiError(err);
     }
   };
+
   const handleVideocall = () => {
     function randomID(len: number) {
       let result = "";
       if (result) return result;
       var chars =
-          "12345qwertyuiopasdfgh67890jklmnbvcxzMNBVCZXASDQWERTYHGFUIOLKJP",
+        "12345qwertyuiopasdfgh67890jklmnbvcxzMNBVCZXASDQWERTYHGFUIOLKJP",
         maxPos = chars.length,
         i;
       len = len || 5;
@@ -100,21 +102,21 @@ const ViewCourse = () => {
       }
       return result;
     }
-    const result = randomID(7)
+    const result = randomID(7);
     navigate(`/video-call/${result}`);
   };
 
   return (
-    <div className="py-10 px-8">
-      <div className="flex justify-around ">
-        <div className="flex-col">
+    <div className="py-10 px-4 sm:px-8 lg:px-10">
+      <div className="flex flex-col lg:flex-row gap-8">
+        <div className="flex-1 flex flex-col">
           {selected && (
             <video
               key={selected._id}
               controls
               width="700"
               height="600"
-              className="h-[400px] border bg-black rounded-lg"
+              className="h-[500px] border bg-black rounded-lg "
             >
               <source src={selected.videoUrl} type="video/mp4" />
             </video>
@@ -124,35 +126,33 @@ const ViewCourse = () => {
             <div key={chapter._id} className="my-5">
               {selected?._id === chapter._id && (
                 <>
-                  <h1 className="text-3xl mb-5">{chapter.courseId.title}</h1>
-                  <div className="flex gap-5 mt-2 ">
+                  <h1 className="text-3xl mb-5 text-center md:text-left">
+                    {chapter.courseId.title}
+                  </h1>
+                  <div className="flex flex-col md:flex-row gap-5 mt-2">
                     <div>
                       <img
-                        className="w-20 h-20 rounded-full object-cover"
+                        className="w-20 h-20 rounded-full object-cover mx-auto md:mx-0"
                         src={`/auth/${chapter.courseId.tutorId.profilePhoto}`}
                         alt={chapter.courseId.tutorId.username}
                       />
                     </div>
-                    <div>
-                      <p className="text-2xl">
-                        {chapter.courseId.tutorId.username}
-                      </p>
-                      <p className="text-sm">
-                        {chapter.courseId.tutorId.profession}
-                      </p>
+                    <div className="text-center md:text-left">
+                      <p className="text-xl">{chapter.courseId.tutorId.username}</p>
+                      <p className="text-sm">{chapter.courseId.tutorId.profession}</p>
                     </div>
 
-                    <div className=" flex gap-7 my-2">
+                    <div className="flex flex-col md:flex-row gap-5 my-2">
                       <button
                         onClick={() => setShowChat(true)}
-                        className="bg-black/20 py-2 px-2 rounded-md hover:bg-black/20 transition duration-300 flex gap-2 items-center"
+                        className="bg-black/20 py-2 px-2 rounded-md hover:bg-black/30 transition duration-300 flex gap-2 items-center"
                       >
                         <IoChatboxEllipses size={25} />
                         Chat with Instructor
                       </button>
                       <button
                         onClick={handleVideocall}
-                        className="bg-black/20 py-2 px-2 rounded-md hover:bg-black/20 transition duration-300 flex gap-2 items-center"
+                        className="bg-black/20 py-2 px-2 rounded-md hover:bg-black/30 transition duration-300 flex gap-2 items-center"
                       >
                         <MdVideoCall size={30} />
                         Connect with Instructor
@@ -165,12 +165,12 @@ const ViewCourse = () => {
                       tutor={chapter.courseId.tutorId}
                     />
                   )}
-                  <Card className="border-0 shadow-none">
-                    <CardHeader>
+                  <Card className="border-0 shadow-none ">
+                    <CardHeader className="px-0 py-3">
                       <CardTitle>What you'll learn</CardTitle>
                       <CardDescription>Course Includes:</CardDescription>
                     </CardHeader>
-                    <CardContent>{chapter.courseId.content}</CardContent>
+                    <CardContent className="px-0 py-2">{chapter.courseId.content}</CardContent>
                   </Card>
                 </>
               )}
@@ -178,8 +178,8 @@ const ViewCourse = () => {
           ))}
         </div>
 
-        <div className="flex flex-col gap-7">
-          <div className="w-96 h-96 rounded-md shadow-md overflow-y-auto ">
+        <div className="flex flex-col gap-7 w-full lg:w-96">
+          <div className="h-96 rounded-md shadow-md overflow-y-auto">
             <h1 className="flex justify-center items-center font-bold text-white bg-slate-900 h-16 text-2xl">
               Chapters
             </h1>
@@ -189,7 +189,7 @@ const ViewCourse = () => {
                 className={`py-5 px-5 text-left transition-colors transform cursor-pointer ${
                   selected?._id === chapter._id
                     ? "bg-slate-100"
-                    : " hover:bg-slate-100"
+                    : "hover:bg-slate-100"
                 } whitespace-nowrap`}
                 onClick={() => setSelected(chapter)}
               >
@@ -199,9 +199,9 @@ const ViewCourse = () => {
               </div>
             ))}
           </div>
-          <div className="w-96 h-auto flex flex-col items-center rounded-md shadow-md ">
+          <div className="flex flex-col items-center rounded-md shadow-md bg-white p-4">
             {userReview ? (
-              <div className="max-w-96 px-5 py-3">
+              <div className="max-w-full">
                 <h2 className="text-2xl mb-2">Your Review:</h2>
                 <div className="">
                   <div className="flex gap-3 mb-3">
@@ -225,13 +225,13 @@ const ViewCourse = () => {
                       }
                     })}
                   </div>
-                  <p className="text-lg break-words ">{userReview.review}</p>
+                  <p className="text-lg break-words">{userReview.review}</p>
                 </div>
               </div>
             ) : (
               <>
                 <h1 className="text-2xl p-5">Review course</h1>
-                <div className="flex gap-3 mb-5 ">
+                <div className="flex gap-3 mb-5">
                   {[1, 2, 3, 4, 5].map((item) => {
                     if (star >= item) {
                       return (
@@ -265,9 +265,9 @@ const ViewCourse = () => {
                   value={review}
                   onChange={(e) => setReview(e.target.value)}
                   placeholder="Type your review."
-                  className="text-lg w-80 mb-5"
+                  className="text-lg w-full sm:w-80 mb-5"
                 />
-                <div className="flex justify-end w-80">
+                <div className="flex justify-end w-full sm:w-80">
                   <Button onClick={handleSubmit} className="mb-5">
                     Submit
                   </Button>
