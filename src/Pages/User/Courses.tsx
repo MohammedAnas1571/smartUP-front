@@ -61,7 +61,7 @@ const Courses = () => {
       await fetchCourses();
     } else {
       try {
-        const { data } = await axios.get(`/auth/courses/?page=${currentPage}`);
+        const { data } = await axios.get(`/auth/courses?page=${currentPage}`);
         setTotalPages(data.pageCount);
         setCourses(data.courses);
         setCategories(data.categories);
