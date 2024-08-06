@@ -44,6 +44,7 @@ import { adminSignOut } from "@/Redux/Admin/adminSlice";
   const { currentTutor } = useSelector((state: RootState) => state.tutor);
 
   console.log(currentUser?._id)
+  console.log(currentTutor?._id)
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
