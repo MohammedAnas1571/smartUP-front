@@ -113,7 +113,7 @@ const ViewCourse = () => {
             <video
               key={selected._id}
               controls
-              className="w-full md:w-[700px] h-[400px] md:h-[600px] border bg-black rounded-lg"
+              className="w-full md:w-[700px] h-[400px] md:h-[500px] border bg-black rounded-lg"
             >
               <source src={selected.videoUrl} type="video/mp4" />
             </video>
