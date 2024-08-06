@@ -4,10 +4,9 @@
         "source": "/auth/:path*",
         "destination": "https://aflozz.shop/:path*"
       },
-      {
-        "source": "/(.*)",
-        "destination": "/"
-      }
+      
+        { "source": "/(.*)", "destination": "/" }
+      
     ]
   }
   
