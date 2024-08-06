@@ -10,6 +10,7 @@ type Tutor = {
   profession: string;
   _id: string;
 };
+
 export type messageDetails = {
   _id: string;
   senderID: string;
@@ -19,7 +20,6 @@ export type messageDetails = {
 
 function Chat({
   setShowChat,
-
   tutor,
 }: {
   setShowChat: React.Dispatch<React.SetStateAction<boolean>>;
@@ -29,18 +29,6 @@ function Chat({
   const { currentUser } = useSelector((state: RootState) => state.user);
   const [messages, setMessages] = useState<messageDetails[]>([]);
   const { socket } = useSocket();
-
-  // const fetchChat = async () => {
-  //   try {
-  //     const { data } = await axios.get(`/auth/chat/getChat/${currentUser?._id}/${tutor._id}`);
-  //     setMessages(data);
-
-  //   } catch (err) {
-  //     if (axios.isAxiosError(err) && err.response) {
-  //       toast(err.response.data.message || "Something Went To Wrong");
-  //     }
-  //   }
-  // };
 
   useEffect(() => {
     if (socket) {
@@ -61,7 +49,7 @@ function Chat({
         socket.off("messages");
       };
     }
-  }, [socket]);
+  }, [socket, tutor]);
 
   function onSubmit() {
     socket?.emit("send_message", {
@@ -107,6 +95,7 @@ function Chat({
         <div className="p-4 h-80 overflow-y-auto">
           {messages?.map((item) => (
             <div
+              key={item._id}
               className={`flex ${
                 item.senderID === currentUser?._id
                   ? "justify-end"
