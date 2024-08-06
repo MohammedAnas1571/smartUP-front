@@ -24,7 +24,7 @@ const UserList = () => {
   const fetchUsers = async () => {
     try {
       const { data }: AxiosResponse<{ user: User[]; pageCount: number }> =
-        await axios.get(`/auth/admin/users/?page=${currentPage}`);
+        await axios.get(`/auth/admin/users?page=${currentPage}`);
       setUsers(data.user);
      
       setTotalPages(data.pageCount);

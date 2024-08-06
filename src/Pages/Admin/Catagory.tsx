@@ -26,7 +26,7 @@ const Catagory = () => {
   const fetchCatagories = async () => {
     try {
       const { data } = await axios.get(
-        `/auth/admin/catagory/?page=${currentPage}`
+        `/auth/admin/catagory?page=${currentPage}`
       );
       setCatagories(data.catagories);
 

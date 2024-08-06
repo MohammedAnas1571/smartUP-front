@@ -30,7 +30,7 @@ const MyCourses = () => {
 
   const fetchItems = async () => {
     try {
-      const response = await axios.get(`/auth/tutor/myCourses/?page=${currentPage}`);
+      const response = await axios.get(`/auth/tutor/myCourses?page=${currentPage}`);
       const formattedCourses = response.data.courses.map(
         (course: MyCourse) => ({
           ...course,
@@ -62,7 +62,7 @@ const MyCourses = () => {
   
   const publishClick = async (id: string) => {
     try {
-      const { data } = await axios.put("/auth/tutor/publishCourse/", { id });
+      const { data } = await axios.put("/auth/tutor/publishCourse", { id });
       const updatedCourses = courses.map((course) =>
         course._id === id ? { ...course, isPublish: true } : course
       );

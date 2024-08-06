@@ -16,7 +16,7 @@ const TutorList = () => {
   const fetchUsers = async () => {
     try {
       const { data }: AxiosResponse<{ user: User[]; pageCount: number }> =
-        await axios.get(`/auth/admin/tutor/?page=${currentPage}`);
+        await axios.get(`/auth/admin/tutor?page=${currentPage}`);
       setUsers(data.user);
       setTotalPages(data.pageCount);
     } catch (err) {
