@@ -40,7 +40,7 @@ const Courses = () => {
   const fetchCourses = async () => {
     try {
       const { data } = await axios.get(
-        `/auth/search/?categories=${selectedCategories?.join(",") || ""}`
+        `/auth/search?categories=${selectedCategories?.join(",") || ""}`
       );
       setCourses(data);
     } catch (err) {

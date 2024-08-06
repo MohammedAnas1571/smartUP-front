@@ -27,7 +27,7 @@ const SearchBar: React.FC = () => {
   const fetchSearch = async () => {
     try {
       const response = await axios.get<Course[]>(
-        `/auth/search/?searchText=${searchText || ""}`
+        `/auth/search?searchText=${searchText || ""}`
       );
       setResults(response.data);
       setShowSuggestions(true);
