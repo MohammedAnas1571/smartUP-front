@@ -34,9 +34,9 @@ type ChapterDetails = {
       _id: string;
     };
   };
-
   title: string;
 };
+
 type ReviewDetails = {
   rating: number;
   review: string;
@@ -51,6 +51,7 @@ const ViewCourse = () => {
   const { id } = useParams();
   const [showChat, setShowChat] = useState(false);
   const navigate = useNavigate();
+
   const fetchData = async () => {
     try {
       const { data } = await axios.get(`/auth/modules/${id}`);
@@ -86,111 +87,103 @@ const ViewCourse = () => {
       handleApiError(err);
     }
   };
+
   const handleVideocall = () => {
     function randomID(len: number) {
       let result = "";
-      if (result) return result;
       var chars =
-          "12345qwertyuiopasdfgh67890jklmnbvcxzMNBVCZXASDQWERTYHGFUIOLKJP",
-        maxPos = chars.length,
-        i;
-      len = len || 5;
-      for (i = 0; i < len; i++) {
+        "12345qwertyuiopasdfgh67890jklmnbvcxzMNBVCZXASDQWERTYHGFUIOLKJP";
+      let maxPos = chars.length;
+      for (let i = 0; i < len; i++) {
         result += chars.charAt(Math.floor(Math.random() * maxPos));
       }
       return result;
     }
-    const result = randomID(7)
+    const result = randomID(7);
     navigate(`/video-call/${result}`);
   };
 
   return (
-    <div className="py-10 px-8">
-      <div className="flex justify-around ">
-        <div className="flex-col">
+    <div className="py-10 px-4 md:px-8">
+      <div className="flex flex-col md:flex-row gap-8">
+        {/* Main Content Area */}
+        <div className="flex-1 flex flex-col gap-8">
+          {/* Video Player */}
           {selected && (
             <video
               key={selected._id}
               controls
-              width="700"
-              height="600"
-              className="h-[400px] border bg-black rounded-lg"
+              className="w-full md:w-[700px] h-[400px] md:h-[600px] border bg-black rounded-lg"
             >
               <source src={selected.videoUrl} type="video/mp4" />
             </video>
           )}
 
-          {chapters.map((chapter) => (
-            <div key={chapter._id} className="my-5">
-              {selected?._id === chapter._id && (
-                <>
-                  <h1 className="text-3xl mb-5">{chapter.courseId.title}</h1>
-                  <div className="flex gap-5 mt-2 ">
-                    <div>
-                      <img
-                        className="w-20 h-20 rounded-full object-cover"
-                        src={`/auth/${chapter.courseId.tutorId.profilePhoto}`}
-                        alt={chapter.courseId.tutorId.username}
-                      />
-                    </div>
-                    <div>
-                      <p className="text-2xl">
-                        {chapter.courseId.tutorId.username}
-                      </p>
-                      <p className="text-sm">
-                        {chapter.courseId.tutorId.profession}
-                      </p>
-                    </div>
-
-                    <div className=" flex gap-7 my-2">
-                      <button
-                        onClick={() => setShowChat(true)}
-                        className="bg-black/20 py-2 px-2 rounded-md hover:bg-black/20 transition duration-300 flex gap-2 items-center"
-                      >
-                        <IoChatboxEllipses size={25} />
-                        Chat with Instructor
-                      </button>
-                      <button
-                        onClick={handleVideocall}
-                        className="bg-black/20 py-2 px-2 rounded-md hover:bg-black/20 transition duration-300 flex gap-2 items-center"
-                      >
-                        <MdVideoCall size={30} />
-                        Connect with Instructor
-                      </button>
-                    </div>
-                  </div>
-                  {showChat && (
-                    <Chat
-                      setShowChat={setShowChat}
-                      tutor={chapter.courseId.tutorId}
-                    />
-                  )}
-                  <Card className="border-0 shadow-none">
-                    <CardHeader>
-                      <CardTitle>What you'll learn</CardTitle>
-                      <CardDescription>Course Includes:</CardDescription>
-                    </CardHeader>
-                    <CardContent>{chapter.courseId.content}</CardContent>
-                  </Card>
-                </>
+          {/* Chapters and Instructor Info */}
+          {selected && (
+            <>
+              <h1 className="text-3xl mb-5">{selected.courseId.title}</h1>
+              <div className="flex flex-col md:flex-row gap-5">
+                <div className="flex-shrink-0">
+                  <img
+                    className="w-20 h-20 rounded-full object-cover"
+                    src={`/auth/${selected.courseId.tutorId.profilePhoto}`}
+                    alt={selected.courseId.tutorId.username}
+                  />
+                </div>
+                <div>
+                  <p className="text-2xl">{selected.courseId.tutorId.username}</p>
+                  <p className="text-sm">{selected.courseId.tutorId.profession}</p>
+                </div>
+                <div className="flex gap-5 mt-4">
+                  <button
+                    onClick={() => setShowChat(true)}
+                    className="bg-black/20 py-2 px-4 rounded-md hover:bg-black/30 transition duration-300 flex gap-2 items-center"
+                  >
+                    <IoChatboxEllipses size={25} />
+                    Chat with Instructor
+                  </button>
+                  <button
+                    onClick={handleVideocall}
+                    className="bg-black/20 py-2 px-4 rounded-md hover:bg-black/30 transition duration-300 flex gap-2 items-center"
+                  >
+                    <MdVideoCall size={30} />
+                    Connect with Instructor
+                  </button>
+                </div>
+              </div>
+              {showChat && (
+                <Chat
+                  setShowChat={setShowChat}
+                  tutor={selected.courseId.tutorId}
+                />
               )}
-            </div>
-          ))}
+              <Card className="border-0 shadow-none mt-8">
+                <CardHeader>
+                  <CardTitle>What you'll learn</CardTitle>
+                  <CardDescription>Course Includes:</CardDescription>
+                </CardHeader>
+                <CardContent>{selected.courseId.content}</CardContent>
+              </Card>
+            </>
+          )}
         </div>
 
-        <div className="flex flex-col gap-7">
-          <div className="w-96 h-96 rounded-md shadow-md overflow-y-auto ">
+        {/* Sidebar */}
+        <div className="flex-shrink-0 w-full md:w-96">
+          {/* Chapters List */}
+          <div className="rounded-md shadow-md overflow-y-auto">
             <h1 className="flex justify-center items-center font-bold text-white bg-slate-900 h-16 text-2xl">
               Chapters
             </h1>
             {chapters.map((chapter, index) => (
               <div
                 key={chapter._id}
-                className={`py-5 px-5 text-left transition-colors transform cursor-pointer ${
+                className={`py-5 px-5 cursor-pointer ${
                   selected?._id === chapter._id
                     ? "bg-slate-100"
-                    : " hover:bg-slate-100"
-                } whitespace-nowrap`}
+                    : "hover:bg-slate-100"
+                }`}
                 onClick={() => setSelected(chapter)}
               >
                 <p className="text-lg capitalize font-serif">
@@ -199,39 +192,39 @@ const ViewCourse = () => {
               </div>
             ))}
           </div>
-          <div className="w-96 h-auto flex flex-col items-center rounded-md shadow-md ">
+
+          {/* Review Section */}
+          <div className="mt-8 rounded-md shadow-md p-5">
             {userReview ? (
-              <div className="max-w-96 px-5 py-3">
+              <div className="max-w-xs mx-auto">
                 <h2 className="text-2xl mb-2">Your Review:</h2>
-                <div className="">
-                  <div className="flex gap-3 mb-3">
-                    {[1, 2, 3, 4, 5].map((item) => {
-                      if (userReview.rating >= item) {
-                        return (
-                          <FaStar
-                            key={item}
-                            size={30}
-                            className="text-yellow-300"
-                          />
-                        );
-                      } else {
-                        return (
-                          <CiStar
-                            key={item}
-                            size={30}
-                            className="text-primary"
-                          />
-                        );
-                      }
-                    })}
-                  </div>
-                  <p className="text-lg break-words ">{userReview.review}</p>
+                <div className="flex gap-3 mb-3">
+                  {[1, 2, 3, 4, 5].map((item) => {
+                    if (userReview.rating >= item) {
+                      return (
+                        <FaStar
+                          key={item}
+                          size={30}
+                          className="text-yellow-300"
+                        />
+                      );
+                    } else {
+                      return (
+                        <CiStar
+                          key={item}
+                          size={30}
+                          className="text-primary"
+                        />
+                      );
+                    }
+                  })}
                 </div>
+                <p className="text-lg break-words">{userReview.review}</p>
               </div>
             ) : (
               <>
-                <h1 className="text-2xl p-5">Review course</h1>
-                <div className="flex gap-3 mb-5 ">
+                <h1 className="text-2xl mb-5">Review course</h1>
+                <div className="flex gap-3 mb-5">
                   {[1, 2, 3, 4, 5].map((item) => {
                     if (star >= item) {
                       return (
@@ -260,17 +253,14 @@ const ViewCourse = () => {
                     }
                   })}
                 </div>
-
                 <Textarea
                   value={review}
                   onChange={(e) => setReview(e.target.value)}
                   placeholder="Type your review."
-                  className="text-lg w-80 mb-5"
+                  className="text-lg w-full mb-5"
                 />
-                <div className="flex justify-end w-80">
-                  <Button onClick={handleSubmit} className="mb-5">
-                    Submit
-                  </Button>
+                <div className="flex justify-end">
+                  <Button onClick={handleSubmit}>Submit</Button>
                 </div>
               </>
             )}
