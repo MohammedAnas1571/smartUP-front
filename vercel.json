@@ -1,8 +1,12 @@
 {
     "rewrites": [
       {
-          "source": "/(.*)",
+        "source": "/auth/:path*",
         "destination": "https://aflozz.shop/:path*"
+      },
+      {
+        "source": "/(.*)",
+        "destination": "/index.html"
       }
     ]
   }
