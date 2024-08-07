@@ -14,7 +14,7 @@ const SocketProvider = ({ children }: { children: React.ReactNode }) => {
   const { user, tutor } = useSelector((state: RootState) => state);
 
   useEffect(() => {
-    const socket = io('https://aflozz.shop', { withCredentials: true });
+    const socket = io('https://aflozz.shop', { withCredentials:true });
     setSocket(socket);
 
     return () => {

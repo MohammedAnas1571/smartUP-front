@@ -9,6 +9,8 @@ const Payment = () => {
   const { id } = useParams();
   const { course } = useCourseDetails(id!)
   
+  console.log(id,course)
+
 
   const handlePayment = async () => {
     try {

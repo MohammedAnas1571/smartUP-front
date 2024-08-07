@@ -38,6 +38,7 @@ export const useCourseDetails = (id: string) => {
   const fetchData = async () => {
     try {
       const response = await axios.get(`/auth/getDetails/${id}`);
+      console.log(response.data)
       
 
       const formattedUpdatedAt = new Date(
