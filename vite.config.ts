@@ -16,7 +16,7 @@ export default defineConfig({
     host: '0.0.0.0',
     proxy: {
       '/auth': {  
-        target: 'http://localhost:3000',
+        target: 'https://aflozz.shop',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/auth/, ''),
       }
